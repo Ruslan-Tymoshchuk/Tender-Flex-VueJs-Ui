@@ -60,11 +60,9 @@ export default {
 
 <style>
 html {
-  overflow-y: auto !important
-}
-#app {
+  overflow-y: auto !important;
   background-image: url('../assets/clouds-flex.png');
   background-size: cover;
-  height: 100vh;
+  height: 100dvh;
 }
 </style>
