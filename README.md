@@ -1,24 +1,18 @@
-# t-flex-frontend
-
 ## Project setup
-```
+
+# npm
 npm install
-```
 
 ### Compiles and hot-reloads for development
-```
-npm run serve
-```
+
+# npm
+npm run dev
 
 ### Compiles and minifies for production
-```
-npm run build
-```
 
-### Lints and fixes files
-```
-npm run lint
-```
+# npm
+npm run build
 
 ### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/)
+
+See [Configuration Reference](https://vitejs.dev/config/).
