@@ -1,17 +1,19 @@
 <template>
   <v-container>
-    <v-img contain height="10dvh" src="@/assets/tender-flex-Logo.svg" style="margin-top: 9dvh" />
+    <v-img contain height="80" src="@/assets/tender-flex-Logo.svg" style="margin-top: 12vh" />
     <v-container>
       <v-row justify="center">
-        <v-card height="52dvh" width="55dvh" style="margin-top: 5dvh">
-          <v-card-title class="text-center mt-5">Log in to proceed</v-card-title>
-          <v-sheet width="45dvh" class="mx-auto mt-10">
+        <v-card height="360" width="350" class="mt-10">
+          <v-card-title class="text-center mt-6">Log in to proceed</v-card-title>
+          <v-container class="px-8">
+          <v-sheet class="mx-auto mt-3">
             <v-form v-model="isFormValid" fast-fail @submit.prevent="authenticate">
               <v-text-field v-model="email" label="Email" :rules="emailRules"></v-text-field>
               <v-text-field v-model="password" label="Password" :rules="passwordRules"></v-text-field>
               <v-btn :disabled="!isFormValid" type="submit" block class="mt-2" color="success">Log In</v-btn>
             </v-form>
           </v-sheet>
+        </v-container>
         </v-card>
       </v-row>
     </v-container>
