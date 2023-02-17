@@ -25,20 +25,28 @@
             <v-toolbar-title style="margin-left:3vw; margin-top: 3vh;">Contractor</v-toolbar-title>
           </v-row>
           <v-divider style="margin-left:9vw"></v-divider>
-
           <v-row class="mt-5 mx-8">
             <v-col cols="12" md="4">
-              <v-text-field v-model="oficialName" :counter="5" label="Oficial Name" required></v-text-field>
+              <v-chip variant="text" color="#BDBDBD">* Oficial name
+                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="oficialName" :counter="50"
+                label="Name of Organization" required></v-text-field>
             </v-col>
             <v-col cols="12" md="4">
-              <v-text-field v-model="nationalRegistrationNumber" :counter="10" label="National Registration Number"
-                required></v-text-field>
+              <v-chip variant="text" color="#BDBDBD">* National Registration Number
+                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="nationalRegistrationNumber" :counter="10"
+                label="National Registration Number" required></v-text-field>
             </v-col>
             <v-col cols="12" md="4">
-              <v-text-field v-model="country" label="Country" required></v-text-field>
+              <v-chip variant="text" color="#BDBDBD">* Country
+                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="country" label="Country" required></v-text-field>
             </v-col>
             <v-col cols="12" md="4">
-              <v-text-field v-model="city" label="City" required></v-text-field>
+              <v-chip variant="text" color="#BDBDBD">* City / Town
+                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="city" label="City" required></v-text-field>
             </v-col>
           </v-row>
 
@@ -49,13 +57,19 @@
 
           <v-row class="mt-5 mx-8">
             <v-col cols="12" md="4">
-              <v-text-field v-model="name" :counter="3" label="Name" required></v-text-field>
+              <v-chip variant="text" color="#BDBDBD">* First Name
+                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="name" :counter="3" label="Name" required></v-text-field>
             </v-col>
             <v-col cols="12" md="4">
-              <v-text-field v-model="surname" :counter="3" label="Surname" required></v-text-field>
+              <v-chip variant="text" color="#BDBDBD">* Last Name
+                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="surname" :counter="3" label="Surname" required></v-text-field>
             </v-col>
             <v-col cols="12" md="4">
-              <v-text-field v-model="phoneNumber" :counter="8" label="Phone number" required></v-text-field>
+              <v-chip variant="text" color="#BDBDBD">* Phone number
+                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="phoneNumber" :counter="8" label="Phone" required></v-text-field>
             </v-col>
           </v-row>
 
@@ -67,22 +81,34 @@
 
           <v-row class="mt-5 mx-8">
             <v-col cols="12" md="4">
-              <v-text-field v-model="cpvCode" :counter="10" label="CPV Code" required></v-text-field>
+              <v-chip variant="text" color="#BDBDBD">* CPV code
+                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="cpvCode" :counter="10" label="CPV Code" required></v-text-field>
             </v-col>
             <v-col cols="12" md="4">
-              <v-text-field v-model="tipeOfTender" :counter="10" label="Type of Tender" required></v-text-field>
+              <v-chip variant="text" color="#BDBDBD">* Tipe of Tender
+                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="tipeOfTender" :counter="10" label="Type of Tender" required></v-text-field>
             </v-col>
             <v-col cols="12" md="4">
-              <v-text-field v-model="description" label="Description" required></v-text-field>
+              <v-chip variant="text" color="#BDBDBD">* Description
+                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="description" label="Description" required></v-text-field>
             </v-col>
             <v-col cols="12" md="4">
-              <v-text-field v-model="maxTenderValue" label="Maximum tender value" required></v-text-field>
+              <v-chip variant="text" color="#BDBDBD">* Maximum Tender Value
+                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="maxTenderValue" label="Maximum tender value" required></v-text-field>
             </v-col>
             <v-col cols="12" md="4">
-              <v-text-field v-model="minTenderValue" label="Minimum tender value" required></v-text-field>
+              <v-chip variant="text" color="#BDBDBD">* Minimum Tender Value
+                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="minTenderValue" label="Minimum tender value" required></v-text-field>
             </v-col>
             <v-col cols="12" md="4">
-              <v-text-field v-model="currency" :rules="currency" label="Currency" required></v-text-field>
+              <v-chip variant="text" color="#BDBDBD">* Currency
+                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="currency" :rules="currency" label="Currency" required></v-text-field>
             </v-col>
           </v-row>
 
@@ -93,14 +119,20 @@
 
           <v-row class="mt-5 mx-8">
             <v-col cols="12" md="4">
-              <v-text-field v-model="publicationDate" label="Publication Date" required></v-text-field>
+              <v-chip variant="text" color="#BDBDBD">* Publication Date
+                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="publicationDate" label="Publication Date" required></v-text-field>
             </v-col>
             <v-col cols="12" md="4">
-              <v-text-field v-model="deadlineForOfferSubmission" label="Deadline for Offer Submission"
+              <v-chip variant="text" color="#BDBDBD">* Deadline for Offer Submission
+                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="deadlineForOfferSubmission" label="Deadline for Offer Submission"
                 required></v-text-field>
             </v-col>
             <v-col cols="12" md="4">
-              <v-text-field v-model="deadlineForSignedContractSubmission" label="DeadLine for Signed Contract Submission"
+              <v-chip variant="text" color="#BDBDBD">* Deadline for Signing
+                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="deadlineForSignedContractSubmission" label="DeadLine for Signed Contract Submission"
                 required></v-text-field>
             </v-col>
           </v-row>
@@ -136,14 +168,30 @@
 </template>
 
 <script>
+import SvgIcon from '@jamescoyle/vue-icon';
+import { mdiInformationOutline } from '@mdi/js';
+
 export default {
+  components: {
+    SvgIcon
+  },
   data: () => ({
+    path: mdiInformationOutline,
     valid: false,
   }),
 }
 </script>
 
 <style>
+.inf-icon:hover {
+  color: blue;
+}
+
+.inf-icon {
+  width: 3dvh;
+  color: #42A5F5;
+}
+
 html {
   background-color: rgb(212, 208, 208);
 }
