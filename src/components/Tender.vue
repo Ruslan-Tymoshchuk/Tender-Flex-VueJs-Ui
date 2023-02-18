@@ -26,27 +26,44 @@
           </v-row>
           <v-divider style="margin-left:9vw"></v-divider>
           <v-row class="mt-5 mx-8">
+
             <v-col cols="12" md="4">
               <v-chip variant="text" color="#BDBDBD">* Oficial name
-                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
+                <v-btn size=auto class="ml-2" icon color="transparent" variant="text"><svg-icon type="mdi" :path="path"
+                    class="inf-icon"></svg-icon>
+                  <v-tooltip activator="parent" location="top">Enter the name of the buyer (e.g. Aeroporto Friuli Venezia
+                    Giulia S.p.A.)</v-tooltip></v-btn>
+              </v-chip>
               <v-text-field single-line color="blue" variant="outlined" v-model="oficialName" :counter="50"
                 label="Name of Organization" required></v-text-field>
             </v-col>
+
             <v-col cols="12" md="4">
               <v-chip variant="text" color="#BDBDBD">* National Registration Number
-                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
+                <v-btn size=auto class="ml-2" icon color="transparent" variant="text"><svg-icon type="mdi" :path="path"
+                    class="inf-icon"></svg-icon>
+                  <v-tooltip activator="parent" location="top">Enter the national registration number of the buyer (e.g.
+                    ULG BE 0325 777 171)</v-tooltip></v-btn></v-chip>
               <v-text-field single-line color="blue" variant="outlined" v-model="nationalRegistrationNumber" :counter="10"
                 label="National Registration Number" required></v-text-field>
             </v-col>
+
             <v-col cols="12" md="4">
               <v-chip variant="text" color="#BDBDBD">* Country
-                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
-              <v-text-field single-line color="blue" variant="outlined" v-model="country" label="Country" required></v-text-field>
+                <v-btn size=auto class="ml-2" icon color="transparent" variant="text"><svg-icon type="mdi" :path="path"
+                    class="inf-icon"></svg-icon>
+                  <v-tooltip activator="parent" location="top">Choose the country of the buyer</v-tooltip></v-btn></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="country" label="Country"
+                required></v-text-field>
             </v-col>
+
             <v-col cols="12" md="4">
               <v-chip variant="text" color="#BDBDBD">* City / Town
-                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
-              <v-text-field single-line color="blue" variant="outlined" v-model="city" label="City" required></v-text-field>
+                <v-btn size=auto class="ml-2" icon color="transparent" variant="text"><svg-icon type="mdi" :path="path"
+                    class="inf-icon"></svg-icon>
+                  <v-tooltip activator="parent" location="top">Enter the city of the buyer</v-tooltip></v-btn></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="city" label="City"
+                required></v-text-field>
             </v-col>
           </v-row>
 
@@ -56,21 +73,34 @@
           <v-divider style="margin-left:12vw"></v-divider>
 
           <v-row class="mt-5 mx-8">
+
             <v-col cols="12" md="4">
               <v-chip variant="text" color="#BDBDBD">* First Name
-                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
-              <v-text-field single-line color="blue" variant="outlined" v-model="name" :counter="3" label="Name" required></v-text-field>
+                <v-btn size=auto class="ml-2" icon color="transparent" variant="text"><svg-icon type="mdi" :path="path"
+                    class="inf-icon"></svg-icon>
+                  <v-tooltip activator="parent" location="top">Enter the name of contact person</v-tooltip></v-btn></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="name" :counter="3" label="Name"
+                required></v-text-field>
             </v-col>
+
             <v-col cols="12" md="4">
               <v-chip variant="text" color="#BDBDBD">* Last Name
-                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
-              <v-text-field single-line color="blue" variant="outlined" v-model="surname" :counter="3" label="Surname" required></v-text-field>
+                <v-btn size=auto class="ml-2" icon color="transparent" variant="text"><svg-icon type="mdi" :path="path"
+                    class="inf-icon"></svg-icon>
+                  <v-tooltip activator="parent" location="top">Enter the surname of contact person</v-tooltip></v-btn></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="surname" :counter="3" label="Surname"
+                required></v-text-field>
             </v-col>
+
             <v-col cols="12" md="4">
               <v-chip variant="text" color="#BDBDBD">* Phone number
-                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
-              <v-text-field single-line color="blue" variant="outlined" v-model="phoneNumber" :counter="8" label="Phone" required></v-text-field>
+                <v-btn size=auto class="ml-2" icon color="transparent" variant="text"><svg-icon type="mdi" :path="path"
+                    class="inf-icon"></svg-icon>
+                  <v-tooltip activator="parent" location="top">Enter the phone number of the contact person</v-tooltip></v-btn></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="phoneNumber" :counter="8" label="Phone"
+                required></v-text-field>
             </v-col>
+
           </v-row>
 
           <v-row>
@@ -80,36 +110,61 @@
           <v-divider style="margin-left: 23vw;"></v-divider>
 
           <v-row class="mt-5 mx-8">
+
             <v-col cols="12" md="4">
               <v-chip variant="text" color="#BDBDBD">* CPV code
-                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
-              <v-text-field single-line color="blue" variant="outlined" v-model="cpvCode" :counter="10" label="CPV Code" required></v-text-field>
+                <v-btn size=auto class="ml-2" icon color="transparent" variant="text"><svg-icon type="mdi" :path="path"
+                    class="inf-icon"></svg-icon>
+                  <v-tooltip activator="parent" location="top">Choose CPV code with corresponded to this code description</v-tooltip></v-btn></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="cpvCode" :counter="10" label="CPV Code"
+                required></v-text-field>
             </v-col>
+
             <v-col cols="12" md="4">
               <v-chip variant="text" color="#BDBDBD">* Tipe of Tender
-                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
-              <v-text-field single-line color="blue" variant="outlined" v-model="tipeOfTender" :counter="10" label="Type of Tender" required></v-text-field>
+                <v-btn size=auto class="ml-2" icon color="transparent" variant="text"><svg-icon type="mdi" :path="path"
+                    class="inf-icon"></svg-icon>
+                  <v-tooltip activator="parent" location="top">Choose the type of contract</v-tooltip></v-btn></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="tipeOfTender" :counter="10"
+                label="Type of Tender" required></v-text-field>
             </v-col>
+
             <v-col cols="12" md="4">
               <v-chip variant="text" color="#BDBDBD">* Description
-                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
-              <v-text-field single-line color="blue" variant="outlined" v-model="description" label="Description" required></v-text-field>
+                <v-btn size=auto class="ml-2" icon color="transparent" variant="text"><svg-icon type="mdi" :path="path"
+                    class="inf-icon"></svg-icon>
+                  <v-tooltip activator="parent" location="top">Enter detailed information about the Tender</v-tooltip></v-btn></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="description" label="Description"
+                required></v-text-field>
             </v-col>
+
             <v-col cols="12" md="4">
               <v-chip variant="text" color="#BDBDBD">* Maximum Tender Value
-                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
-              <v-text-field single-line color="blue" variant="outlined" v-model="maxTenderValue" label="Maximum tender value" required></v-text-field>
+                <v-btn size=auto class="ml-2" icon color="transparent" variant="text"><svg-icon type="mdi" :path="path"
+                    class="inf-icon"></svg-icon>
+                  <v-tooltip activator="parent" location="top">Enter minimum price of the Tender contract</v-tooltip></v-btn></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="maxTenderValue"
+                label="Maximum tender value" required></v-text-field>
             </v-col>
+
             <v-col cols="12" md="4">
               <v-chip variant="text" color="#BDBDBD">* Minimum Tender Value
-                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
-              <v-text-field single-line color="blue" variant="outlined" v-model="minTenderValue" label="Minimum tender value" required></v-text-field>
+                <v-btn size=auto class="ml-2" icon color="transparent" variant="text"><svg-icon type="mdi" :path="path"
+                    class="inf-icon"></svg-icon>
+                  <v-tooltip activator="parent" location="top">Enter maximum price of the Tender contract</v-tooltip></v-btn></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="minTenderValue"
+                label="Minimum tender value" required></v-text-field>
             </v-col>
+
             <v-col cols="12" md="4">
               <v-chip variant="text" color="#BDBDBD">* Currency
-                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
-              <v-text-field single-line color="blue" variant="outlined" v-model="currency" :rules="currency" label="Currency" required></v-text-field>
+                <v-btn size=auto class="ml-2" icon color="transparent" variant="text"><svg-icon type="mdi" :path="path"
+                    class="inf-icon"></svg-icon>
+                  <v-tooltip activator="parent" location="top">Choose the currency</v-tooltip></v-btn></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="currency" :rules="currency"
+                label="Currency" required></v-text-field>
             </v-col>
+
           </v-row>
 
           <v-row>
@@ -118,23 +173,34 @@
           <v-divider style="margin-left:12vh"></v-divider>
 
           <v-row class="mt-5 mx-8">
+
             <v-col cols="12" md="4">
               <v-chip variant="text" color="#BDBDBD">* Publication Date
-                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
-              <v-text-field single-line color="blue" variant="outlined" v-model="publicationDate" label="Publication Date" required></v-text-field>
+                <v-btn size=auto class="ml-2" icon color="transparent" variant="text"><svg-icon type="mdi" :path="path"
+                    class="inf-icon"></svg-icon>
+                  <v-tooltip activator="parent" location="top"></v-tooltip></v-btn></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="publicationDate" label="Publication Date"
+                required></v-text-field>
             </v-col>
+
             <v-col cols="12" md="4">
               <v-chip variant="text" color="#BDBDBD">* Deadline for Offer Submission
-                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
-              <v-text-field single-line color="blue" variant="outlined" v-model="deadlineForOfferSubmission" label="Deadline for Offer Submission"
-                required></v-text-field>
+                <v-btn size=auto class="ml-2" icon color="transparent" variant="text"><svg-icon type="mdi" :path="path"
+                    class="inf-icon"></svg-icon>
+                  <v-tooltip activator="parent" location="top">Choose the deadline date for Offer submission</v-tooltip></v-btn></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="deadlineForOfferSubmission"
+                label="Deadline for Offer Submission" required></v-text-field>
             </v-col>
+
             <v-col cols="12" md="4">
               <v-chip variant="text" color="#BDBDBD">* Deadline for Signing
-                <svg-icon type="mdi" :path="path" class="inf-icon pb-1 ml-1"></svg-icon></v-chip>
-              <v-text-field single-line color="blue" variant="outlined" v-model="deadlineForSignedContractSubmission" label="DeadLine for Signed Contract Submission"
-                required></v-text-field>
+                <v-btn size=auto class="ml-2" icon color="transparent" variant="text"><svg-icon type="mdi" :path="path"
+                    class="inf-icon"></svg-icon>
+                  <v-tooltip activator="parent" location="top">Choose the deadline date for signed contract submission</v-tooltip></v-btn></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="deadlineForSignedContractSubmission"
+                label="DeadLine for Signed Contract Submission" required></v-text-field>
             </v-col>
+
           </v-row>
 
           <v-row>
