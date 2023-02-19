@@ -19,7 +19,7 @@
         Tender</v-toolbar-title>
     </v-toolbar>
     <v-card class="mx-auto" max-width="1000" style="margin-top: -3vh;">
-      <v-container>
+      <v-container class="pa-10">
         <v-form v-model="valid">
           <v-row>
             <v-toolbar-title style="margin-left:3vw; margin-top: 3vh;">Contractor</v-toolbar-title>
@@ -35,7 +35,7 @@
                     Giulia S.p.A.)</v-tooltip></v-btn>
               </v-chip>
               <v-text-field single-line color="blue" variant="outlined" v-model="oficialName" :counter="50"
-                label="Name of Organization" required></v-text-field>
+                label="Name of Organization" required density="compact"></v-text-field>
             </v-col>
 
             <v-col cols="12" md="4">
@@ -45,16 +45,17 @@
                   <v-tooltip activator="parent" location="top">Enter the national registration number of the buyer (e.g.
                     ULG BE 0325 777 171)</v-tooltip></v-btn></v-chip>
               <v-text-field single-line color="blue" variant="outlined" v-model="nationalRegistrationNumber" :counter="10"
-                label="National Registration Number" required></v-text-field>
+                label="National Registration Number" required density="compact"></v-text-field>
             </v-col>
 
             <v-col cols="12" md="4">
               <v-chip variant="text" color="#BDBDBD">* Country
                 <v-btn size=auto class="ml-2" icon color="transparent" variant="text"><svg-icon type="mdi" :path="path"
                     class="inf-icon"></svg-icon>
-                  <v-tooltip activator="parent" location="top">Choose the country of the buyer</v-tooltip></v-btn></v-chip>
-              <v-text-field single-line color="blue" variant="outlined" v-model="country" label="Country"
-                required></v-text-field>
+                  <v-tooltip activator="parent" location="top">Choose the country of the
+                    buyer</v-tooltip></v-btn></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="country" label="Country" required
+                density="compact"></v-text-field>
             </v-col>
 
             <v-col cols="12" md="4">
@@ -62,8 +63,8 @@
                 <v-btn size=auto class="ml-2" icon color="transparent" variant="text"><svg-icon type="mdi" :path="path"
                     class="inf-icon"></svg-icon>
                   <v-tooltip activator="parent" location="top">Enter the city of the buyer</v-tooltip></v-btn></v-chip>
-              <v-text-field single-line color="blue" variant="outlined" v-model="city" label="City"
-                required></v-text-field>
+              <v-text-field single-line color="blue" variant="outlined" v-model="city" label="City" required
+                density="compact"></v-text-field>
             </v-col>
           </v-row>
 
@@ -78,27 +79,30 @@
               <v-chip variant="text" color="#BDBDBD">* First Name
                 <v-btn size=auto class="ml-2" icon color="transparent" variant="text"><svg-icon type="mdi" :path="path"
                     class="inf-icon"></svg-icon>
-                  <v-tooltip activator="parent" location="top">Enter the name of contact person</v-tooltip></v-btn></v-chip>
-              <v-text-field single-line color="blue" variant="outlined" v-model="name" :counter="3" label="Name"
-                required></v-text-field>
+                  <v-tooltip activator="parent" location="top">Enter the name of contact
+                    person</v-tooltip></v-btn></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="name" :counter="3" label="Name" required
+                density="compact"></v-text-field>
             </v-col>
 
             <v-col cols="12" md="4">
               <v-chip variant="text" color="#BDBDBD">* Last Name
                 <v-btn size=auto class="ml-2" icon color="transparent" variant="text"><svg-icon type="mdi" :path="path"
                     class="inf-icon"></svg-icon>
-                  <v-tooltip activator="parent" location="top">Enter the surname of contact person</v-tooltip></v-btn></v-chip>
+                  <v-tooltip activator="parent" location="top">Enter the surname of contact
+                    person</v-tooltip></v-btn></v-chip>
               <v-text-field single-line color="blue" variant="outlined" v-model="surname" :counter="3" label="Surname"
-                required></v-text-field>
+                required density="compact"></v-text-field>
             </v-col>
 
             <v-col cols="12" md="4">
               <v-chip variant="text" color="#BDBDBD">* Phone number
                 <v-btn size=auto class="ml-2" icon color="transparent" variant="text"><svg-icon type="mdi" :path="path"
                     class="inf-icon"></svg-icon>
-                  <v-tooltip activator="parent" location="top">Enter the phone number of the contact person</v-tooltip></v-btn></v-chip>
+                  <v-tooltip activator="parent" location="top">Enter the phone number of the contact
+                    person</v-tooltip></v-btn></v-chip>
               <v-text-field single-line color="blue" variant="outlined" v-model="phoneNumber" :counter="8" label="Phone"
-                required></v-text-field>
+                required density="compact"></v-text-field>
             </v-col>
 
           </v-row>
@@ -115,9 +119,10 @@
               <v-chip variant="text" color="#BDBDBD">* CPV code
                 <v-btn size=auto class="ml-2" icon color="transparent" variant="text"><svg-icon type="mdi" :path="path"
                     class="inf-icon"></svg-icon>
-                  <v-tooltip activator="parent" location="top">Choose CPV code with corresponded to this code description</v-tooltip></v-btn></v-chip>
+                  <v-tooltip activator="parent" location="top">Choose CPV code with corresponded to this code
+                    description</v-tooltip></v-btn></v-chip>
               <v-text-field single-line color="blue" variant="outlined" v-model="cpvCode" :counter="10" label="CPV Code"
-                required></v-text-field>
+                required density="compact"></v-text-field>
             </v-col>
 
             <v-col cols="12" md="4">
@@ -126,34 +131,37 @@
                     class="inf-icon"></svg-icon>
                   <v-tooltip activator="parent" location="top">Choose the type of contract</v-tooltip></v-btn></v-chip>
               <v-text-field single-line color="blue" variant="outlined" v-model="tipeOfTender" :counter="10"
-                label="Type of Tender" required></v-text-field>
+                label="Type of Tender" required density="compact"></v-text-field>
             </v-col>
 
             <v-col cols="12" md="4">
               <v-chip variant="text" color="#BDBDBD">* Description
                 <v-btn size=auto class="ml-2" icon color="transparent" variant="text"><svg-icon type="mdi" :path="path"
                     class="inf-icon"></svg-icon>
-                  <v-tooltip activator="parent" location="top">Enter detailed information about the Tender</v-tooltip></v-btn></v-chip>
-              <v-text-field single-line color="blue" variant="outlined" v-model="description" label="Description"
-                required></v-text-field>
+                  <v-tooltip activator="parent" location="top">Enter detailed information about the
+                    Tender</v-tooltip></v-btn></v-chip>
+              <v-text-field single-line color="blue" variant="outlined" v-model="description" label="Description" required
+                density="compact"></v-text-field>
             </v-col>
 
             <v-col cols="12" md="4">
               <v-chip variant="text" color="#BDBDBD">* Maximum Tender Value
                 <v-btn size=auto class="ml-2" icon color="transparent" variant="text"><svg-icon type="mdi" :path="path"
                     class="inf-icon"></svg-icon>
-                  <v-tooltip activator="parent" location="top">Enter minimum price of the Tender contract</v-tooltip></v-btn></v-chip>
+                  <v-tooltip activator="parent" location="top">Enter minimum price of the Tender
+                    contract</v-tooltip></v-btn></v-chip>
               <v-text-field single-line color="blue" variant="outlined" v-model="maxTenderValue"
-                label="Maximum tender value" required></v-text-field>
+                label="Maximum tender value" required density="compact"></v-text-field>
             </v-col>
 
             <v-col cols="12" md="4">
               <v-chip variant="text" color="#BDBDBD">* Minimum Tender Value
                 <v-btn size=auto class="ml-2" icon color="transparent" variant="text"><svg-icon type="mdi" :path="path"
                     class="inf-icon"></svg-icon>
-                  <v-tooltip activator="parent" location="top">Enter maximum price of the Tender contract</v-tooltip></v-btn></v-chip>
+                  <v-tooltip activator="parent" location="top">Enter maximum price of the Tender
+                    contract</v-tooltip></v-btn></v-chip>
               <v-text-field single-line color="blue" variant="outlined" v-model="minTenderValue"
-                label="Minimum tender value" required></v-text-field>
+                label="Minimum tender value" required density="compact"></v-text-field>
             </v-col>
 
             <v-col cols="12" md="4">
@@ -162,7 +170,7 @@
                     class="inf-icon"></svg-icon>
                   <v-tooltip activator="parent" location="top">Choose the currency</v-tooltip></v-btn></v-chip>
               <v-text-field single-line color="blue" variant="outlined" v-model="currency" :rules="currency"
-                label="Currency" required></v-text-field>
+                label="Currency" required density="compact"></v-text-field>
             </v-col>
 
           </v-row>
@@ -180,25 +188,27 @@
                     class="inf-icon"></svg-icon>
                   <v-tooltip activator="parent" location="top"></v-tooltip></v-btn></v-chip>
               <v-text-field single-line color="blue" variant="outlined" v-model="publicationDate" label="Publication Date"
-                required></v-text-field>
+                required density="compact"></v-text-field>
             </v-col>
 
             <v-col cols="12" md="4">
               <v-chip variant="text" color="#BDBDBD">* Deadline for Offer Submission
                 <v-btn size=auto class="ml-2" icon color="transparent" variant="text"><svg-icon type="mdi" :path="path"
                     class="inf-icon"></svg-icon>
-                  <v-tooltip activator="parent" location="top">Choose the deadline date for Offer submission</v-tooltip></v-btn></v-chip>
+                  <v-tooltip activator="parent" location="top">Choose the deadline date for Offer
+                    submission</v-tooltip></v-btn></v-chip>
               <v-text-field single-line color="blue" variant="outlined" v-model="deadlineForOfferSubmission"
-                label="Deadline for Offer Submission" required></v-text-field>
+                label="Deadline for Offer Submission" required density="compact"></v-text-field>
             </v-col>
 
             <v-col cols="12" md="4">
               <v-chip variant="text" color="#BDBDBD">* Deadline for Signing
                 <v-btn size=auto class="ml-2" icon color="transparent" variant="text"><svg-icon type="mdi" :path="path"
                     class="inf-icon"></svg-icon>
-                  <v-tooltip activator="parent" location="top">Choose the deadline date for signed contract submission</v-tooltip></v-btn></v-chip>
+                  <v-tooltip activator="parent" location="top">Choose the deadline date for signed contract
+                    submission</v-tooltip></v-btn></v-chip>
               <v-text-field single-line color="blue" variant="outlined" v-model="deadlineForSignedContractSubmission"
-                label="DeadLine for Signed Contract Submission" required></v-text-field>
+                label="DeadLine for Signed Contract Submission" required density="compact"></v-text-field>
             </v-col>
 
           </v-row>
@@ -208,15 +218,67 @@
           </v-row>
           <v-divider style="margin-left:20vh"></v-divider>
 
-          <v-row class="mt-5 mx-8">
-            <v-file-input label="Contract" density="compact"></v-file-input>
-          </v-row>
-          <v-row class="mt-5 mx-8">
-            <v-file-input label="Award Decision" density="compact"></v-file-input>
-          </v-row>
-          <v-row class="mt-5 mx-8 mb-10">
-            <v-file-input label="Reject Decision" density="compact"></v-file-input>
-          </v-row>
+          <v-item-group class="py-5 mx-2">
+            <v-row class="mt-5 mx-8">
+              <v-item v-if="selectedContract">
+                <v-chip size="large" class="mb-6" closable color="blue" prepend-icon="mdi-file-document-multiple-outline"
+                  label @click:close="activateUploadButton">
+                  <div id="text" style="width: 50rem" @click="dialog = true"> {{ selectedFileName }} </div>
+                </v-chip>
+              </v-item>
+              <v-item v-if="contract">
+                <v-text-field single-line label="* Contract" variant="outlined" density="compact"></v-text-field>
+                <v-btn color="primary" rounded="0" dark :loading="contractIsSelecting"
+                  @click="handleFileImport('contract')" height="40" width="150">
+                  Upload
+                </v-btn> <input ref="uploader" class="d-none" type="file" accept="application/pdf"
+                  @change="onFileChanged">
+              </v-item>
+            </v-row>
+
+            <v-row class="mt-5 mx-8">
+              <v-item v-if="selectedAvardDecision">
+                <v-chip size="large" class="mb-6" closable color="blue" prepend-icon="mdi-file-document-multiple-outline"
+                  label @click:close="activateUploadButton">
+                  <div id="text" style="width: 50rem" @click="dialog = true"> {{ selectedFileName }} </div>
+                </v-chip>
+              </v-item>
+              <v-item v-if="avardDecision">
+                <v-text-field single-line label="* Award decision" variant="outlined" density="compact"></v-text-field>
+                <v-btn color="primary" rounded="0" dark :loading="awardIsSelecting"
+                  @click="handleFileImport('awardDecision')" height="40" width="150">
+                  Upload
+                </v-btn> <input ref="uploader" class="d-none" type="file" accept="application/pdf"
+                  @change="onFileChanged">
+              </v-item>
+            </v-row>
+            <v-row class="mt-5 mx-8">
+              <v-item v-if="selectedRejectDecision">
+                <v-chip size="large" class="mb-6" closable color="blue" prepend-icon="mdi-file-document-multiple-outline"
+                  label @click:close="activateUploadButton">
+                  <div id="text" style="width: 50rem" @click="dialog = true"> {{ selectedFileName }} </div>
+                </v-chip>
+              </v-item>
+              <v-item v-if="rejectDecision">
+                <v-text-field single-line label="* Reject decision" variant="outlined" density="compact"></v-text-field>
+                <v-btn color="primary" rounded="0" dark :loading="rejectIsSelecting"
+                  @click="handleFileImport('rejectDecision')" height="40" width="150">
+                  Upload
+                </v-btn> <input ref="uploader" class="d-none" type="file" accept="application/pdf"
+                  @change="onFileChanged">
+              </v-item>
+            </v-row>
+          </v-item-group>
+
+          <v-dialog v-model="dialog" width="auto">
+            <v-card>
+              <iframe :src=docFileUrl width="800" height="500">
+              </iframe>
+              <v-card-actions>
+                <v-btn color="primary" block @click="dialog = false">Close</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
 
         </v-form>
       </v-container>
@@ -244,8 +306,65 @@ export default {
   data: () => ({
     path: mdiInformationOutline,
     valid: false,
+    dialog: false,
+    selectedContract: false,
+    contract: true,
+    avardDecision: true,
+    selectedAvardDecision: false,
+    rejectDecision: true,
+    selectedRejectDecision: false,
+    docFileUrl: '',
+    contractIsSelecting: false,
+    awardIsSelecting: false,
+    rejectIsSelecting: false,
+    selectedFileName: '',
   }),
+
+  methods: {
+    handleFileImport(selectedDocument) {
+      switch (selectedDocument) {
+        case 'contract':
+          this.contractIsSelecting = true;
+          window.addEventListener('focus', () => {
+            this.contractIsSelecting = false
+          }, { once: true });
+          this.$refs.uploader.click();
+          break;
+        case 'awardDecision':
+          this.awardIsSelecting = true;
+          window.addEventListener('focus', () => {
+            this.awardIsSelecting = false
+          }, { once: true });
+          this.$refs.uploader.click();
+          break;
+        case 'rejectDecision':
+          this.rejectIsSelecting = true;
+          window.addEventListener('focus', () => {
+            this.rejectIsSelecting = false
+          }, { once: true });
+          this.$refs.uploader.click();
+          break;
+          default:
+          this.contractIsSelecting = false
+          this.awardIsSelecting = false
+          this.rejectIsSelecting = false
+      }
+    },
+    onFileChanged(e) {
+      this.selectedContract = true;
+      this.contract = false;
+      this.selectedFileName = e.target.files[0].name;
+      this.docFileUrl = URL.createObjectURL(e.target.files[0]);
+      this.$refs.uploader.value = null;
+      // Do whatever you need with the file, liek reading it with FileReader
+    },
+    activateUploadButton() {
+      this.selectedContract = false;
+      this.contract = true;
+    }
+  }
 }
+
 </script>
 
 <style>
@@ -256,6 +375,10 @@ export default {
 .inf-icon {
   width: 3dvh;
   color: #42A5F5;
+}
+
+.mdi-file-document-multiple-outline {
+  color: #0a0f12;
 }
 
 html {
