@@ -222,8 +222,8 @@
             <v-row class="mt-5 mx-8">
               <v-item v-if="selectedContract">
                 <v-chip size="large" class="mb-6" closable color="blue" prepend-icon="mdi-file-document-multiple-outline"
-                  label @click:close="activateUploadButton">
-                  <div id="text" style="width: 50rem" @click="dialog = true"> {{ selectedFileName }} </div>
+                  label @click:close="activateUploadButton('contract')">
+                  <div id="text" style="width: 50rem" @click="dialog = true"> {{ selectedFileContractName }} </div>
                 </v-chip>
               </v-item>
               <v-item v-if="contract">
@@ -232,31 +232,31 @@
                   @click="handleFileImport('contract')" height="40" width="150">
                   Upload
                 </v-btn> <input ref="uploader" class="d-none" type="file" accept="application/pdf"
-                  @change="onFileChanged">
+                  @change="onFileChangedContract">
               </v-item>
             </v-row>
 
             <v-row class="mt-5 mx-8">
-              <v-item v-if="selectedAvardDecision">
+              <v-item v-if="selectedAwardDecision">
                 <v-chip size="large" class="mb-6" closable color="blue" prepend-icon="mdi-file-document-multiple-outline"
-                  label @click:close="activateUploadButton">
-                  <div id="text" style="width: 50rem" @click="dialog = true"> {{ selectedFileName }} </div>
+                  label @click:close="activateUploadButton('awardDecision')">
+                  <div id="text" style="width: 50rem" @click="dialog1 = true"> {{ selectedFileAwardDecisionName }} </div>
                 </v-chip>
               </v-item>
-              <v-item v-if="avardDecision">
+              <v-item v-if="awardDecision">
                 <v-text-field single-line label="* Award decision" variant="outlined" density="compact"></v-text-field>
                 <v-btn color="primary" rounded="0" dark :loading="awardIsSelecting"
                   @click="handleFileImport('awardDecision')" height="40" width="150">
                   Upload
                 </v-btn> <input ref="uploader" class="d-none" type="file" accept="application/pdf"
-                  @change="onFileChanged">
+                  @change="onFileChangedAwardDecision">
               </v-item>
             </v-row>
             <v-row class="mt-5 mx-8">
               <v-item v-if="selectedRejectDecision">
                 <v-chip size="large" class="mb-6" closable color="blue" prepend-icon="mdi-file-document-multiple-outline"
-                  label @click:close="activateUploadButton">
-                  <div id="text" style="width: 50rem" @click="dialog = true"> {{ selectedFileName }} </div>
+                  label @click:close="activateUploadButton('rejectDecision')">
+                  <div id="text" style="width: 50rem" @click="dialog2 = true"> {{ selectedFileRejectDecisionName }} </div>
                 </v-chip>
               </v-item>
               <v-item v-if="rejectDecision">
@@ -265,20 +265,41 @@
                   @click="handleFileImport('rejectDecision')" height="40" width="150">
                   Upload
                 </v-btn> <input ref="uploader" class="d-none" type="file" accept="application/pdf"
-                  @change="onFileChanged">
+                  @change="onFileChangedRejectDecision">
               </v-item>
             </v-row>
           </v-item-group>
 
           <v-dialog v-model="dialog" width="auto">
             <v-card>
-              <iframe :src=docFileUrl width="800" height="500">
+              <iframe :src=selectedFileContractUrl width="800" height="500">
               </iframe>
               <v-card-actions>
                 <v-btn color="primary" block @click="dialog = false">Close</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
+
+          <v-dialog v-model="dialog1" width="auto">
+            <v-card>
+              <iframe :src=selectedFileAwardDecisionUrl width="800" height="500">
+              </iframe>
+              <v-card-actions>
+                <v-btn color="primary" block @click="dialog1 = false">Close</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+
+          <v-dialog v-model="dialog2" width="auto">
+            <v-card>
+              <iframe :src=selectedFileRejectDecisionUrl width="800" height="500">
+              </iframe>
+              <v-card-actions>
+                <v-btn color="primary" block @click="dialog2 = false">Close</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+
 
         </v-form>
       </v-container>
@@ -307,17 +328,29 @@ export default {
     path: mdiInformationOutline,
     valid: false,
     dialog: false,
+    dialog1: false,
+    dialog2: false,
+    selectedFile: null,
     selectedContract: false,
     contract: true,
-    avardDecision: true,
-    selectedAvardDecision: false,
+    awardDecision: true,
+    selectedAwardDecision: false,
     rejectDecision: true,
     selectedRejectDecision: false,
     docFileUrl: '',
     contractIsSelecting: false,
     awardIsSelecting: false,
     rejectIsSelecting: false,
-    selectedFileName: '',
+
+    selectedFileContract: null,
+    selectedFileContractName: '',
+    selectedFileContractUrl: '',
+    selectedFileAwardDecision: null,
+    selectedFileAwardDecisionName: '',
+    selectedFileAwardDecisionUrl: '',
+    selectedFileRejectDecision: null,
+    selectedFileRejectDecisionName: '',
+    selectedFileRejectDecisionUrl: '',
   }),
 
   methods: {
@@ -326,45 +359,86 @@ export default {
         case 'contract':
           this.contractIsSelecting = true;
           window.addEventListener('focus', () => {
-            this.contractIsSelecting = false
+            this.contractIsSelecting = false;
+            this.selectedContract = true;
+            this.contract = false;
           }, { once: true });
           this.$refs.uploader.click();
           break;
         case 'awardDecision':
           this.awardIsSelecting = true;
           window.addEventListener('focus', () => {
-            this.awardIsSelecting = false
+            this.awardIsSelecting = false;
+            this.selectedAwardDecision = true;
+            this.awardDecision = false;
           }, { once: true });
           this.$refs.uploader.click();
           break;
         case 'rejectDecision':
           this.rejectIsSelecting = true;
           window.addEventListener('focus', () => {
-            this.rejectIsSelecting = false
+            this.rejectIsSelecting = false;
+            this.selectedRejectDecision = true;
+            this.rejectDecision = false;
           }, { once: true });
           this.$refs.uploader.click();
           break;
-          default:
+        default:
           this.contractIsSelecting = false
+          this.selectedContract = false;
+          this.contract = true;
           this.awardIsSelecting = false
+          this.selectedAvardDecision = false;
+          this.awardDecision = true;
           this.rejectIsSelecting = false
+          this.selectedRejectDecision = false;
+          this.rejectDecision = true;
       }
     },
-    onFileChanged(e) {
-      this.selectedContract = true;
-      this.contract = false;
-      this.selectedFileName = e.target.files[0].name;
-      this.docFileUrl = URL.createObjectURL(e.target.files[0]);
-      this.$refs.uploader.value = null;
-      // Do whatever you need with the file, liek reading it with FileReader
+
+    onFileChangedContract(event) {
+      this.selectedFileContract = event.target.files[0];
+      this.selectedFileContractName = this.selectedFileContract.name;
+      this.selectedFileContractUrl = URL.createObjectURL(this.selectedFileContract);
     },
-    activateUploadButton() {
-      this.selectedContract = false;
-      this.contract = true;
+
+    onFileChangedAwardDecision(event) {
+      this.selectedFileAwardDecision = event.target.files[0];
+      this.selectedFileAwardDecisionName = this.selectedFileAwardDecision.name;
+      this.selectedFileAwardDecisionUrl = URL.createObjectURL(this.selectedFileAwardDecision);
+    },
+
+    onFileChangedRejectDecision(event) {
+      this.selectedFileRejectDecision = event.target.files[0];
+      this.selectedFileRejectDecisionName = this.selectedFileRejectDecision.name;
+      this.selectedFileRejectDecisionUrl = URL.createObjectURL(this.selectedFileRejectDecision);
+    },
+
+    activateUploadButton(activateBtnForDocument) {
+      switch (activateBtnForDocument) {
+        case 'contract':
+          this.selectedContract = false;
+          this.contract = true;
+          break;
+        case 'awardDecision':
+          this.selectedAwardDecision = false;
+          this.awardDecision = true;
+          break;
+        case 'rejectDecision':
+          this.selectedRejectDecision = false;
+          this.rejectDecision = true;
+          break;
+        default:
+          this.selectedContract = false;
+          this.contract = true;
+          this.selectedAwardDecision = false;
+          this.awardDecision = true;
+          this.selectedRejectDecision = false;
+          this.rejectDecision = true;
+      }
     }
   }
 }
-
 </script>
 
 <style>
