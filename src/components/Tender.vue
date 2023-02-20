@@ -54,8 +54,8 @@
                     class="inf-icon"></svg-icon>
                   <v-tooltip activator="parent" location="top">Choose the country of the
                     buyer</v-tooltip></v-btn></v-chip>
-              <v-text-field single-line color="blue" variant="outlined" v-model="country" label="Country" required
-                density="compact"></v-text-field>
+              <v-select single-line color="blue" variant="outlined" label="Choose the country" required density="compact"
+                :items="countries"></v-select>
             </v-col>
 
             <v-col cols="12" md="4">
@@ -319,12 +319,15 @@
 <script>
 import SvgIcon from '@jamescoyle/vue-icon';
 import { mdiInformationOutline } from '@mdi/js';
+import { countries } from '@/components/countries';
 
 export default {
   components: {
     SvgIcon
   },
   data: () => ({
+    oficialName: '',
+    countries: countries,
     path: mdiInformationOutline,
     valid: false,
     dialog: false,
