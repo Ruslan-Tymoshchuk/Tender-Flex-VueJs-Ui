@@ -231,7 +231,7 @@
                 <v-btn color="primary" rounded="0" dark :loading="contractIsSelecting"
                   @click="handleFileImport('contract')" height="40" width="150">
                   Upload
-                </v-btn> <input ref="uploader" class="d-none" type="file" accept="application/pdf"
+                </v-btn> <input ref="contractUploader" class="d-none" type="file" accept="application/pdf"
                   @change="onFileChangedContract">
               </v-item>
             </v-row>
@@ -248,7 +248,7 @@
                 <v-btn color="primary" rounded="0" dark :loading="awardIsSelecting"
                   @click="handleFileImport('awardDecision')" height="40" width="150">
                   Upload
-                </v-btn> <input ref="uploader" class="d-none" type="file" accept="application/pdf"
+                </v-btn> <input ref="awardDesUploader" class="d-none" type="file" accept="application/pdf"
                   @change="onFileChangedAwardDecision">
               </v-item>
             </v-row>
@@ -264,7 +264,7 @@
                 <v-btn color="primary" rounded="0" dark :loading="rejectIsSelecting"
                   @click="handleFileImport('rejectDecision')" height="40" width="150">
                   Upload
-                </v-btn> <input ref="uploader" class="d-none" type="file" accept="application/pdf"
+                </v-btn> <input ref="rejectDesUploader" class="d-none" type="file" accept="application/pdf"
                   @change="onFileChangedRejectDecision">
               </v-item>
             </v-row>
@@ -363,7 +363,7 @@ export default {
             this.selectedContract = true;
             this.contract = false;
           }, { once: true });
-          this.$refs.uploader.click();
+          this.$refs.contractUploader.click();
           break;
         case 'awardDecision':
           this.awardIsSelecting = true;
@@ -372,7 +372,7 @@ export default {
             this.selectedAwardDecision = true;
             this.awardDecision = false;
           }, { once: true });
-          this.$refs.uploader.click();
+          this.$refs.awardDesUploader.click();
           break;
         case 'rejectDecision':
           this.rejectIsSelecting = true;
@@ -381,14 +381,14 @@ export default {
             this.selectedRejectDecision = true;
             this.rejectDecision = false;
           }, { once: true });
-          this.$refs.uploader.click();
+          this.$refs.rejectDesUploader.click();
           break;
         default:
           this.contractIsSelecting = false
           this.selectedContract = false;
           this.contract = true;
           this.awardIsSelecting = false
-          this.selectedAvardDecision = false;
+          this.selectedAwardDecision = false;
           this.awardDecision = true;
           this.rejectIsSelecting = false
           this.selectedRejectDecision = false;
