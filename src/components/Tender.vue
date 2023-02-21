@@ -1,17 +1,14 @@
 <template>
   <v-toolbar color="blue">
-    <v-container>
       <v-row>
-        <v-img max-width="20dvh" src="@/assets/tender-flex-Logo.svg" />
+        <v-img class="ml-10" max-width="20dvh" src="@/assets/tender-flex-Logo.svg" />
         <v-spacer></v-spacer>
-        <v-btn icon>
-          <v-icon class="ma-2 pa-2">mdi-export</v-icon>
+        <v-btn icon class="mr-6">
+          <v-icon>mdi-export</v-icon>
         </v-btn>
+        <v-divider class="mt-1" color="black"></v-divider>
       </v-row>
-    </v-container>
   </v-toolbar>
-
-  <v-divider></v-divider>
 
   <v-card flat rounded="0" outlined color="transparent">
     <v-toolbar color="blue" extended extension-height="100">
