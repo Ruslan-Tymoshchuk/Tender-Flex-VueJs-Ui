@@ -1,19 +1,23 @@
 <template>
-  <v-toolbar color="blue">
-      <v-row>
-        <v-img class="ml-10" max-width="20dvh" src="@/assets/tender-flex-Logo.svg" />
-        <v-spacer></v-spacer>
-        <v-btn icon class="mr-6">
-          <v-icon>mdi-export</v-icon>
-        </v-btn>
-        <v-divider class="mt-1" color="black"></v-divider>
-      </v-row>
+  <v-toolbar color="blue" extended extension-height="90">
+    <v-row>
+      <v-img class="ml-10" max-width="140" src="@/assets/tender-flex-Logo.svg" />
+      <v-spacer></v-spacer>
+      <v-btn icon class="mr-6">
+        <v-icon>mdi-export</v-icon>
+      </v-btn>
+      <v-divider class="mt-1" color="black"></v-divider>
+    </v-row>
+    <template v-slot:extension>
+      <v-container class="px-15">
+      <v-toolbar-title class="mx-10 mt-5" style="font-size: 2rem">Create new
+        Tender</v-toolbar-title>
+      </v-container>
+    </template>
   </v-toolbar>
 
   <v-card flat rounded="0" outlined color="transparent">
-    <v-toolbar color="blue" extended extension-height="100">
-      <v-toolbar-title style="margin-left: 17vw; margin-top: 12vh; font-size: 2rem">Create new
-        Tender</v-toolbar-title>
+    <v-toolbar color="blue">
     </v-toolbar>
     <v-card class="mx-auto" max-width="1000" style="margin-top: -3vh;">
       <v-container class="pa-10">
