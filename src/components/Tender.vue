@@ -26,7 +26,7 @@
         <v-row class="mt-5 mx-8">
 
           <v-col cols="12" md="4">
-            <v-chip variant="text" color="#BDBDBD">* Oficial name
+            <v-chip variant="text" :color=chipColor>* Oficial name
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Enter the name of the buyer (e.g. Aeroporto Friuli Venezia
                   Giulia S.p.A.)</v-tooltip><v-icon icon="mdi-information-outline" class="inf-icon"></v-icon></v-btn>
@@ -36,7 +36,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip variant="text" color="#BDBDBD">* National Registration Number
+            <v-chip variant="text" :color=chipColor>* National Registration Number
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Enter the national registration number of the buyer (e.g.
                   ULG BE 0325 777 171)</v-tooltip><v-icon icon="mdi-information-outline"
@@ -47,7 +47,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip variant="text" color="#BDBDBD">* Country
+            <v-chip variant="text" :color=chipColor>* Country
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Choose the country of the
                   buyer</v-tooltip><v-icon icon="mdi-information-outline" class="inf-icon"></v-icon></v-btn>
@@ -57,7 +57,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip variant="text" color="#BDBDBD">* City / Town
+            <v-chip variant="text" :color=chipColor>* City / Town
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Enter the city of the buyer</v-tooltip><v-icon
                   icon="mdi-information-outline" class="inf-icon"></v-icon></v-btn>
@@ -75,7 +75,7 @@
         <v-row class="mt-5 mx-8">
 
           <v-col cols="12" md="4">
-            <v-chip variant="text" color="#BDBDBD">* First Name
+            <v-chip variant="text" :color=chipColor>* First Name
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Enter the name of contact
                   person</v-tooltip><v-icon icon="mdi-information-outline" class="inf-icon"></v-icon></v-btn>
@@ -85,7 +85,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip variant="text" color="#BDBDBD">* Last Name
+            <v-chip variant="text" :color=chipColor>* Last Name
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Enter the surname of contact
                   person</v-tooltip><v-icon icon="mdi-information-outline" class="inf-icon"></v-icon></v-btn>
@@ -95,7 +95,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip variant="text" color="#BDBDBD">* Phone number
+            <v-chip variant="text" :color=chipColor>* Phone number
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Enter the phone number of the contact
                   person</v-tooltip><v-icon icon="mdi-information-outline" class="inf-icon"></v-icon></v-btn>
@@ -115,7 +115,7 @@
         <v-row class="mt-5 mx-8">
 
           <v-col cols="12" md="4">
-            <v-chip variant="text" color="#BDBDBD">* CPV code
+            <v-chip variant="text" :color=chipColor>* CPV code
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Choose CPV code with corresponded to this code
                   description</v-tooltip><v-icon icon="mdi-information-outline" class="inf-icon"></v-icon></v-btn>
@@ -125,7 +125,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip variant="text" color="#BDBDBD">* Tipe of Tender
+            <v-chip variant="text" :color=chipColor>* Tipe of Tender
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Choose the type of contract</v-tooltip><v-icon
                   icon="mdi-information-outline" class="inf-icon"></v-icon></v-btn>
@@ -135,7 +135,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip variant="text" color="#BDBDBD">* Description
+            <v-chip variant="text" :color=chipColor>* Description
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Enter detailed information about the
                   Tender</v-tooltip><v-icon icon="mdi-information-outline" class="inf-icon"></v-icon></v-btn>
@@ -146,7 +146,7 @@
 
           <v-col cols="12" md="4">
 
-            <v-chip variant="text" color="#BDBDBD">* Maximum Tender Value
+            <v-chip variant="text" :color=chipColor>* Maximum Tender Value
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Enter minimum price of the Tender
                   contract</v-tooltip><v-icon icon="mdi-information-outline" class="inf-icon"></v-icon></v-btn>
@@ -156,7 +156,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip variant="text" color="#BDBDBD">* Minimum Tender Value
+            <v-chip variant="text" :color=chipColor>* Minimum Tender Value
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Enter maximum price of the Tender
                   contract</v-tooltip><v-icon icon="mdi-information-outline" class="inf-icon"></v-icon></v-btn>
@@ -166,7 +166,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip variant="text" color="#BDBDBD">* Currency
+            <v-chip variant="text" :color=chipColor>* Currency
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Choose the currency</v-tooltip><v-icon
                   icon="mdi-information-outline" class="inf-icon"></v-icon></v-btn>
@@ -185,7 +185,7 @@
         <v-row class="mt-5 mx-8">
 
           <v-col cols="12" md="4">
-            <v-chip variant="text" color="#BDBDBD">* Publication Date
+            <v-chip variant="text" :color=chipColor>* Publication Date
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Today date</v-tooltip><v-icon icon="mdi-information-outline"
                   class="inf-icon"></v-icon></v-btn>
@@ -195,7 +195,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip variant="text" color="#BDBDBD">* Deadline for Offer Submission
+            <v-chip variant="text" :color=chipColor>* Deadline for Offer Submission
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Choose the deadline date for Offer
                   submission</v-tooltip><v-icon icon="mdi-information-outline" class="inf-icon"></v-icon></v-btn>
@@ -205,7 +205,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip variant="text" color="#BDBDBD">* Deadline for Signing
+            <v-chip variant="text" :color=chipColor>* Deadline for Signing
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Choose the deadline date for signed contract
                   submission</v-tooltip><v-icon icon="mdi-information-outline" class="inf-icon"></v-icon></v-btn>
@@ -328,7 +328,7 @@ export default {
     countries: countries,
     tenderTypes: tenderTypes,
     currencies: currencies,
-
+    chipColor: "#bdbdbd",
     tender: {
       organizationName: '',
       nationalRegistrationNumber: '',
