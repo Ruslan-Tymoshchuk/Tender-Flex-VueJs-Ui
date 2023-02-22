@@ -21,11 +21,13 @@
       <v-form v-model="valid">
 
         <v-row>
-          <v-toolbar-title class="ml-7 mt-5">Contractor</v-toolbar-title>
-          <div class="contractor-horizontal-divider"></div>
+          <v-container class="d-flex align-center">
+            <p class="label">Contractor</p>
+            <div class="horizontal-divider"></div>
+          </v-container>
         </v-row>
-        <v-row class="mt-5 mx-8">
 
+        <v-row class="mt-5 mx-8">
           <v-col cols="12" md="4">
             <v-chip variant="text" :color=chipColor>* Oficial name
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
@@ -69,12 +71,13 @@
         </v-row>
 
         <v-row>
-          <v-toolbar-title class="ml-7 mt-5">Contact person</v-toolbar-title>
-          <div class="contact-person-horizontal-divider"></div>
+          <v-container class="d-flex align-center">
+            <p class="label">Contact person</p>
+            <div class="horizontal-divider"></div>
+          </v-container>
         </v-row>
 
         <v-row class="mt-5 mx-8">
-
           <v-col cols="12" md="4">
             <v-chip variant="text" :color=chipColor>* First Name
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
@@ -108,13 +111,14 @@
         </v-row>
 
         <v-row>
-          <v-toolbar-title class="ml-7 mt-5">Subject matter of the
-            procurement</v-toolbar-title>
-          <div class="procurement-horizontal-divider"></div>
+          <v-container class="d-flex align-center">
+            <p class="label">Subject matter of the
+              procurement</p>
+            <div class="horizontal-divider"></div>
+          </v-container>
         </v-row>
 
         <v-row class="mt-5 mx-8">
-
           <v-col cols="12" md="4">
             <v-chip variant="text" :color=chipColor>* CPV code
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
@@ -146,7 +150,6 @@
           </v-col>
 
           <v-col cols="12" md="4">
-
             <v-chip variant="text" :color=chipColor>* Maximum Tender Value
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Enter minimum price of the Tender
@@ -175,16 +178,16 @@
             <v-select single-line color="blue" variant="outlined" v-model="tender.currency" label="Currency" required
               density="compact" :items="currencies"></v-select>
           </v-col>
-
         </v-row>
 
         <v-row>
-          <v-toolbar-title class="ml-7 mt-5">Date</v-toolbar-title>
-          <div class="date-horizontal-divider"></div>
+          <v-container class="d-flex align-center">
+            <p class="label">Date</p>
+            <div class="horizontal-divider"></div>
+          </v-container>
         </v-row>
 
         <v-row class="mt-5 mx-8">
-
           <v-col cols="12" md="4">
             <v-chip variant="text" :color=chipColor>* Publication Date
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
@@ -214,12 +217,13 @@
             <v-text-field single-line color="blue" variant="outlined" v-model="tender.deadlineForSignedContract"
               label="DeadLine for Signed Contract Submission" required density="compact" type="date"></v-text-field>
           </v-col>
-
         </v-row>
 
         <v-row>
-            <v-toolbar-title class="ml-7 mt-5">Documents</v-toolbar-title>
-            <div class="documents-horizontal-divider"></div>
+          <v-container class="d-flex align-center">
+            <p class="label">Documents</p>
+            <div class="horizontal-divider"></div>
+          </v-container>
         </v-row>
 
         <v-item-group class="py-5 mx-2">
@@ -303,9 +307,7 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-
       </v-form>
-
     </v-container>
   </v-card>
 
@@ -466,41 +468,17 @@ export default {
 </script>
 
 <style>
-.contractor-horizontal-divider {
+.horizontal-divider {
   background-color: #e0e0e0;
-  width: 51rem;
+  width: 100%;
   height: 0.1rem;
-  margin-top: 2.2rem;
 }
 
-.contact-person-horizontal-divider {
-  background-color: #e0e0e0;
-  width: 48.4rem;
-  height: 0.1rem;
-  margin-top: 2.2rem;
+.label {
+  white-space: nowrap;
+  padding-right: 0.5rem;
+  font-size: 1.3rem;
 }
-
-.procurement-horizontal-divider {
-  background-color: #e0e0e0;
-  width: 37.8rem;
-  height: 0.1rem;
-  margin-top: 2.2rem;
-}
-
-.date-horizontal-divider {
-  background-color: #e0e0e0;
-  width: 54.3rem;
-  height: 0.1rem;
-  margin-top: 2.2rem;
-}
-
-.documents-horizontal-divider {
-  background-color: #e0e0e0;
-  width: 50.5rem;
-  height: 0.1rem;
-  margin-top: 2.2rem;
-}
-
 
 .inf-icon:hover {
   color: #0277bd;
