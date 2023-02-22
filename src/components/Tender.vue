@@ -20,9 +20,9 @@
     <v-container class="pa-10">
       <v-form v-model="valid">
         <v-row>
-          <v-toolbar-title style="margin-left:3vw; margin-top: 3vh;">Contractor</v-toolbar-title>
+          <v-toolbar-title class="ml-7 mt-5">Contractor</v-toolbar-title>
         </v-row>
-        <v-divider style="margin-left:9vw"></v-divider>
+        <v-divider style="margin-left:8rem"></v-divider>
         <v-row class="mt-5 mx-8">
 
           <v-col cols="12" md="4">
@@ -68,9 +68,9 @@
         </v-row>
 
         <v-row>
-          <v-toolbar-title style="margin-left:3vw; margin-top: 3vh;">Contact person</v-toolbar-title>
+          <v-toolbar-title class="ml-7 mt-5">Contact person</v-toolbar-title>
         </v-row>
-        <v-divider style="margin-left:12vw"></v-divider>
+        <v-divider style="margin-left:10rem"></v-divider>
 
         <v-row class="mt-5 mx-8">
 
@@ -107,10 +107,10 @@
         </v-row>
 
         <v-row>
-          <v-toolbar-title style="margin-left:3vw; margin-top: 3vh;">Subject matter of the
+          <v-toolbar-title class="ml-7 mt-5">Subject matter of the
             procurement</v-toolbar-title>
         </v-row>
-        <v-divider style="margin-left: 23vw;"></v-divider>
+        <v-divider style="margin-left: 21rem"></v-divider>
 
         <v-row class="mt-5 mx-8">
 
@@ -178,9 +178,9 @@
         </v-row>
 
         <v-row>
-          <v-toolbar-title style="margin-left:3vw; margin-top: 3vh;">Date</v-toolbar-title>
+          <v-toolbar-title class="ml-7 mt-5">Date</v-toolbar-title>
         </v-row>
-        <v-divider style="margin-left:12vh"></v-divider>
+        <v-divider style="margin-left:4rem"></v-divider>
 
         <v-row class="mt-5 mx-8">
 
@@ -217,9 +217,9 @@
         </v-row>
 
         <v-row>
-          <v-toolbar-title style="margin-left:3vw; margin-top: 3vh;">Documents</v-toolbar-title>
+          <v-toolbar-title class="ml-7 mt-5">Documents</v-toolbar-title>
         </v-row>
-        <v-divider style="margin-left:20vh"></v-divider>
+        <v-divider style="margin-left:8rem"></v-divider>
 
         <v-item-group class="py-5 mx-2">
           <v-row class="mt-5 mx-8">
@@ -308,11 +308,11 @@
     </v-container>
   </v-card>
 
-  <v-container style="width: 67vw;">
-    <v-row class="mt-3 mb-10 justify-end">
-      <v-col cols="12" md="2"><v-btn type="submit" block class="mt-2" variant="outlined" color="blue"
+  <v-container class="px-10">
+    <v-row class="justify-end pb-15 mr-12 mt-3">
+      <v-col cols="9" md="2"><v-btn type="submit" block class="mt-2" variant="outlined" color="blue"
           size="large">Cancel</v-btn></v-col>
-      <v-col cols="12" md="2"><v-btn type="submit" block class="mt-2" variant="flat" color="blue"
+      <v-col cols="9" md="2"><v-btn type="submit" block class="mt-2" variant="flat" color="blue"
           size="large">Publish</v-btn></v-col>
     </v-row>
   </v-container>
@@ -325,9 +325,9 @@ import { currencies } from "@/components/currencies";
 
 export default {
   data: () => ({
-    countries: countries,
-    tenderTypes: tenderTypes,
-    currencies: currencies,
+    countries,
+    tenderTypes,
+    currencies,
     chipColor: "#bdbdbd",
     tender: {
       organizationName: '',
@@ -466,11 +466,11 @@ export default {
 
 <style>
 .inf-icon:hover {
-  color: blue;
+  color: #0277bd;
 }
 
 .inf-icon {
-  color: #42A5F5;
+  color: #42a5f5;
 }
 
 .mdi-file-document-multiple-outline {
@@ -478,6 +478,6 @@ export default {
 }
 
 html {
-  background-color: rgb(212, 208, 208);
+  background-color: #e0e0e0;
 }
 </style>
