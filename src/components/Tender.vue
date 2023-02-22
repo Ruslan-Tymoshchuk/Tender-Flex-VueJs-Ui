@@ -19,10 +19,11 @@
   <v-card class="mt-n7 mx-auto" elevation="8" max-width="1000">
     <v-container class="pa-10">
       <v-form v-model="valid">
+
         <v-row>
           <v-toolbar-title class="ml-7 mt-5">Contractor</v-toolbar-title>
+          <div class="contractor-horizontal-divider"></div>
         </v-row>
-        <v-divider style="margin-left:8rem"></v-divider>
         <v-row class="mt-5 mx-8">
 
           <v-col cols="12" md="4">
@@ -69,8 +70,8 @@
 
         <v-row>
           <v-toolbar-title class="ml-7 mt-5">Contact person</v-toolbar-title>
+          <div class="contact-person-horizontal-divider"></div>
         </v-row>
-        <v-divider style="margin-left:10rem"></v-divider>
 
         <v-row class="mt-5 mx-8">
 
@@ -109,8 +110,8 @@
         <v-row>
           <v-toolbar-title class="ml-7 mt-5">Subject matter of the
             procurement</v-toolbar-title>
+          <div class="procurement-horizontal-divider"></div>
         </v-row>
-        <v-divider style="margin-left: 21rem"></v-divider>
 
         <v-row class="mt-5 mx-8">
 
@@ -179,8 +180,8 @@
 
         <v-row>
           <v-toolbar-title class="ml-7 mt-5">Date</v-toolbar-title>
+          <div class="date-horizontal-divider"></div>
         </v-row>
-        <v-divider style="margin-left:4rem"></v-divider>
 
         <v-row class="mt-5 mx-8">
 
@@ -217,9 +218,9 @@
         </v-row>
 
         <v-row>
-          <v-toolbar-title class="ml-7 mt-5">Documents</v-toolbar-title>
+            <v-toolbar-title class="ml-7 mt-5">Documents</v-toolbar-title>
+            <div class="documents-horizontal-divider"></div>
         </v-row>
-        <v-divider style="margin-left:8rem"></v-divider>
 
         <v-item-group class="py-5 mx-2">
           <v-row class="mt-5 mx-8">
@@ -465,6 +466,42 @@ export default {
 </script>
 
 <style>
+.contractor-horizontal-divider {
+  background-color: #e0e0e0;
+  width: 51rem;
+  height: 0.1rem;
+  margin-top: 2.2rem;
+}
+
+.contact-person-horizontal-divider {
+  background-color: #e0e0e0;
+  width: 48.4rem;
+  height: 0.1rem;
+  margin-top: 2.2rem;
+}
+
+.procurement-horizontal-divider {
+  background-color: #e0e0e0;
+  width: 37.8rem;
+  height: 0.1rem;
+  margin-top: 2.2rem;
+}
+
+.date-horizontal-divider {
+  background-color: #e0e0e0;
+  width: 54.3rem;
+  height: 0.1rem;
+  margin-top: 2.2rem;
+}
+
+.documents-horizontal-divider {
+  background-color: #e0e0e0;
+  width: 50.5rem;
+  height: 0.1rem;
+  margin-top: 2.2rem;
+}
+
+
 .inf-icon:hover {
   color: #0277bd;
 }
