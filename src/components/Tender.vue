@@ -23,7 +23,7 @@
         <v-row>
           <v-container class="d-flex align-center">
             <p class="label">Contractor</p>
-            <div class="horizontal-divider"></div>
+            <v-div class="horizontal-divider"></v-div>
           </v-container>
         </v-row>
 
@@ -107,7 +107,6 @@
             <v-text-field single-line color="blue" variant="outlined" v-model="tender.phone" :counter="8" type="number"
               label="Phone" required density="compact"></v-text-field>
           </v-col>
-
         </v-row>
 
         <v-row>
@@ -228,13 +227,13 @@
 
         <v-item-group class="py-5 mx-2">
           <v-row class="mt-5 mx-8">
-            <v-item v-if="selectedContract">
+            <v-item v-if="isContract">
               <v-chip size="large" class="mb-6" closable color="blue" prepend-icon="mdi-file-document-multiple-outline"
-                label @click:close="activateUploadButton('contract')">
+                label @click:close="isContract = false">
                 <div id="text" style="width: 50rem" @click="dialog = true"> {{ selectedFileContractName }} </div>
               </v-chip>
             </v-item>
-            <v-item v-if="contract">
+            <v-item v-if="!isContract">
               <v-text-field single-line label="* Contract" variant="outlined" density="compact"></v-text-field>
               <v-btn color="primary" rounded="0" dark :loading="contractIsSelecting" @click="handleFileImport('contract')"
                 height="40" width="150">
@@ -245,13 +244,13 @@
           </v-row>
 
           <v-row class="mt-5 mx-8">
-            <v-item v-if="selectedAwardDecision">
+            <v-item v-if="isAwardDecision">
               <v-chip size="large" class="mb-6" closable color="blue" prepend-icon="mdi-file-document-multiple-outline"
-                label @click:close="activateUploadButton('awardDecision')">
+                label @click:close="isAwardDecision = false">
                 <div id="text" style="width: 50rem" @click="dialog1 = true"> {{ selectedFileAwardDecisionName }} </div>
               </v-chip>
             </v-item>
-            <v-item v-if="awardDecision">
+            <v-item v-if="!isAwardDecision">
               <v-text-field single-line label="* Award decision" variant="outlined" density="compact"></v-text-field>
               <v-btn color="primary" rounded="0" dark :loading="awardIsSelecting"
                 @click="handleFileImport('awardDecision')" height="40" width="150">
@@ -261,13 +260,13 @@
             </v-item>
           </v-row>
           <v-row class="mt-5 mx-8">
-            <v-item v-if="selectedRejectDecision">
+            <v-item v-if="isRejectDecision">
               <v-chip size="large" class="mb-6" closable color="blue" prepend-icon="mdi-file-document-multiple-outline"
-                label @click:close="activateUploadButton('rejectDecision')">
+                label @click:close="isRejectDecision = false">
                 <div id="text" style="width: 50rem" @click="dialog2 = true"> {{ selectedFileRejectDecisionName }} </div>
               </v-chip>
             </v-item>
-            <v-item v-if="rejectDecision">
+            <v-item v-if="!isRejectDecision">
               <v-text-field single-line label="* Reject decision" variant="outlined" density="compact"></v-text-field>
               <v-btn color="primary" rounded="0" dark :loading="rejectIsSelecting"
                 @click="handleFileImport('rejectDecision')" height="40" width="150">
@@ -359,6 +358,9 @@ export default {
     selectedFile: null,
     selectedContract: false,
     contract: true,
+    isContract: false,
+    isAwardDecision: false,
+    isRejectDecision: false,
     awardDecision: true,
     selectedAwardDecision: false,
     rejectDecision: true,
@@ -386,8 +388,7 @@ export default {
           this.contractIsSelecting = true;
           window.addEventListener('focus', () => {
             this.contractIsSelecting = false;
-            this.selectedContract = true;
-            this.contract = false;
+            this.isContract = true;
           }, { once: true });
           this.$refs.contractUploader.click();
           break;
@@ -395,8 +396,7 @@ export default {
           this.awardIsSelecting = true;
           window.addEventListener('focus', () => {
             this.awardIsSelecting = false;
-            this.selectedAwardDecision = true;
-            this.awardDecision = false;
+            this.isAwardDecision = true;
           }, { once: true });
           this.$refs.awardDesUploader.click();
           break;
@@ -404,8 +404,7 @@ export default {
           this.rejectIsSelecting = true;
           window.addEventListener('focus', () => {
             this.rejectIsSelecting = false;
-            this.selectedRejectDecision = true;
-            this.rejectDecision = false;
+            this.isRejectDecision = true;
           }, { once: true });
           this.$refs.rejectDesUploader.click();
           break;
@@ -439,30 +438,6 @@ export default {
       this.selectedFileRejectDecisionName = this.selectedFileRejectDecision.name;
       this.selectedFileRejectDecisionUrl = URL.createObjectURL(this.selectedFileRejectDecision);
     },
-
-    activateUploadButton(activateBtnForDocument) {
-      switch (activateBtnForDocument) {
-        case 'contract':
-          this.selectedContract = false;
-          this.contract = true;
-          break;
-        case 'awardDecision':
-          this.selectedAwardDecision = false;
-          this.awardDecision = true;
-          break;
-        case 'rejectDecision':
-          this.selectedRejectDecision = false;
-          this.rejectDecision = true;
-          break;
-        default:
-          this.selectedContract = false;
-          this.contract = true;
-          this.selectedAwardDecision = false;
-          this.awardDecision = true;
-          this.selectedRejectDecision = false;
-          this.rejectDecision = true;
-      }
-    }
   }
 }
 </script>
