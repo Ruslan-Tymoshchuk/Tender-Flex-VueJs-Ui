@@ -230,7 +230,8 @@
             <v-item v-if="isContract">
               <v-chip size="large" class="mb-6" closable color="blue" prepend-icon="mdi-file-document-multiple-outline"
                 label @click:close="isContract = false">
-                <div id="text" style="width: 50rem" @click="dialog = true"> {{ selectedFileContractName }} </div>
+                <div id="text" style="width: 50rem" @click="openDialog(contract)"> {{
+                  contract.name }} </div>
               </v-chip>
             </v-item>
             <v-item v-if="!isContract">
@@ -247,7 +248,8 @@
             <v-item v-if="isAwardDecision">
               <v-chip size="large" class="mb-6" closable color="blue" prepend-icon="mdi-file-document-multiple-outline"
                 label @click:close="isAwardDecision = false">
-                <div id="text" style="width: 50rem" @click="dialog1 = true"> {{ selectedFileAwardDecisionName }} </div>
+                <div id="text" style="width: 50rem" @click="openDialog(awardDecision)"> {{
+                  awardDecision.name }} </div>
               </v-chip>
             </v-item>
             <v-item v-if="!isAwardDecision">
@@ -263,7 +265,8 @@
             <v-item v-if="isRejectDecision">
               <v-chip size="large" class="mb-6" closable color="blue" prepend-icon="mdi-file-document-multiple-outline"
                 label @click:close="isRejectDecision = false">
-                <div id="text" style="width: 50rem" @click="dialog2 = true"> {{ selectedFileRejectDecisionName }} </div>
+                <div id="text" style="width: 50rem" @click="openDialog(rejectDecision)"> {{
+                  rejectDecision.name }} </div>
               </v-chip>
             </v-item>
             <v-item v-if="!isRejectDecision">
@@ -279,30 +282,10 @@
 
         <v-dialog v-model="dialog" width="auto">
           <v-card>
-            <iframe :src=selectedFileContractUrl width="800" height="500">
+            <iframe :src=documentUrl width="800" height="500">
             </iframe>
             <v-card-actions>
               <v-btn color="primary" block @click="dialog = false">Close</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-
-        <v-dialog v-model="dialog1" width="auto">
-          <v-card>
-            <iframe :src=selectedFileAwardDecisionUrl width="800" height="500">
-            </iframe>
-            <v-card-actions>
-              <v-btn color="primary" block @click="dialog1 = false">Close</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-
-        <v-dialog v-model="dialog2" width="auto">
-          <v-card>
-            <iframe :src=selectedFileRejectDecisionUrl width="800" height="500">
-            </iframe>
-            <v-card-actions>
-              <v-btn color="primary" block @click="dialog2 = false">Close</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -350,35 +333,18 @@ export default {
 
       deadlineForSignedContract: null,
     },
-
     valid: false,
     dialog: false,
-    dialog1: false,
-    dialog2: false,
-    selectedFile: null,
-    selectedContract: false,
-    contract: true,
     isContract: false,
     isAwardDecision: false,
     isRejectDecision: false,
-    awardDecision: true,
-    selectedAwardDecision: false,
-    rejectDecision: true,
-    selectedRejectDecision: false,
-    docFileUrl: '',
     contractIsSelecting: false,
     awardIsSelecting: false,
     rejectIsSelecting: false,
-
-    selectedFileContract: null,
-    selectedFileContractName: '',
-    selectedFileContractUrl: '',
-    selectedFileAwardDecision: null,
-    selectedFileAwardDecisionName: '',
-    selectedFileAwardDecisionUrl: '',
-    selectedFileRejectDecision: null,
-    selectedFileRejectDecisionName: '',
-    selectedFileRejectDecisionUrl: '',
+    contract: null,
+    awardDecision: null,
+    rejectDecision: null,
+    documentUrl: '',
   }),
 
   methods: {
@@ -388,7 +354,6 @@ export default {
           this.contractIsSelecting = true;
           window.addEventListener('focus', () => {
             this.contractIsSelecting = false;
-            this.isContract = true;
           }, { once: true });
           this.$refs.contractUploader.click();
           break;
@@ -396,7 +361,6 @@ export default {
           this.awardIsSelecting = true;
           window.addEventListener('focus', () => {
             this.awardIsSelecting = false;
-            this.isAwardDecision = true;
           }, { once: true });
           this.$refs.awardDesUploader.click();
           break;
@@ -404,39 +368,34 @@ export default {
           this.rejectIsSelecting = true;
           window.addEventListener('focus', () => {
             this.rejectIsSelecting = false;
-            this.isRejectDecision = true;
           }, { once: true });
           this.$refs.rejectDesUploader.click();
           break;
         default:
           this.contractIsSelecting = false
-          this.selectedContract = false;
-          this.contract = true;
           this.awardIsSelecting = false
-          this.selectedAwardDecision = false;
-          this.awardDecision = true;
           this.rejectIsSelecting = false
-          this.selectedRejectDecision = false;
-          this.rejectDecision = true;
       }
     },
 
     onFileChangedContract(event) {
-      this.selectedFileContract = event.target.files[0];
-      this.selectedFileContractName = this.selectedFileContract.name;
-      this.selectedFileContractUrl = URL.createObjectURL(this.selectedFileContract);
+      this.isContract = true;
+      this.contract = event.target.files[0];
     },
 
     onFileChangedAwardDecision(event) {
-      this.selectedFileAwardDecision = event.target.files[0];
-      this.selectedFileAwardDecisionName = this.selectedFileAwardDecision.name;
-      this.selectedFileAwardDecisionUrl = URL.createObjectURL(this.selectedFileAwardDecision);
+      this.isAwardDecision = true;
+      this.awardDecision = event.target.files[0];
     },
 
     onFileChangedRejectDecision(event) {
-      this.selectedFileRejectDecision = event.target.files[0];
-      this.selectedFileRejectDecisionName = this.selectedFileRejectDecision.name;
-      this.selectedFileRejectDecisionUrl = URL.createObjectURL(this.selectedFileRejectDecision);
+      this.isRejectDecision = true;
+      this.rejectDecision = event.target.files[0];
+    },
+
+    openDialog(document) {
+      this.dialog = true;
+      this.documentUrl = URL.createObjectURL(document);
     },
   }
 }
