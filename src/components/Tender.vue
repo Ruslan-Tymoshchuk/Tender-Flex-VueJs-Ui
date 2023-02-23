@@ -236,9 +236,9 @@
             </v-item>
             <v-item v-if="!isContract">
               <v-text-field single-line label="* Contract" variant="outlined" density="compact"></v-text-field>
-              <input input id="file-input" class="d-none" type="file" accept="application/pdf"
+              <input input id="contract-input" class="d-none" type="file" accept="application/pdf"
                 @change="onFileChangedContract"><v-btn color="primary" rounded="0" height="40" width="150"><label
-                  class="file-label" for="file-input">
+                  class="file-label" for="contract-input">
                   Upload </label></v-btn>
             </v-item>
           </v-row>
@@ -253,9 +253,9 @@
             </v-item>
             <v-item v-if="!isAwardDecision">
               <v-text-field single-line label="* Award decision" variant="outlined" density="compact"></v-text-field>
-              <input id="file-input" class="d-none" type="file" accept="application/pdf"
+              <input id="award-decision-input" class="d-none" type="file" accept="application/pdf"
                 @change="onFileChangedAwardDecision"><v-btn color="primary" rounded="0" height="40" width="150"><label
-                  class="file-label" for="file-input">
+                  class="file-label" for="award-decision-input">
                   Upload </label></v-btn>
             </v-item>
           </v-row>
@@ -269,9 +269,9 @@
             </v-item>
             <v-item v-if="!isRejectDecision">
               <v-text-field single-line label="* Reject decision" variant="outlined" density="compact"></v-text-field>
-              <input id="file-input" class="d-none" type="file" accept="application/pdf"
+              <input id="reject-decision-input" class="d-none" type="file" accept="application/pdf"
                 @change="onFileChangedRejectDecision">
-              <v-btn color="primary" rounded="0" height="40" width="150"><label class="file-label" for="file-input">
+              <v-btn color="primary" rounded="0" height="40" width="150"><label class="file-label" for="reject-decision-input">
                   Upload </label></v-btn>
             </v-item>
           </v-row>
