@@ -22,7 +22,7 @@
 
         <v-row>
           <v-container class="d-flex align-center">
-            <p class="label">Contractor</p>
+            <p class="chapter-label">Contractor</p>
             <v-div class="horizontal-divider"></v-div>
           </v-container>
         </v-row>
@@ -72,7 +72,7 @@
 
         <v-row>
           <v-container class="d-flex align-center">
-            <p class="label">Contact person</p>
+            <p class="chapter-label">Contact person</p>
             <div class="horizontal-divider"></div>
           </v-container>
         </v-row>
@@ -111,7 +111,7 @@
 
         <v-row>
           <v-container class="d-flex align-center">
-            <p class="label">Subject matter of the
+            <p class="chapter-label">Subject matter of the
               procurement</p>
             <div class="horizontal-divider"></div>
           </v-container>
@@ -181,7 +181,7 @@
 
         <v-row>
           <v-container class="d-flex align-center">
-            <p class="label">Date</p>
+            <p class="chapter-label">Date</p>
             <div class="horizontal-divider"></div>
           </v-container>
         </v-row>
@@ -220,7 +220,7 @@
 
         <v-row>
           <v-container class="d-flex align-center">
-            <p class="label">Documents</p>
+            <p class="chapter-label">Documents</p>
             <div class="horizontal-divider"></div>
           </v-container>
         </v-row>
@@ -237,7 +237,8 @@
             <v-item v-if="!isContract">
               <v-text-field single-line label="* Contract" variant="outlined" density="compact"></v-text-field>
               <input input id="file-input" class="d-none" type="file" accept="application/pdf"
-                @change="onFileChangedContract"><v-btn color="primary" rounded="0" height="40" width="150"><label class="file-label" for="file-input">
+                @change="onFileChangedContract"><v-btn color="primary" rounded="0" height="40" width="150"><label
+                  class="file-label" for="file-input">
                   Upload </label></v-btn>
             </v-item>
           </v-row>
@@ -252,8 +253,9 @@
             </v-item>
             <v-item v-if="!isAwardDecision">
               <v-text-field single-line label="* Award decision" variant="outlined" density="compact"></v-text-field>
-             <input id="file-input" class="d-none" type="file" accept="application/pdf"
-                @change="onFileChangedAwardDecision"><v-btn color="primary" rounded="0" height="40" width="150"><label class="file-label" for="file-input">
+              <input id="file-input" class="d-none" type="file" accept="application/pdf"
+                @change="onFileChangedAwardDecision"><v-btn color="primary" rounded="0" height="40" width="150"><label
+                  class="file-label" for="file-input">
                   Upload </label></v-btn>
             </v-item>
           </v-row>
@@ -370,7 +372,7 @@ export default {
   height: 0.1rem;
 }
 
-.label {
+.chapter-label {
   white-space: nowrap;
   padding-right: 0.5rem;
   font-size: 1.3rem;
