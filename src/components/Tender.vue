@@ -230,17 +230,15 @@
             <v-item v-if="isContract">
               <v-chip size="large" class="mb-6" closable color="blue" prepend-icon="mdi-file-document-multiple-outline"
                 label @click:close="isContract = false">
-                <div id="text" style="width: 50rem" @click="openDialog(contract)"> {{
+                <div id="text" style="width: 50rem" @click="openDialog(contract), dialog = true"> {{
                   contract.name }} </div>
               </v-chip>
             </v-item>
             <v-item v-if="!isContract">
               <v-text-field single-line label="* Contract" variant="outlined" density="compact"></v-text-field>
-              <v-btn color="primary" rounded="0" dark :loading="contractIsSelecting" @click="handleFileImport('contract')"
-                height="40" width="150">
-                Upload
-              </v-btn> <input ref="contractUploader" class="d-none" type="file" accept="application/pdf"
-                @change="onFileChangedContract">
+              <input input id="file-input" class="d-none" type="file" accept="application/pdf"
+                @change="onFileChangedContract"><v-btn color="primary" rounded="0" height="40" width="150"><label class="file-label" for="file-input">
+                  Upload </label></v-btn>
             </v-item>
           </v-row>
 
@@ -248,34 +246,31 @@
             <v-item v-if="isAwardDecision">
               <v-chip size="large" class="mb-6" closable color="blue" prepend-icon="mdi-file-document-multiple-outline"
                 label @click:close="isAwardDecision = false">
-                <div id="text" style="width: 50rem" @click="openDialog(awardDecision)"> {{
+                <div id="text" style="width: 50rem" @click="openDialog(awardDecision), dialog = true"> {{
                   awardDecision.name }} </div>
               </v-chip>
             </v-item>
             <v-item v-if="!isAwardDecision">
               <v-text-field single-line label="* Award decision" variant="outlined" density="compact"></v-text-field>
-              <v-btn color="primary" rounded="0" dark :loading="awardIsSelecting"
-                @click="handleFileImport('awardDecision')" height="40" width="150">
-                Upload
-              </v-btn> <input ref="awardDesUploader" class="d-none" type="file" accept="application/pdf"
-                @change="onFileChangedAwardDecision">
+             <input id="file-input" class="d-none" type="file" accept="application/pdf"
+                @change="onFileChangedAwardDecision"><v-btn color="primary" rounded="0" height="40" width="150"><label class="file-label" for="file-input">
+                  Upload </label></v-btn>
             </v-item>
           </v-row>
           <v-row class="mt-5 mx-8">
             <v-item v-if="isRejectDecision">
               <v-chip size="large" class="mb-6" closable color="blue" prepend-icon="mdi-file-document-multiple-outline"
                 label @click:close="isRejectDecision = false">
-                <div id="text" style="width: 50rem" @click="openDialog(rejectDecision)"> {{
+                <div id="text" style="width: 50rem" @click="openDialog(rejectDecision), dialog = true"> {{
                   rejectDecision.name }} </div>
               </v-chip>
             </v-item>
             <v-item v-if="!isRejectDecision">
               <v-text-field single-line label="* Reject decision" variant="outlined" density="compact"></v-text-field>
-              <v-btn color="primary" rounded="0" dark :loading="rejectIsSelecting"
-                @click="handleFileImport('rejectDecision')" height="40" width="150">
-                Upload
-              </v-btn> <input ref="rejectDesUploader" class="d-none" type="file" accept="application/pdf"
+              <input id="file-input" class="d-none" type="file" accept="application/pdf"
                 @change="onFileChangedRejectDecision">
+              <v-btn color="primary" rounded="0" height="40" width="150"><label class="file-label" for="file-input">
+                  Upload </label></v-btn>
             </v-item>
           </v-row>
         </v-item-group>
@@ -338,9 +333,6 @@ export default {
     isContract: false,
     isAwardDecision: false,
     isRejectDecision: false,
-    contractIsSelecting: false,
-    awardIsSelecting: false,
-    rejectIsSelecting: false,
     contract: null,
     awardDecision: null,
     rejectDecision: null,
@@ -348,36 +340,6 @@ export default {
   }),
 
   methods: {
-    handleFileImport(selectedDocument) {
-      switch (selectedDocument) {
-        case 'contract':
-          this.contractIsSelecting = true;
-          window.addEventListener('focus', () => {
-            this.contractIsSelecting = false;
-          }, { once: true });
-          this.$refs.contractUploader.click();
-          break;
-        case 'awardDecision':
-          this.awardIsSelecting = true;
-          window.addEventListener('focus', () => {
-            this.awardIsSelecting = false;
-          }, { once: true });
-          this.$refs.awardDesUploader.click();
-          break;
-        case 'rejectDecision':
-          this.rejectIsSelecting = true;
-          window.addEventListener('focus', () => {
-            this.rejectIsSelecting = false;
-          }, { once: true });
-          this.$refs.rejectDesUploader.click();
-          break;
-        default:
-          this.contractIsSelecting = false
-          this.awardIsSelecting = false
-          this.rejectIsSelecting = false
-      }
-    },
-
     onFileChangedContract(event) {
       this.isContract = true;
       this.contract = event.target.files[0];
@@ -391,10 +353,10 @@ export default {
     onFileChangedRejectDecision(event) {
       this.isRejectDecision = true;
       this.rejectDecision = event.target.files[0];
+      this.rejectIsSelecting = false;
     },
 
     openDialog(document) {
-      this.dialog = true;
       this.documentUrl = URL.createObjectURL(document);
     },
   }
@@ -424,6 +386,11 @@ export default {
 
 .mdi-file-document-multiple-outline {
   color: #0a0f12;
+}
+
+.file-label {
+  padding: 0.7rem 2.8rem;
+  cursor: auto;
 }
 
 html {
