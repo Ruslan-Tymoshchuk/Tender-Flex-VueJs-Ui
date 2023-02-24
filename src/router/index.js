@@ -5,6 +5,10 @@ const routes = [
     component: () => import('@/components/LogIn.vue'),
     path: '/',
   },
+  {
+    component: () => import('@/components/Tender.vue'),
+    path: '/new-tender',
+  },
 ]
 
 const router = createRouter({
@@ -13,5 +17,3 @@ const router = createRouter({
 })
 
 export default router
-
-
