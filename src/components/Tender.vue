@@ -268,121 +268,126 @@
           <v-row class="mt-5 mx-8">
             <v-item v-if="isContract">
               <v-chip
-              size="large"
-              class="mb-6"
-              closable color="blue"
-              prepend-icon="mdi-file-document-multiple-outline"
-              label @click:close="isContract = false">
+                size="large"
+                class="mb-6"
+                closable color="blue"
+                prepend-icon="mdi-file-document-multiple-outline"
+                label
+                @click:close="isContract = false">
               <div
-              id="text"
-              style="width: 50rem"
-              @click="openDialog(contract), dialog = true"
+                id="text"
+                style="width: 50rem"
+                @click="openDialog(contract)"
               > {{ contract.name }} </div>
               </v-chip
               ></v-item>
             <v-item v-if="!isContract">
               <v-text-field
-              single-line label="* Contract"
-              variant="outlined"
-              density="compact"
+                single-line
+                label="* Contract"
+                variant="outlined"
+                density="compact"
               ></v-text-field>
               <input
-              input
-              id="contract-input"
-              class="d-none"
-              type="file"
-              accept="application/pdf"
-              @change="onFileChangedContract">
+                input
+                id="contract-input"
+                class="d-none"
+                type="file"
+                accept="application/pdf"
+                @change="onFileChangedContract">
               <v-btn
-              color="primary"
-              rounded="0"
-              height="40"
-              width="150">
+                color="primary"
+                rounded="0"
+                height="40"
+                width="150">
               <label
-              class="file-label"
-              for="contract-input"
+                class="file-label"
+                for="contract-input"
               >Upload</label>
-            </v-btn
+              </v-btn
             ></v-item>
           </v-row>
 
           <v-row class="mt-5 mx-8">
             <v-item v-if="isAwardDecision">
               <v-chip
-              size="large"
-              class="mb-6"
-              closable
-              color="blue"
-              prepend-icon="mdi-file-document-multiple-outline"
-              label @click:close="isAwardDecision = false"
+                size="large"
+                class="mb-6"
+                closable
+                color="blue"
+                prepend-icon="mdi-file-document-multiple-outline"
+                label
+                @click:close="isAwardDecision = false"
               ><div
-              id="text"
-              style="width: 50rem"
-              @click="openDialog(awardDecision), dialog = true"
+                id="text"
+                style="width: 50rem"
+                @click="openDialog(awardDecision)"
               > {{ awardDecision.name }} </div>
               </v-chip>
             </v-item>
             <v-item v-if="!isAwardDecision">
               <v-text-field
-              single-line
-              label="* Award decision"
-              variant="outlined"
-              density="compact"
+                single-line
+                label="* Award decision"
+                variant="outlined"
+                density="compact"
               ></v-text-field>
               <input
-              id="award-decision-input"
-              class="d-none"
-              type="file"
-              accept="application/pdf"
-              @change="onFileChangedAwardDecision"
+                id="award-decision-input"
+                class="d-none"
+                type="file"
+                accept="application/pdf"
+                @change="onFileChangedAwardDecision"
               ><v-btn
-              color="primary"
-              rounded="0"
-              height="40"
-              width="150"
+                color="primary"
+                rounded="0"
+                height="40"
+                width="150"
               ><label
-              class="file-label" for="award-decision-input"
+                class="file-label"
+                for="award-decision-input"
               >Upload</label
               ></v-btn>
             </v-item>
           </v-row>
           <v-row class="mt-5 mx-8">
-            <v-item v-if="isRejectDecision">
+            <v-item v-if="isRejectedDecision">
               <v-chip
-              size="large"
-              class="mb-6"
-              closable
-              color="blue"
-              prepend-icon="mdi-file-document-multiple-outline"
-              label @click:close="isRejectDecision = false"
+                size="large"
+                class="mb-6"
+                closable
+                color="blue"
+                prepend-icon="mdi-file-document-multiple-outline"
+                label
+                @click:close="isRejectedDecision = false"
               ><div
-              id="text"
-              style="width: 50rem"
-              @click="openDialog(rejectDecision), dialog = true"
+                id="text"
+                style="width: 50rem"
+                @click="openDialog(rejectDecision)"
               > {{ rejectDecision.name }} </div>
               </v-chip>
             </v-item>
-            <v-item v-if="!isRejectDecision">
+            <v-item v-if="!isRejectedDecision">
               <v-text-field
-              single-line
-              label="* Reject decision"
-              variant="outlined"
-              density="compact"
+                single-line
+                label="* Reject decision"
+                variant="outlined"
+                density="compact"
               ></v-text-field>
               <input
-              id="reject-decision-input"
-              class="d-none"
-              type="file"
-              accept="application/pdf"
-              @change="onFileChangedRejectDecision"
+                id="reject-decision-input"
+                class="d-none"
+                type="file"
+                accept="application/pdf"
+                @change="onFileChangedRejectDecision"
               ><v-btn
-              color="primary"
-              rounded="0"
-              height="40"
-              width="150"
+                color="primary"
+                rounded="0"
+                height="40"
+                width="150"
               ><label
-              class="file-label"
-              for="reject-decision-input"
+                class="file-label"
+                for="reject-decision-input"
               >Upload</label
               ></v-btn>
             </v-item>
@@ -439,12 +444,13 @@ export default {
       firstName: '',
       lastName: '',
       phone: '',
+      cpvCode: '',
       type: null,
       description: '',
       maxPrice: '',
       minPrice: '',
       currency: null,
-      publicationDate: new Date().toLocaleDateString(),
+      publicationDate: new Date().toDateString(),
       deadline: null,
       deadlineForSignedContract: null,
     },
@@ -452,7 +458,7 @@ export default {
     dialog: false,
     isContract: false,
     isAwardDecision: false,
-    isRejectDecision: false,
+    isRejectedDecision: false,
     contract: null,
     awardDecision: null,
     rejectDecision: null,
@@ -471,13 +477,13 @@ export default {
     },
 
     onFileChangedRejectDecision(event) {
-      this.isRejectDecision = true;
+      this.isRejectedDecision = true;
       this.rejectDecision = event.target.files[0];
-      this.rejectIsSelecting = false;
     },
 
     openDialog(document) {
       this.documentUrl = URL.createObjectURL(document);
+      this.dialog = true;
     },
   }
 }
