@@ -27,6 +27,13 @@
     cursor: auto;
   }
 
+  .required-field:before {
+    content:"*";
+    margin-bottom: 0.5rem;
+    margin-right: 0.2rem;
+    color: #e0e0e0;
+  }
+
   html {
     background-color: #e0e0e0;
   }

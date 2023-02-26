@@ -28,7 +28,7 @@
 
         <v-row class="mt-5 mx-8">
           <v-col cols="12" md="4">
-            <v-chip variant="text" :color=chipColor>* Oficial name
+            <v-chip :class="checkOficialNameIsRequired" variant="text" :color=chipColor>Oficial name
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">
                   Enter the name of the buyer (e.g. Aeroporto Friuli Venezia Giulia S.p.A.)
@@ -42,7 +42,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip variant="text" :color=chipColor>* National Registration Number
+            <v-chip :class="checkNationalRegistrationNumberIsRequired" variant="text" :color=chipColor>National Registration Number
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">
                   Enter the national registration number of the buyer (e.g.ULG BE 0325 777 171)
@@ -51,12 +51,12 @@
               </v-btn>
             </v-chip>
             <v-text-field single-line color="blue" variant="outlined" v-model="tender.nationalRegistrationNumber"
-              :counter="10" label="National Registration Number" required density="compact">
+              :counter="10" label="National Registration Number" required density="compact" >
             </v-text-field>
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip variant="text" :color=chipColor>* Country
+            <v-chip :class="checkCountryIsRequired" variant="text" :color=chipColor>Country
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Choose the country of the buyer</v-tooltip>
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
@@ -68,7 +68,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip variant="text" :color=chipColor>* City / Town
+            <v-chip :class="checkCityIsRequired" variant="text" :color=chipColor>City / Town
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Enter the city of the buyer</v-tooltip>
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
@@ -89,7 +89,7 @@
 
         <v-row class="mt-5 mx-8">
           <v-col cols="12" md="4">
-            <v-chip variant="text" :color=chipColor>* First Name
+            <v-chip :class="checkFirstNameIsRequired" variant="text" :color=chipColor>First Name
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Enter the name of contact person</v-tooltip>
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
@@ -101,7 +101,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip variant="text" :color=chipColor>* Last Name
+            <v-chip :class="checkLastNameIsRequired" variant="text" :color=chipColor>Last Name
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Enter the surname of contact person</v-tooltip>
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
@@ -113,7 +113,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip variant="text" :color=chipColor>* Phone number
+            <v-chip :class="checkPhoneNumberIsRequired" variant="text" :color=chipColor>Phone number
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">
                   Enter the phone number of the contact person
@@ -136,7 +136,7 @@
 
         <v-row class="mt-5 mx-8">
           <v-col cols="12" md="4">
-            <v-chip variant="text" :color=chipColor>* CPV code
+            <v-chip :class="checkCpvCodeIsRequired" variant="text" :color=chipColor>CPV code
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">
                   Choose CPV code with corresponded to this code description
@@ -144,13 +144,13 @@
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
               </v-btn>
             </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="cpvCode" :counter="10" label="CPV Code"
+            <v-text-field single-line color="blue" variant="outlined" v-model="tender.cpvCode" :counter="10" label="CPV Code"
               required density="compact">
             </v-text-field>
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip variant="text" :color=chipColor>* Tipe of Tender
+            <v-chip :class="checkTypeOfTenderIsRequired" variant="text" :color=chipColor>Tipe of Tender
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Choose the type of contract</v-tooltip>
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
@@ -162,7 +162,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip variant="text" :color=chipColor>* Description
+            <v-chip :class="checkDescriptionIsRequired" variant="text" :color=chipColor>Description
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Enter detailed information about the Tender</v-tooltip>
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
@@ -174,7 +174,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip variant="text" :color=chipColor>* Maximum Tender Value
+            <v-chip :class="checkMaxValueIsRequired" variant="text" :color=chipColor>Maximum Tender Value
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Enter minimum price of the Tender contract</v-tooltip>
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
@@ -186,7 +186,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip variant="text" :color=chipColor>* Minimum Tender Value
+            <v-chip :class="checkMinValueIsRequired" variant="text" :color=chipColor>Minimum Tender Value
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Enter maximum price of the Tender contract</v-tooltip>
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
@@ -198,7 +198,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip variant="text" :color=chipColor>* Currency
+            <v-chip :class="checkCurrencyIsRequired" variant="text" :color=chipColor>Currency
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Choose the currency</v-tooltip>
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
@@ -219,7 +219,7 @@
 
         <v-row class="mt-5 mx-8">
           <v-col cols="12" md="4">
-            <v-chip variant="text" :color=chipColor>* Publication Date
+            <v-chip class="required-field" variant="text" :color=chipColor>Publication Date
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Today date</v-tooltip>
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
@@ -277,8 +277,8 @@
               <div
                 id="text"
                 style="width: 50rem"
-                @click="openDialog(contract)"
-              > {{ contract.name }} </div>
+                @click="openDialog(attachment.contract)"
+              > {{ attachment.contract.name }} </div>
               </v-chip
               ></v-item>
             <v-item v-if="!isContract">
@@ -321,8 +321,8 @@
               ><div
                 id="text"
                 style="width: 50rem"
-                @click="openDialog(awardDecision)"
-              > {{ awardDecision.name }} </div>
+                @click="openDialog(attachment.awardDecision)"
+              > {{ attachment.awardDecision.name }} </div>
               </v-chip>
             </v-item>
             <v-item v-if="!isAwardDecision">
@@ -363,8 +363,8 @@
               ><div
                 id="text"
                 style="width: 50rem"
-                @click="openDialog(rejectDecision)"
-              > {{ rejectDecision.name }} </div>
+                @click="openDialog(attachment.rejectDecision)"
+              > {{ attachment.rejectDecision.name }} </div>
               </v-chip>
             </v-item>
             <v-item v-if="!isRejectedDecision">
@@ -426,15 +426,13 @@
 </template>
 
 <script>
-import { countries } from "@/components/countries";
-import { tenderTypes } from "@/components/tenderTypes";
-import { currencies } from "@/components/currencies";
+import { restApiConfig } from "@/rest.api.config"
 
 export default {
   data: () => ({
-    countries,
-    tenderTypes,
-    currencies,
+    countries: [],
+    tenderTypes: [],
+    currencies: [],
     chipColor: "#bdbdbd",
     tender: {
       organizationName: '',
@@ -459,32 +457,139 @@ export default {
     isContract: false,
     isAwardDecision: false,
     isRejectedDecision: false,
-    contract: null,
-    awardDecision: null,
-    rejectDecision: null,
+    attachment: {
+      contract: null,
+      awardDecision: null,
+      rejectDecision: null,
+    },
     documentUrl: '',
   }),
 
   methods: {
     onFileChangedContract(event) {
       this.isContract = true;
-      this.contract = event.target.files[0];
+      this.attachment.contract = event.target.files[0];
     },
 
     onFileChangedAwardDecision(event) {
       this.isAwardDecision = true;
-      this.awardDecision = event.target.files[0];
+      this.attachment.awardDecision = event.target.files[0];
     },
 
     onFileChangedRejectDecision(event) {
       this.isRejectedDecision = true;
-      this.rejectDecision = event.target.files[0];
+      this.attachment.rejectDecision = event.target.files[0];
     },
 
     openDialog(document) {
       this.documentUrl = URL.createObjectURL(document);
       this.dialog = true;
     },
+
+    getCountries() {
+      fetch(`${restApiConfig.host}${restApiConfig.countries}`)
+        .then(response => response.json())
+        .then(dataFromResopnse => this.countries = dataFromResopnse)
+    },
+
+    getTenderTypes() {
+      fetch(`${restApiConfig.host}${restApiConfig.tenderTypes}`)
+        .then(response => response.json())
+        .then(dataFromResopnse => this.tenderTypes = dataFromResopnse)
+    },
+
+    getCurrencies() {
+      fetch(`${restApiConfig.host}${restApiConfig.currencies}`)
+        .then(response => response.json())
+        .then(dataFromResopnse => this.currencies = dataFromResopnse)
+    }
+  },
+
+  computed: {
+    checkOficialNameIsRequired() {
+      if (this.tender.organizationName < 1) {
+        return "required-field"
+      }
+    },
+
+    checkNationalRegistrationNumberIsRequired() {
+      if (this.tender.nationalRegistrationNumber < 1) {
+        return "required-field"
+      }
+    },
+
+    checkCountryIsRequired() {
+      if (this.tender.country < 1) {
+        return "required-field"
+      }
+    },
+
+    checkCityIsRequired() {
+      if (this.tender.city < 1) {
+        return "required-field"
+      }
+    },
+
+    checkFirstNameIsRequired() {
+      if (this.tender.firstName < 1) {
+        return "required-field"
+      }
+    },
+
+    checkLastNameIsRequired() {
+      if (this.tender.lastName < 1) {
+        return "required-field"
+      }
+    },
+
+    checkPhoneNumberIsRequired() {
+      if (this.tender.phone < 1) {
+        return "required-field"
+      }
+    },
+
+    checkCpvCodeIsRequired() {
+      if (this.tender.cpvCode < 1) {
+        return "required-field"
+      }
+    },
+
+    checkTypeOfTenderIsRequired() {
+      if (this.tender.type < 1) {
+        return "required-field"
+      }
+    },
+
+    checkDescriptionIsRequired() {
+      if (this.tender.description < 1) {
+        return "required-field"
+      }
+    },
+
+    checkMaxValueIsRequired() {
+      if (this.tender.maxPrice < 1) {
+        return "required-field"
+      }
+    },
+
+    checkMinValueIsRequired() {
+      if (this.tender.minPrice < 1) {
+        return "required-field"
+      }
+    },
+
+    checkCurrencyIsRequired() {
+      if (this.tender.currency < 1) {
+        return "required-field"
+      }
+    },
+  },
+
+  mounted() {
+    this.getCountries();
+    this.getTenderTypes();
+    this.getCurrencies();
   }
-}
+  }
+
 </script>
