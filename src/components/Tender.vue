@@ -63,7 +63,7 @@
               </v-btn>
             </v-chip>
             <v-select single-line color="blue" variant="outlined" v-model="tender.country" label="Choose the country"
-              required density="compact" :items="countries">
+              required density="compact" :items="countries" item-value="id" item-title="countryName" return-object persistent-hint>
             </v-select>
           </v-col>
 
@@ -205,7 +205,7 @@
               </v-btn>
             </v-chip>
             <v-select single-line color="blue" variant="outlined" v-model="tender.currency" label="Currency" required
-              density="compact" :items="currencies">
+              density="compact" :items="currencies" item-value="id" item-title="currencyType" return-object persistent-hint>
             </v-select>
           </v-col>
         </v-row>
@@ -231,7 +231,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip variant="text" :color=chipColor>* Deadline for Offer Submission
+            <v-chip class="required-field" variant="text" :color=chipColor>Deadline for Offer Submission
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Choose the deadline date for Offer submission</v-tooltip>
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
@@ -243,7 +243,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip variant="text" :color=chipColor>* Deadline for Signing
+            <v-chip class="required-field" variant="text" :color=chipColor>Deadline for Signing
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">
                   Choose the deadline date for signed contract submission
@@ -487,21 +487,42 @@ export default {
     },
 
     getCountries() {
-      fetch(`${restApiConfig.host}${restApiConfig.countries}`)
+      const user = JSON.parse(localStorage.getItem('user'));
+      fetch(`${restApiConfig.host}${restApiConfig.countries}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + user.token,
+          'Accept': 'application/json',
+        }
+      })
         .then(response => response.json())
         .then(dataFromResopnse => this.countries = dataFromResopnse)
     },
 
     getTenderTypes() {
-      fetch(`${restApiConfig.host}${restApiConfig.tenderTypes}`)
+      const user = JSON.parse(localStorage.getItem('user'));
+      fetch(`${restApiConfig.host}${restApiConfig.tenderTypes}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + user.token,
+          'Accept': 'application/json',
+        }
+      })
         .then(response => response.json())
         .then(dataFromResopnse => this.tenderTypes = dataFromResopnse)
     },
 
     getCurrencies() {
-      fetch(`${restApiConfig.host}${restApiConfig.currencies}`)
+     const user = JSON.parse(localStorage.getItem('user'));
+      fetch(`${restApiConfig.host}${restApiConfig.currencies}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + user.token,
+          'Accept': 'application/json',
+        },
+      })
         .then(response => response.json())
-        .then(dataFromResopnse => this.currencies = dataFromResopnse)
+        .then(dataFromResopnse => this.currencies = dataFromResopnse);
     }
   },
 

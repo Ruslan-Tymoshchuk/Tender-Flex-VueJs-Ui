@@ -22,6 +22,7 @@
 
 <script>
 import { restApiConfig } from "@/rest.api.config";
+
 export default {
   data: () => ({
     isFormValid: false,
@@ -53,7 +54,12 @@ export default {
         })
       })
         .then(response => response.json())
-        .then(data => console.log(data))
+        .then(user => {
+          if (user.token) {
+            localStorage.setItem('user', JSON.stringify(user));
+            console.log(user);
+          }
+        })
     }
   }
 }
