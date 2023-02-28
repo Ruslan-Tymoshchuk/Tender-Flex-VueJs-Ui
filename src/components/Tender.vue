@@ -427,13 +427,13 @@
 
 <script>
 import { restApiConfig } from "@/rest.api.config"
+const  chipColor = "#bdbdbd"
 
 export default {
   data: () => ({
     countries: [],
     tenderTypes: [],
     currencies: [],
-    chipColor: "#bdbdbd",
     tender: {
       organizationName: '',
       nationalRegistrationNumber: '',
