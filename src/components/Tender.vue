@@ -28,7 +28,7 @@
 
         <v-row class="mt-5 mx-8">
           <v-col cols="12" md="4">
-            <v-chip class="required-field" variant="text" :color=chipColor>Oficial name
+            <v-chip class="required" variant="text" :color=chipColor>Oficial name
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">
                   Enter the name of the buyer (e.g. Aeroporto Friuli Venezia Giulia S.p.A.)
@@ -42,7 +42,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip class="required-field" variant="text" :color=chipColor>National Registration Number
+            <v-chip class="required" variant="text" :color=chipColor>National Registration Number
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">
                   Enter the national registration number of the buyer (e.g.ULG BE 0325 777 171)
@@ -56,7 +56,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip class="required-field" variant="text" :color=chipColor>Country
+            <v-chip class="required" variant="text" :color=chipColor>Country
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Choose the country of the buyer</v-tooltip>
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
@@ -68,7 +68,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip class="required-field" variant="text" :color=chipColor>City / Town
+            <v-chip class="required" variant="text" :color=chipColor>City / Town
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Enter the city of the buyer</v-tooltip>
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
@@ -89,7 +89,7 @@
 
         <v-row class="mt-5 mx-8">
           <v-col cols="12" md="4">
-            <v-chip class="required-field" variant="text" :color=chipColor>First Name
+            <v-chip class="required" variant="text" :color=chipColor>First Name
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Enter the name of contact person</v-tooltip>
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
@@ -101,7 +101,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip class="required-field" variant="text" :color=chipColor>Last Name
+            <v-chip class="required" variant="text" :color=chipColor>Last Name
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Enter the surname of contact person</v-tooltip>
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
@@ -113,7 +113,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip class="required-field" variant="text" :color=chipColor>Phone number
+            <v-chip class="required" variant="text" :color=chipColor>Phone number
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">
                   Enter the phone number of the contact person
@@ -136,7 +136,7 @@
 
         <v-row class="mt-5 mx-8">
           <v-col cols="12" md="4">
-            <v-chip class="required-field" variant="text" :color=chipColor>CPV code
+            <v-chip class="required" variant="text" :color=chipColor>CPV code
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">
                   Choose CPV code with corresponded to this code description
@@ -150,7 +150,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip class="required-field" variant="text" :color=chipColor>Tipe of Tender
+            <v-chip class="required" variant="text" :color=chipColor>Tipe of Tender
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Choose the type of contract</v-tooltip>
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
@@ -162,7 +162,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip class="required-field" variant="text" :color=chipColor>Description
+            <v-chip class="required" variant="text" :color=chipColor>Description
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Enter detailed information about the Tender</v-tooltip>
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
@@ -174,7 +174,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip class="required-field" variant="text" :color=chipColor>Maximum Tender Value
+            <v-chip class="required" variant="text" :color=chipColor>Maximum Tender Value
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Enter minimum price of the Tender contract</v-tooltip>
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
@@ -186,7 +186,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip class="required-field" variant="text" :color=chipColor>Minimum Tender Value
+            <v-chip class="required" variant="text" :color=chipColor>Minimum Tender Value
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Enter maximum price of the Tender contract</v-tooltip>
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
@@ -198,7 +198,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip class="required-field" variant="text" :color=chipColor>Currency
+            <v-chip class="required" variant="text" :color=chipColor>Currency
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Choose the currency</v-tooltip>
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
@@ -219,7 +219,7 @@
 
         <v-row class="mt-5 mx-8">
           <v-col cols="12" md="4">
-            <v-chip class="required-field" variant="text" :color=chipColor>Publication Date
+            <v-chip class="required" variant="text" :color=chipColor>Publication Date
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Today date</v-tooltip>
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
@@ -231,7 +231,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip class="required-field" variant="text" :color=chipColor>Deadline for Offer Submission
+            <v-chip class="required" variant="text" :color=chipColor>Deadline for Offer Submission
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">Choose the deadline date for Offer submission</v-tooltip>
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
@@ -243,7 +243,7 @@
           </v-col>
 
           <v-col cols="12" md="4">
-            <v-chip class="required-field" variant="text" :color=chipColor>Deadline for Signing
+            <v-chip class="required" variant="text" :color=chipColor>Deadline for Signing
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
                 <v-tooltip activator="parent" location="top">
                   Choose the deadline date for signed contract submission

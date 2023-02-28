@@ -27,7 +27,7 @@
     cursor: auto;
   }
 
-  .required-field:before {
+  .required:before {
     content:"*";
     margin-bottom: 0.5rem;
     margin-right: 0.2rem;
