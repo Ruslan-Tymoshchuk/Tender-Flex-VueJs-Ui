@@ -431,6 +431,7 @@ const  chipColor = "#bdbdbd"
 
 export default {
   data: () => ({
+    token: JSON.parse(localStorage.getItem('user')).token,
     countries: [],
     tenderTypes: [],
     currencies: [],
@@ -487,11 +488,10 @@ export default {
     },
 
     getCountries() {
-      const user = JSON.parse(localStorage.getItem('user'));
       fetch(`${restApiConfig.host}${restApiConfig.countries}`, {
         method: 'GET',
         headers: {
-          'Authorization': 'Bearer ' + user.token,
+          'Authorization': 'Bearer ' + this.token,
           'Accept': 'application/json',
         }
       })
@@ -500,11 +500,10 @@ export default {
     },
 
     getTenderTypes() {
-      const user = JSON.parse(localStorage.getItem('user'));
       fetch(`${restApiConfig.host}${restApiConfig.tenderTypes}`, {
         method: 'GET',
         headers: {
-          'Authorization': 'Bearer ' + user.token,
+          'Authorization': 'Bearer ' + this.token,
           'Accept': 'application/json',
         }
       })
@@ -513,11 +512,10 @@ export default {
     },
 
     getCurrencies() {
-     const user = JSON.parse(localStorage.getItem('user'));
       fetch(`${restApiConfig.host}${restApiConfig.currencies}`, {
         method: 'GET',
         headers: {
-          'Authorization': 'Bearer ' + user.token,
+          'Authorization': 'Bearer ' + this.token,
           'Accept': 'application/json',
         },
       })
