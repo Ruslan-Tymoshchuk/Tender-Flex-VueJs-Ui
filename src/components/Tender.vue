@@ -537,13 +537,13 @@ export default {
       this.minDeadline = format(new Date().getTime() + 86400000, 'yyyy-MM-dd');
     },
 
-   createTender() {
-      Promise.all([this.uploadDocument(this.attachment.contract),
-                   this.uploadDocument(this.attachment.awardDecision),
-                   this.uploadDocument(this.attachment.rejectDecision),
-                   this.saveTender(),
-                  ])
-             .then((values) => {
+    async createTender() {
+      Promise.all([
+        await this.uploadContract(),
+        await this.uploadAwardDecision(),
+        await this.uploadRejectDecision(),
+        this.saveTender()
+      ]).then((values) => {
         console.log(values);
       });
     },
@@ -553,7 +553,7 @@ export default {
       this.tender.currencyId = this.currency.id;
       this.tender.deadline = this.deadline;
       this.tender.publication = this.publication;
-       fetch(`${restApiConfig.host}${restApiConfig.newTender}`, {
+      fetch(`${restApiConfig.host}${restApiConfig.newTender}`, {
         method: 'POST',
         headers: {
           "Authorization": "Bearer " + this.token,
@@ -571,23 +571,55 @@ export default {
             });
     },
 
-    uploadDocument(document) {
+  async uploadContract() {
       const formData = new FormData()
-      formData.append("document", document)
-      fetch(`${restApiConfig.host}${restApiConfig.uploadFile}`, {
+      formData.append("document", this.attachment.contract)
+      await fetch(`${restApiConfig.host}${restApiConfig.uploadFile}`, {
         method: 'POST',
         headers: {
           "Authorization": "Bearer " + this.token,
           "Accept": "*/*",
         },
-        body: formData
-      }).then(response => response.json())
-        .then(response => {
-            console.log(response.fileUrl);
-          }
-        ).catch(error => {
-          alert("There was an error!");
-        })
+        body: formData,
+      })
+        .then(response => response.json())
+        .then(dataFromResopnse => {
+          this.tender.contractUrl = dataFromResopnse.fileUrl;
+        });
+    },
+
+    async uploadAwardDecision() {
+      const formData = new FormData()
+      formData.append("document", this.attachment.awardDecision)
+      await fetch(`${restApiConfig.host}${restApiConfig.uploadFile}`, {
+        method: 'POST',
+        headers: {
+          "Authorization": "Bearer " + this.token,
+          "Accept": "*/*",
+        },
+        body: formData,
+      })
+        .then(response => response.json())
+        .then(dataFromResopnse =>  {
+         this.tender.awardDecisionUrl = dataFromResopnse.fileUrl;
+        });
+    },
+
+   async uploadRejectDecision() {
+      const formData = new FormData()
+      formData.append("document", this.attachment.rejectDecision)
+      await fetch(`${restApiConfig.host}${restApiConfig.uploadFile}`, {
+        method: 'POST',
+        headers: {
+          "Authorization": "Bearer " + this.token,
+          "Accept": "*/*",
+        },
+        body: formData,
+      })
+        .then(response => response.json())
+        .then(dataFromResopnse => {
+          this.tender.rejectDecisionUrl = dataFromResopnse.fileUrl;
+        });
     }
   },
 
