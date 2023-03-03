@@ -542,8 +542,8 @@ export default {
         await this.uploadAwardDecision(),
         await this.uploadRejectDecision(),
         this.saveTender()
-      ]).then((values) => {
-        console.log(values);
+      ]).then(() => {
+        alert("Tender was successfully created!");
       });
     },
 
@@ -557,18 +557,16 @@ export default {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(this.tender)
-            }).then(response => {
-                if (response.status !== 200) {
-                    alert("There was an error!");
-                } else {
-                    alert("Request successful");
-                }
-            }).catch(error => {
-                alert("There was an error when!");
-            });
+      }).then(response => {
+        if (response.status !== 200) {
+          alert("There was an error saving the tender!");
+        }
+      }).catch(error => {
+        alert("There was an error!");
+      });
     },
 
-  async uploadContract() {
+    async uploadContract() {
       const formData = new FormData()
       formData.append("document", this.attachment.contract)
       await fetch(`${restApiConfig.host}${restApiConfig.uploadFile}`, {
@@ -597,12 +595,12 @@ export default {
         body: formData,
       })
         .then(response => response.json())
-        .then(dataFromResopnse =>  {
-         this.tender.awardDecisionUrl = dataFromResopnse.fileUrl;
+        .then(dataFromResopnse => {
+          this.tender.awardDecisionUrl = dataFromResopnse.fileUrl;
         });
     },
 
-   async uploadRejectDecision() {
+    async uploadRejectDecision() {
       const formData = new FormData()
       formData.append("document", this.attachment.rejectDecision)
       await fetch(`${restApiConfig.host}${restApiConfig.uploadFile}`, {
@@ -627,6 +625,6 @@ export default {
     this.getCurrentdate();
     this.getDeadlineDate();
   }
-  }
+}
 
 </script>
