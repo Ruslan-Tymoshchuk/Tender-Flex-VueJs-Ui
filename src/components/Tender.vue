@@ -17,7 +17,7 @@
 
   <v-card class="mt-n7 mx-auto" elevation="8" max-width="1000">
     <v-container class="pa-10">
-      <v-form v-model="valid">
+      <v-form v-model="valid" fast-fail @submit.prevent="createTender">
 
         <v-row>
           <v-container class="d-flex align-center">
@@ -62,7 +62,7 @@
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
               </v-btn>
             </v-chip>
-            <v-select single-line color="blue" variant="outlined" v-model="tender.country" label="Choose the country"
+            <v-select single-line color="blue" variant="outlined" v-model="country" label="Choose the country"
               required density="compact" :items="countries" item-value="id" item-title="countryName" return-object persistent-hint>
             </v-select>
           </v-col>
@@ -168,7 +168,7 @@
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
               </v-btn>
             </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.description" label="Description"
+            <v-text-field single-line color="blue" variant="outlined" v-model="tender.details" label="Description"
               required :counter="250" density="compact">
             </v-text-field>
           </v-col>
@@ -204,7 +204,7 @@
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
               </v-btn>
             </v-chip>
-            <v-select single-line color="blue" variant="outlined" v-model="tender.currency" label="Currency" required
+            <v-select single-line color="blue" variant="outlined" v-model="currency" label="Currency" required
               density="compact" :items="currencies" item-value="id" item-title="currencyType" return-object persistent-hint>
             </v-select>
           </v-col>
@@ -225,8 +225,8 @@
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
               </v-btn>
             </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.publicationDate"
-              label="Publication Date" required density="compact" disabled>
+            <v-text-field single-line color="blue" variant="outlined" v-model="publication"
+              label="Publication Date" type="date" required density="compact" disabled>
             </v-text-field>
           </v-col>
 
@@ -237,8 +237,8 @@
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
               </v-btn>
             </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.deadline"
-              label="Deadline for Offer Submission" type="date" required density="compact">
+            <v-text-field single-line color="blue" variant="outlined" v-model="deadline"
+              label="Deadline for Offer Submission" type="date" required density="compact" :min="minDeadline">
             </v-text-field>
           </v-col>
 
@@ -417,7 +417,7 @@
         </v-col>
       <v-col cols="9" md="2">
         <v-btn type="submit" block class="mt-2" variant="flat" color="blue"
-          size="large">
+          size="large" @click="createTender">
           Publish
         </v-btn>
       </v-col>
@@ -427,6 +427,7 @@
 
 <script>
 import { restApiConfig } from "@/rest.api.config"
+import { format } from 'date-fns'
 const  chipColor = "#bdbdbd"
 
 export default {
@@ -435,21 +436,26 @@ export default {
     countries: [],
     tenderTypes: [],
     currencies: [],
+    country: null,
+    currency: null,
+    minDeadline: null,
+    deadline: null,
+    publication: null,
     tender: {
       organizationName: '',
       nationalRegistrationNumber: '',
-      country: null,
+      countryId: '',
       city: '',
       firstName: '',
       lastName: '',
       phone: '',
       cpvCode: '',
       type: null,
-      description: '',
-      maxPrice: '',
-      minPrice: '',
-      currency: null,
-      publicationDate: new Date().toDateString(),
+      details: '',
+      maxPrice: 0,
+      minPrice: 0,
+      currencyId: '',
+      publication: null,
       deadline: null,
       deadlineForSignedContract: null,
     },
@@ -521,6 +527,67 @@ export default {
       })
         .then(response => response.json())
         .then(dataFromResopnse => this.currencies = dataFromResopnse);
+    },
+
+    getCurrentdate() {
+      this.publication = format(new Date(), 'yyyy-MM-dd');
+    },
+
+    getDeadlineDate() {
+      this.minDeadline = format(new Date().getTime() + 86400000, 'yyyy-MM-dd');
+    },
+
+   createTender() {
+      Promise.all([this.uploadDocument(this.attachment.contract),
+                   this.uploadDocument(this.attachment.awardDecision),
+                   this.uploadDocument(this.attachment.rejectDecision),
+                   this.saveTender(),
+                  ])
+             .then((values) => {
+        console.log(values);
+      });
+    },
+
+    saveTender() {
+      this.tender.countryId = this.country.id;
+      this.tender.currencyId = this.currency.id;
+      this.tender.deadline = this.deadline;
+      this.tender.publication = this.publication;
+       fetch(`${restApiConfig.host}${restApiConfig.newTender}`, {
+        method: 'POST',
+        headers: {
+          "Authorization": "Bearer " + this.token,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(this.tender)
+            }).then(response => {
+                if (response.status !== 200) {
+                    alert("There was an error!");
+                } else {
+                    alert("Request successful");
+                }
+            }).catch(error => {
+                alert("There was an error!");
+            });
+    },
+
+    uploadDocument(document) {
+      const formData = new FormData()
+      formData.append("document", document)
+      fetch(`${restApiConfig.host}${restApiConfig.uploadFile}`, {
+        method: 'POST',
+        headers: {
+          "Authorization": "Bearer " + this.token,
+          "Accept": "*/*",
+        },
+        body: formData
+      }).then(response => response.json())
+        .then(response => {
+            console.log(response.fileUrl);
+          }
+        ).catch(error => {
+          alert("There was an error!");
+        })
     }
   },
 
@@ -528,6 +595,8 @@ export default {
     this.getCountries();
     this.getTenderTypes();
     this.getCurrencies();
+    this.getCurrentdate();
+    this.getDeadlineDate();
   }
   }
 

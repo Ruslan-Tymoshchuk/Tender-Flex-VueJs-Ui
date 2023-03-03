@@ -4,4 +4,6 @@ export const restApiConfig = {
   countries: 'api/v1/global/countries',
   tenderTypes: 'api/v1/global/tender-types',
   currencies: 'api/v1/global/currencies',
+  newTender: 'api/v1/tender/create',
+  uploadFile: 'api/v1/document/upload',
 };
