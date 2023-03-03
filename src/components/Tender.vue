@@ -225,7 +225,7 @@
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
               </v-btn>
             </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="publication"
+            <v-text-field single-line color="blue" variant="outlined" v-model="tender.publication"
               label="Publication Date" type="date" required density="compact" disabled>
             </v-text-field>
           </v-col>
@@ -237,8 +237,8 @@
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
               </v-btn>
             </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="deadline"
-              label="Deadline for Offer Submission" type="date" required density="compact" :min="minDeadline">
+            <v-text-field single-line color="blue" variant="outlined" v-model="tender.deadline"
+              label="Deadline for Offer Submission" type="date" required density="compact" :min="minDeadline" @change="isDisabled = false">
             </v-text-field>
           </v-col>
 
@@ -252,7 +252,7 @@
               </v-btn>
             </v-chip>
             <v-text-field single-line color="blue" variant="outlined" v-model="tender.deadlineForSignedContract"
-              label="DeadLine for Signed Contract Submission" required density="compact" type="date">
+              label="DeadLine for Signed Contract Submission" required density="compact" type="date" :min="minDeadline" :disabled="isDisabled">
             </v-text-field>
           </v-col>
         </v-row>
@@ -439,8 +439,7 @@ export default {
     country: null,
     currency: null,
     minDeadline: null,
-    deadline: null,
-    publication: null,
+    isDisabled: true,
     tender: {
       organizationName: '',
       nationalRegistrationNumber: '',
@@ -530,7 +529,7 @@ export default {
     },
 
     getCurrentdate() {
-      this.publication = format(new Date(), 'yyyy-MM-dd');
+      this.tender.publication = format(new Date(), 'yyyy-MM-dd');
     },
 
     getDeadlineDate() {
@@ -551,8 +550,6 @@ export default {
     saveTender() {
       this.tender.countryId = this.country.id;
       this.tender.currencyId = this.currency.id;
-      this.tender.deadline = this.deadline;
-      this.tender.publication = this.publication;
       fetch(`${restApiConfig.host}${restApiConfig.newTender}`, {
         method: 'POST',
         headers: {
@@ -567,7 +564,7 @@ export default {
                     alert("Request successful");
                 }
             }).catch(error => {
-                alert("There was an error!");
+                alert("There was an error when!");
             });
     },
 
