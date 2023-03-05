@@ -449,7 +449,6 @@ const  chipColor = "#bdbdbd"
 
 export default {
   data: () => ({
-    token: JSON.parse(localStorage.getItem('user')).token,
     countries: [],
     tenderTypes: [],
     currencies: [],
@@ -513,8 +512,8 @@ export default {
     getCountries() {
       fetch(`${restApiConfig.host}${restApiConfig.countries}`, {
         method: 'GET',
+        credentials: 'include',
         headers: {
-          'Authorization': 'Bearer ' + this.token,
           'Accept': 'application/json',
         }
       })
@@ -525,8 +524,8 @@ export default {
     getTenderTypes() {
       fetch(`${restApiConfig.host}${restApiConfig.tenderTypes}`, {
         method: 'GET',
+        credentials: 'include',
         headers: {
-          'Authorization': 'Bearer ' + this.token,
           'Accept': 'application/json',
         }
       })
@@ -537,8 +536,8 @@ export default {
     getCurrencies() {
       fetch(`${restApiConfig.host}${restApiConfig.currencies}`, {
         method: 'GET',
+        credentials: 'include',
         headers: {
-          'Authorization': 'Bearer ' + this.token,
           'Accept': 'application/json',
         },
       })
@@ -570,8 +569,8 @@ export default {
       this.tender.currencyId = this.currency.id;
       fetch(`${restApiConfig.host}${restApiConfig.newTender}`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
-          "Authorization": "Bearer " + this.token,
           "Content-Type": "application/json"
         },
         body: JSON.stringify(this.tender)
@@ -589,8 +588,8 @@ export default {
       formData.append("document", this.attachment.contract)
       await fetch(`${restApiConfig.host}${restApiConfig.uploadFile}`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
-          "Authorization": "Bearer " + this.token,
           "Accept": "*/*",
         },
         body: formData,
@@ -606,8 +605,8 @@ export default {
       formData.append("document", this.attachment.awardDecision)
       await fetch(`${restApiConfig.host}${restApiConfig.uploadFile}`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
-          "Authorization": "Bearer " + this.token,
           "Accept": "*/*",
         },
         body: formData,
@@ -623,8 +622,8 @@ export default {
       formData.append("document", this.attachment.rejectDecision)
       await fetch(`${restApiConfig.host}${restApiConfig.uploadFile}`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
-          "Authorization": "Bearer " + this.token,
           "Accept": "*/*",
         },
         body: formData,

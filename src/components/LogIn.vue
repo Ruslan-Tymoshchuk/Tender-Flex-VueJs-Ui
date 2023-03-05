@@ -45,6 +45,7 @@ export default {
     authenticate() {
       fetch(`${restApiConfig.host}${restApiConfig.logIn}`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -54,12 +55,7 @@ export default {
         })
       })
         .then(response => response.json())
-        .then(user => {
-          if (user.token) {
-            localStorage.setItem('user', JSON.stringify(user));
-            console.log(user);
-          }
-        })
+        .then(data => console.log(data))
     }
   }
 }
