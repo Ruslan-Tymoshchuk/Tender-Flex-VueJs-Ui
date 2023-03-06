@@ -2,9 +2,15 @@
   <v-toolbar color="blue" extended extension-height="170">
     <v-row>
       <v-img class="ml-10" max-width="140" src="@/assets/tender-flex-Logo.svg" />
+      <v-chip class="my-2 ml-12" variant="flat" color="blue-darken-3" text-color="white" prepend-icon="mdi-pulse">
+        Tenders {{tenders}}
+      </v-chip>
+      <v-chip class="my-2 ml-10" variant="text" text-color="white" prepend-icon="mdi-message-processing-outline">
+       Offers {{offers}}
+      </v-chip>
       <v-spacer></v-spacer>
-      <v-btn href="/new-tender" variant="flat" color="indigo-darken-4" class="my-3" size="small">
-         + Create new Tender
+      <v-btn href="/new-tender" variant="flat" color="indigo-darken-4" class="my-3 mr-4" size="small">
+        + Create new Tender
       </v-btn>
       <v-btn icon class="mr-6">
         <v-icon>mdi-export</v-icon>
@@ -24,3 +30,12 @@
     </v-container>
   </v-card>
 </template>
+
+<script>
+export default {
+  data: () => ({
+    tenders: 0,
+    offers: 0
+  })
+}
+</script>
