@@ -22,6 +22,7 @@
 
 <script>
 import { restApiConfig } from "@/rest.api.config";
+
 export default {
   data: () => ({
     isFormValid: false,
@@ -44,6 +45,7 @@ export default {
     authenticate() {
       fetch(`${restApiConfig.host}${restApiConfig.logIn}`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         },
