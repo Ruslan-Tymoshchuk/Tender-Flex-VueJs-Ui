@@ -6,4 +6,5 @@ export const restApiConfig = {
   currencies: 'api/v1/global/currencies',
   newTender: 'api/v1/tender/create',
   uploadFile: 'api/v1/document/upload',
+  amountTendersByContractor: 'api/v1/tender/amount_tenders_by_contractor',
 };
