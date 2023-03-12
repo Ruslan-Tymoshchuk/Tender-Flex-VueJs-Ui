@@ -17,6 +17,11 @@ const routes = [
     component: () => import('@/components/ContractorModule.vue'),
     path: '/contractor-module',
   },
+  {
+    component: () => import('@/components/TenderDetails.vue'),
+    path: '/tenders-list/:id',
+    name: 'tender-details',
+  },
 ]
 
 const router = createRouter({

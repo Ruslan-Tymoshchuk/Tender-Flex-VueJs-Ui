@@ -8,4 +8,5 @@ export const restApiConfig = {
   uploadFile: 'api/v1/document/upload',
   amountTendersByContractor: 'api/v1/tender/amount_tenders_by_contractor',
   tendersByContractor: 'api/v1/tender/tenders_by_contractor',
+  tenderDetails: 'api/v1/tender/details',
 };

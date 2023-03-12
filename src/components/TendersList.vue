@@ -36,7 +36,7 @@
       <v-table>
         <tbody>
           <tr v-for="tender in tendersByContractor" :key="tender.tenderId">
-            <a :href="`/tender-details/${tender.tenderId}`"><td class="v-col-5 text-left"> {{ tender.cpvCode }}</td></a>
+            <td class="v-col-5 text-left" @click="getTenderById(tender.tenderId)"> {{ tender.cpvCode }}</td>
             <td class="v-col-2 text-left">{{ tender.organizationName }}</td>
             <td class="v-col-2 text-left">{{ tender.status }}</td>
             <td class="v-col-2 text-left">{{ tender.deadline }}</td>
@@ -90,6 +90,10 @@ export default {
       this.amountTendersToSkip++;
       this.getTendersByContractor(1, this.amountTendersToSkip);
     },
+
+    getTenderById(id) {
+      this.$router.push({ name: "tender-details", params: { id: id } });
+    }
   },
 
   mounted() {
