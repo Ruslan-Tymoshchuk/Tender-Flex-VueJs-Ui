@@ -13,6 +13,10 @@ const routes = [
     component: () => import('@/components/TendersList.vue'),
     path: '/tenders-list',
   },
+  {
+    component: () => import('@/components/ContractorModule.vue'),
+    path: '/contractor-module',
+  },
 ]
 
 const router = createRouter({
