@@ -81,8 +81,8 @@ export default {
         }
       })
         .then(response => response.json())
-        .then(tendersPage => {
-          tendersPage.content.forEach(tender => this.tendersByContractor.push(tender))
+        .then(responseData => {
+          responseData.forEach(tender => this.tendersByContractor.push(tender))
         })
     },
 
