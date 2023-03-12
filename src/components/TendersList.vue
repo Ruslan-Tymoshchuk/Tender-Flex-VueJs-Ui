@@ -35,8 +35,8 @@
     <v-container id="scroll-target" style="max-height: 20rem" class="overflow-y-auto" v-scroll:#scroll-target="onScroll">
       <v-table>
         <tbody>
-          <tr v-for="tender in tendersByContractor" :key="tender.id">
-            <td class="v-col-5 text-left">{{ tender.cpvCode }}</td>
+          <tr v-for="tender in tendersByContractor" :key="tender.tenderId">
+            <a :href="`/tender-details/${tender.tenderId}`"><td class="v-col-5 text-left"> {{ tender.cpvCode }}</td></a>
             <td class="v-col-2 text-left">{{ tender.organizationName }}</td>
             <td class="v-col-2 text-left">{{ tender.status }}</td>
             <td class="v-col-2 text-left">{{ tender.deadline }}</td>
