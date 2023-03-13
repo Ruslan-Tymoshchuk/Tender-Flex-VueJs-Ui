@@ -87,6 +87,7 @@ export default {
     },
 
     onScroll() {
+      console.log(this.$router.currentRoute)
       this.amountTendersToSkip++;
       this.getTendersByContractor(1, this.amountTendersToSkip);
     },

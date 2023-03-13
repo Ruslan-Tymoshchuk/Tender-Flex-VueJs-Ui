@@ -17,6 +17,14 @@ const routes = [
     component: () => import('@/components/ContractorModule.vue'),
     path: '/contractor-module',
   },
+  {
+    component: () => import('@/components/BidderModule.vue'),
+    path: '/bidder-module',
+  },
+  {
+    component: () => import('@/components/AdminModule.vue'),
+    path: '/admin-module',
+  },
 ]
 
 const router = createRouter({
