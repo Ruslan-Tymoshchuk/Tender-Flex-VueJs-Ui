@@ -19,7 +19,7 @@
       <v-table>
         <tbody>
           <tr v-for="tender in tendersByContractor" :key="tender.tenderId">
-            <a :href="`/tender-details/${tender.tenderId}`"><td class="v-col-5 text-left"> {{ tender.cpvCode }}</td></a>
+            <td class="v-col-5 text-left"> {{ tender.cpvCode }}</td>
             <td class="v-col-2 text-left">{{ tender.organizationName }}</td>
             <td class="v-col-2 text-left">{{ tender.status }}</td>
             <td class="v-col-2 text-left">{{ tender.deadline }}</td>
@@ -43,17 +43,6 @@ export default {
   }),
 
   methods: {
-    getTendersAmountByContractor() {
-      fetch(`${restApiConfig.host}${restApiConfig.amountTendersByContractor}`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Accept': 'application/json',
-        }
-      })
-        .then(response => response.json())
-        .then(tendersAmount => this.tenders = tendersAmount)
-    },
 
     getTendersByContractor(amountTenders, amountTendersToSkip) {
       fetch(`${restApiConfig.host}${restApiConfig.tendersByContractor}/${amountTenders}/${amountTendersToSkip}`, {
@@ -66,18 +55,16 @@ export default {
         .then(response => response.json())
         .then(responseData => {
           responseData.forEach(tender => this.tendersByContractor.push(tender))
-        })
+        }).catch(error => console.log('There was an error', error));
     },
 
     onScroll() {
-      console.log(this.$router.currentRoute)
       this.amountTendersToSkip++;
       this.getTendersByContractor(1, this.amountTendersToSkip);
     },
   },
 
   mounted() {
-    this.getTendersAmountByContractor();
     this.getTendersByContractor(10, 0);
   }
 }
