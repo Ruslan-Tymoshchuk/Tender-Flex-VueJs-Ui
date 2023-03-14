@@ -1,28 +1,51 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import LogIn from '@/components/LogIn.vue'
+import ToolBar from '@/components/Toolbar.vue'
+import ContractorModule from '@/components/ContractorModule.vue'
+import TendersList from '@/components/TendersList.vue'
+import Tender from '@/components/Tender.vue'
 
 const routes = [
   {
-    component: () => import('@/components/LogIn.vue'),
     path: '/',
+    components: {
+      default: LogIn,
+    }
   },
   {
-    component: () => import('@/components/Tender.vue'),
-    path: '/new-tender',
-  },
-  {
-    component: () => import('@/components/TendersList.vue'),
-    path: '/tenders-list',
-  },
-  {
-    component: () => import('@/components/ContractorModule.vue'),
     path: '/contractor-module',
+    components: {
+      toolBar: ToolBar,
+      default: ContractorModule,
+    }
   },
   {
-    component: () => import('@/components/BidderModule.vue'),
+    path: '/contractor-module/tenders-list',
+    components: {
+      toolBar: ToolBar,
+      default: TendersList
+    }
+  },
+  {
+    path: '/contractor-module/offers-list',
+    components: {
+      toolBar: ToolBar,
+    }
+  },
+  {
+    path: '/new-tender',
+    components: {
+      toolBar: ToolBar,
+      default: Tender,
+    }
+  },
+  {
     path: '/bidder-module',
+    components: {
+      toolBar: ToolBar,
+    }
   },
   {
-    component: () => import('@/components/AdminModule.vue'),
     path: '/admin-module',
   },
 ]
