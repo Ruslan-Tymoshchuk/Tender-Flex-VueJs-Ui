@@ -43,9 +43,8 @@ export default {
   }),
 
   methods: {
-
-    getTendersByContractor(amountTenders, amountTendersToSkip) {
-      fetch(`${restApiConfig.host}${restApiConfig.tendersByContractor}/${amountTenders}/${amountTendersToSkip}`, {
+    getTendersByContractor(currentPage) {
+      fetch(`${restApiConfig.host}${restApiConfig.tendersByContractor}?currentPage=${currentPage}`, {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -54,13 +53,12 @@ export default {
       })
         .then(response => response.json())
         .then(responseData => {
-          responseData.forEach(tender => this.tendersByContractor.push(tender))
+          responseData.content.forEach(tender => this.tendersByContractor.push(tender))
         }).catch(error => console.log('There was an error', error));
     },
 
     onScroll() {
       this.amountTendersToSkip++;
-      this.getTendersByContractor(1, this.amountTendersToSkip);
     },
 
     getTenderById(id) {
@@ -69,7 +67,7 @@ export default {
   },
 
   mounted() {
-    this.getTendersByContractor(10, 0);
+    this.getTendersByContractor(1);
   }
 }
 </script>

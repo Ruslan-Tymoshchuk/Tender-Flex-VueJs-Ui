@@ -31,8 +31,8 @@ export default {
   }),
 
   methods: {
-    getTendersAmountByContractor() {
-      fetch(`${restApiConfig.host}${restApiConfig.amountTendersByContractor}`, {
+    getTotalByContractor() {
+      fetch(`${restApiConfig.host}${restApiConfig.totalByContractor}`, {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -40,14 +40,17 @@ export default {
         }
       })
         .then(response => response.json())
-        .then(tendersAmount => this.tenders = tendersAmount)
+        .then(response => {
+          this.tenders = response.tenders;
+          this.offers = response.offers;
+        })
         .catch(error => console.log('There was an error', error));
     }
   },
 
   mounted() {
     this.route = this.$route.path;
-    this.getTendersAmountByContractor();
+    this.getTotalByContractor();
   }
 }
 </script>
