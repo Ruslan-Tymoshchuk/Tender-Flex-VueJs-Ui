@@ -12,7 +12,7 @@
       <v-btn v-if="route !== '/new-tender'" href="/new-tender" variant="flat" color="indigo-darken-4" class="my-3 mr-4" size="small">
         + Create new Tender
       </v-btn>
-      <v-btn icon class="mr-6">
+      <v-btn href="/" icon class="mr-6">
         <v-icon>mdi-export</v-icon>
       </v-btn>
       <v-divider class="mt-1" color="black"></v-divider>

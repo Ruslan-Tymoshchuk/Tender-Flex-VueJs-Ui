@@ -120,7 +120,7 @@
           </v-col>
           <v-col class="text-left mx-2">
             <div>{{ tender.type }}</div>
-            <div class="mt-3">{{ "maxTenderValue" }}</div>
+            <div class="mt-3">{{ tender.maxTenderValue }}</div>
             <div class="mt-3">{{ tender.description }}</div>
           </v-col>
         </v-row>
