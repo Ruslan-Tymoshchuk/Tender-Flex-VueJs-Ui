@@ -40,6 +40,10 @@
     color: #e0e0e0;
   }
 
+  .details-title {
+    color :#bdbdbd;
+  }
+
   html {
     background-color: #e0e0e0;
     overflow-y: auto;

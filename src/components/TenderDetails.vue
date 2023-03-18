@@ -5,7 +5,7 @@
     </v-chip>
     <template v-slot:extension>
       <v-container class="px-15">
-        <v-toolbar-title class="ml-10 mb-4" style="font-size: 2rem">Tender Details</v-toolbar-title>
+        <v-toolbar-title class="ml-10 mb-4" style="font-size: 2rem">{{tender.cpvCode}}</v-toolbar-title>
         <v-tabs v-model="tab" height="18" class="mb-15 ml-10" color="indigo-darken-2">
           <v-tab value="offers">Offers</v-tab>
           <v-tab value="tenderDescription">Tender Description</v-tab>
@@ -25,7 +25,29 @@
 
     <v-window-item value="tenderDescription">
       <v-card class="mx-auto" elevation="8" max-width="1000">
-        <v-toolbar color="white" height="200" class="text-left"></v-toolbar>
+        <v-toolbar color="white" height="240" class="text-left">
+          <v-container class="pa-15">
+            <v-toolbar-title class="mb-5">Contractor</v-toolbar-title>
+          <v-row class="text-center mx-10">
+          <v-col class="text-left">
+            <div class="ma-2 details-title">Oficial Name:</div>
+            <div class="ma-2 details-title">National Registration Number: </div>
+          </v-col>
+          <v-col class="text-left">
+            <div class="ma-2">{{ tender.organizationName }}</div>
+            <div class="ma-2">{{ tender.nationalRegistrationNumber }}</div>
+          </v-col>
+          <v-col class="text-left">
+            <div class="ma-2 details-title">Country:</div>
+            <div class="ma-2 details-title">City / Town:</div>
+          </v-col>
+          <v-col class="text-left">
+            <div class="ma-2">{{ tender.country }}</div>
+            <div class="ma-2">{{ tender.city }}</div>
+          </v-col>
+        </v-row>
+      </v-container>
+      </v-toolbar>
       </v-card>
     </v-window-item>
   </v-window>
@@ -36,13 +58,13 @@ import { restApiConfig } from "@/rest.api.config"
 
 export default {
   data: () => ({
-    tender: null,
+    tender: {},
     tab: "tenderDescription",
   }),
 
   methods: {
     getTenderBy(id) {
-      fetch(`${restApiConfig.host}${restApiConfig.tenderDetails}/${id}`, {
+      fetch(`${restApiConfig.host}${restApiConfig.tenderContractorDetails}/${id}`, {
         method: 'GET',
         credentials: 'include',
         headers: {
