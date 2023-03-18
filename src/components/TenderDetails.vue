@@ -49,6 +49,31 @@
       </v-container>
       </v-toolbar>
       </v-card>
+
+        <v-container class="d-flex align-center details-container">
+              <p class="chapter-label">Contact person</p>
+              <div class="horizontal-divider-details"></div>
+            </v-container>
+
+          <v-container class="details-container">
+            <v-row class="text-center mx-10">
+             <v-col class="text-left">
+              <div class="mx-2 details-title">Name:</div>
+              <div class="mx-2 details-title">Surname:</div>
+            </v-col>
+            <v-col class="text-left">
+            <div class="mx-2">{{ tender.firstName }}</div>
+            <div class="mx-2">{{ tender.lastName }}</div>
+          </v-col>
+            <v-col class="text-left">
+              <div class="mx-2 details-title">Phone number:</div>
+            </v-col>
+            <v-col class="text-left">
+            <div class="mx-2">{{ tender.phone }}</div>
+          </v-col>
+          </v-row>
+          </v-container>
+
     </v-window-item>
   </v-window>
 </template>
