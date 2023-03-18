@@ -16,14 +16,14 @@
       <v-col class="v-col-2">Offers</v-col>
     </v-toolbar>
     <v-container id="scroll-target" style="max-height: 20rem" class="overflow-y-auto" v-scroll:#scroll-target="onScroll">
-      <v-table>
+      <v-table >
         <tbody>
           <tr v-for="tender in tendersByContractor" :key="tender.tenderId">
-            <td class="v-col-5 text-left" @click="getTenderById(tender.tenderId)"> {{ tender.cpvCode }} </td>
+            <td class="v-col-5 text-left" @click="getTenderById(tender.tenderId)">{{ tender.tenderId }} {{ tender.cpvCode }} </td>
             <td class="v-col-2 text-left">{{ tender.organizationName }}</td>
             <td class="v-col-2 text-left">{{ tender.status }}</td>
             <td class="v-col-2 text-left">{{ tender.deadline }}</td>
-            <td class="v-col-2 text-right"> {{ offers }} </td>
+            <td class="v-col-2 text-right"> {{ tender.offersAmount }} </td>
           </tr>
         </tbody>
       </v-table>
@@ -36,15 +36,22 @@ import { restApiConfig } from "@/rest.api.config"
 
 export default {
   data: () => ({
+    loading: false,
+    bottom: 232,
+    plannedPage: 1,
+    tendersPerPage: 10,
+    totalPages: 1,
+
+
     tenders: 0,
     offers: 0,
     tendersByContractor: [],
-    amountTendersToSkip: 10,
   }),
 
   methods: {
-    getTendersByContractor(currentPage) {
-      fetch(`${restApiConfig.host}${restApiConfig.tendersByContractor}?currentPage=${currentPage}`, {
+   getTendersByContractor() {
+      this.loading = true
+     fetch(`${restApiConfig.host}${restApiConfig.tendersByContractor}?currentPage=${this.plannedPage}&totalTenders=${this.tendersPerPage}`, {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -53,12 +60,20 @@ export default {
       })
         .then(response => response.json())
         .then(responseData => {
+          this.totalPages = responseData.totalPages
           responseData.content.forEach(tender => this.tendersByContractor.push(tender))
+          this.plannedPage++;
+          this.loading = false
         }).catch(error => console.log('There was an error', error));
     },
 
-    onScroll() {
-      this.amountTendersToSkip++;
+    onScroll(e) {
+      const offsetTop = e.target.scrollTop
+      const scrollBottom = Math.ceil(offsetTop)
+      const currentPage = Math.ceil(scrollBottom / 230);
+      if(currentPage === this.plannedPage && !this.loading && this.plannedPage <= this.totalPages){
+      this.getTendersByContractor()
+      }
     },
 
     getTenderById(id) {
@@ -67,7 +82,7 @@ export default {
   },
 
   mounted() {
-    this.getTendersByContractor(1);
+    this.getTendersByContractor();
   }
 }
 </script>
