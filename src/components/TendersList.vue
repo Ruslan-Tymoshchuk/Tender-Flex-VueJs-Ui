@@ -16,10 +16,10 @@
       <v-col class="v-col-2">Offers</v-col>
     </v-toolbar>
     <v-container id="scroll-target" style="max-height: 20rem" class="overflow-y-auto" v-scroll:#scroll-target="onScroll">
-      <v-table >
+      <v-table>
         <tbody>
           <tr v-for="tender in tendersByContractor" :key="tender.tenderId">
-            <td class="v-col-5 text-left" @click="getTenderById(tender.tenderId)">{{ tender.tenderId }} {{ tender.cpvCode }} </td>
+            <td class="v-col-5 text-left" @click="getTenderById(tender.tenderId)">{{ tender.cpvCode }} </td>
             <td class="v-col-2 text-left">{{ tender.organizationName }}</td>
             <td class="v-col-2 text-left">{{ tender.status }}</td>
             <td class="v-col-2 text-left">{{ tender.deadline }}</td>
@@ -41,17 +41,15 @@ export default {
     plannedPage: 1,
     tendersPerPage: 10,
     totalPages: 1,
-
-
     tenders: 0,
     offers: 0,
     tendersByContractor: [],
   }),
 
   methods: {
-   getTendersByContractor() {
+    getTendersByContractor() {
       this.loading = true
-     fetch(`${restApiConfig.host}${restApiConfig.tendersByContractor}?currentPage=${this.plannedPage}&totalTenders=${this.tendersPerPage}`, {
+      fetch(`${restApiConfig.host}${restApiConfig.tendersByContractor}?currentPage=${this.plannedPage}&totalTenders=${this.tendersPerPage}`, {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -68,11 +66,9 @@ export default {
     },
 
     onScroll(e) {
-      const offsetTop = e.target.scrollTop
-      const scrollBottom = Math.ceil(offsetTop)
-      const currentPage = Math.ceil(scrollBottom / 230);
-      if(currentPage === this.plannedPage && !this.loading && this.plannedPage <= this.totalPages){
-      this.getTendersByContractor()
+      const currentPage = Math.ceil(e.target.scrollTop / 230);
+      if (currentPage === this.plannedPage && !this.loading && this.plannedPage <= this.totalPages) {
+        this.getTendersByContractor()
       }
     },
 
