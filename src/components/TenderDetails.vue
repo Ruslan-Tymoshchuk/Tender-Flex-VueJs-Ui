@@ -126,6 +126,30 @@
         </v-row>
       </v-container>
 
+      <v-container class="d-flex align-center details-container">
+        <p class="chapter-label">Date</p>
+        <div class="horizontal-divider-details"></div>
+      </v-container>
+
+      <v-container class="details-container">
+        <v-row class="text-center mx-10">
+          <v-col class="text-left mx-2">
+            <div class="details-title">Publication Date:</div>
+            <div class="mt-3 details-title">Deadline for Signed Contract Submission:</div>
+          </v-col>
+          <v-col class="text-left mx-2">
+            <div>{{ tender.tenderPublicationDate }}</div>
+            <div class="mt-3">{{ tender.deadlineForSignedContractSubmission }}</div>
+          </v-col>
+          <v-col class="text-left mx-2">
+            <div class="details-title">Deadline for Offer Submission:</div>
+          </v-col>
+          <v-col class="text-left mx-2">
+            <div>{{ tender.deadlineForOfferSubmission }}</div>
+          </v-col>
+        </v-row>
+      </v-container>
+
     </v-window-item>
   </v-window>
 </template>
