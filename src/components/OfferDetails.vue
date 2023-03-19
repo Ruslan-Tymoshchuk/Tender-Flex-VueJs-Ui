@@ -5,7 +5,7 @@
     </v-chip>
     <template v-slot:extension>
       <v-container class="px-15">
-        <v-toolbar-title class="ml-14 mb-4" style="font-size: 1.5rem">{{ offer.organizationNameByBidder
+        <v-toolbar-title class="ml-14 mb-15" style="font-size: 1.5rem">{{ offer.organizationNameByBidder
         }}</v-toolbar-title>
       </v-container>
     </template>
@@ -104,6 +104,19 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-row class="d-flex justify-end mt-2 mb-10 mr-10">
+      <v-col md="3" class="mr-5">
+        <v-btn type="submit" block variant="outlined" color="blue" @click="sendRejectDecision = true">
+          Send Reject Decision
+        </v-btn>
+        </v-col>
+      <v-col md="3" class="mr-10">
+        <v-btn type="submit" block variant="flat" color="blue" @click="sendAwardDecision">
+          Send Award Decision
+        </v-btn>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
