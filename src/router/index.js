@@ -6,6 +6,7 @@ import TendersList from '@/components/TendersList.vue'
 import Tender from '@/components/Tender.vue'
 import TenderDetails from '@/components/TenderDetails.vue'
 import OfferDetails from '@/components/OfferDetails.vue'
+import OffersList from '@/components/OffersList.vue'
 
 const routes = [
   {
@@ -40,6 +41,7 @@ const routes = [
     path: '/contractor-module/offers-list',
     components: {
       toolBar: ToolBar,
+      default: OffersList,
     }
   },
   {

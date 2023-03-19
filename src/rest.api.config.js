@@ -10,5 +10,6 @@ export const restApiConfig = {
   tendersByContractor: 'api/v1/tender/contractor/list',
   tenderContractorDetails: 'api/v1/tender/contractor/details',
   offerDetails: 'api/v1/offer/details',
-  offersByTender: 'api/v1/offer/list'
+  offersByTender: 'api/v1/offer/list',
+  offersByContractor: 'api/v1/offer/contractor/list'
 };
