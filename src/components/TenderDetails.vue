@@ -150,6 +150,73 @@
         </v-row>
       </v-container>
 
+      <v-container class="d-flex align-center details-container">
+        <p class="chapter-label">Documents</p>
+        <div class="horizontal-divider-details"></div>
+      </v-container>
+
+      <v-container class="details-container">
+      <v-item-group class="mx-8">
+          <v-row>
+            <v-item>
+              <v-chip
+                size="large"
+                class="mb-6"
+                color="blue"
+                prepend-icon="mdi-file-document-multiple-outline"
+                label
+              ><div
+                id="text"
+                style="width: 50rem"
+                @click="openDialog(contract)"
+              > {{ "contract.name" }} </div>
+              </v-chip
+              ></v-item>
+           </v-row>
+          <v-row>
+            <v-item>
+              <v-chip
+                size="large"
+                class="mb-6"
+                color="blue"
+                prepend-icon="mdi-file-document-multiple-outline"
+                label
+              ><div
+                id="text"
+                style="width: 50rem"
+                @click="openDialog(awardDecision)"
+              > {{ "awardDecision.name" }} </div>
+              </v-chip>
+            </v-item>
+          </v-row>
+          <v-row>
+            <v-item>
+              <v-chip
+                size="large"
+                class="mb-6"
+                color="blue"
+                prepend-icon="mdi-file-document-multiple-outline"
+                label
+              ><div
+                id="text"
+                style="width: 50rem"
+                @click="openDialog(rejectDecision)"
+              > {{ "rejectDecision.name" }} </div>
+              </v-chip>
+            </v-item>
+          </v-row>
+        </v-item-group>
+      </v-container>
+
+        <v-dialog v-model="dialog" width="auto">
+          <v-card>
+            <iframe :src=documentUrl width="800" height="500">
+            </iframe>
+            <v-card-actions>
+              <v-btn color="primary" block @click="dialog = false">Close</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
     </v-window-item>
   </v-window>
 </template>
@@ -161,6 +228,11 @@ export default {
   data: () => ({
     tender: {},
     tab: "tenderDescription",
+    contract: null,
+    awardDecision: null,
+    rejectDecision: null,
+    dialog: false,
+    documentUrl: '',
   }),
 
   methods: {
@@ -174,7 +246,11 @@ export default {
       })
         .then(response => response.json())
         .then(tenderDetailsResponse => this.tender = tenderDetailsResponse)
-    }
+    },
+
+    openDialog(document) {
+      this.dialog = true;
+    },
   },
 
   mounted() {

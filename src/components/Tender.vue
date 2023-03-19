@@ -450,7 +450,7 @@ export default {
     tender: {
       organizationName: '',
       nationalRegistrationNumber: '',
-      countryId: '',
+      countryId: 0,
       city: '',
       firstName: '',
       lastName: '',
@@ -460,7 +460,7 @@ export default {
       details: '',
       maxPrice: 0,
       minPrice: 0,
-      currencyId: '',
+      currencyId: 0,
       publication: null,
       deadline: null,
       deadlineForSignedContract: null,
