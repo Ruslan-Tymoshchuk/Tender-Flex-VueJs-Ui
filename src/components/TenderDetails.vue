@@ -5,9 +5,9 @@
     </v-chip>
     <template v-slot:extension>
       <v-container class="px-15">
-        <v-toolbar-title class="ml-10 mb-4" style="font-size: 2rem">{{ tender.cpvCode }}</v-toolbar-title>
+        <v-toolbar-title class="ml-14 mb-4" style="font-size: 1.5rem">{{ tender.cpvCode }}</v-toolbar-title>
         <v-tabs v-model="tab" height="18" class="mb-15 ml-10" color="indigo-darken-2">
-          <v-tab value="offers">Offers</v-tab>
+          <v-tab v-if="isOffers" value="offers">Offers</v-tab>
           <v-tab value="tenderDescription">Tender Description</v-tab>
         </v-tabs>
       </v-container>
@@ -15,13 +15,33 @@
   </v-toolbar>
 
   <v-window v-model="tab" class="mt-n7 pb-10">
+
     <v-window-item value="offers">
-      <v-card class="mx-auto" elevation="8" max-width="1000">
-        <v-toolbar color="white" height="200">
-          <v-toolbar-title class="text-center" style="font-size: 2rem">“There are no received Offers”</v-toolbar-title>
-        </v-toolbar>
-      </v-card>
-    </v-window-item>
+        <v-card class="mx-auto" elevation="8" max-width="1000">
+          <v-toolbar color="primary" height="28" class="text-left">
+            <v-col class="v-col-2">Oficial Name</v-col>
+            <v-col class="v-col-2">Field</v-col>
+            <v-col class="v-col-2">Price</v-col>
+            <v-col class="v-col-2">Country</v-col>
+            <v-col class="v-col-2">Received Date</v-col>
+            <v-col class="v-col-3">Status</v-col>
+          </v-toolbar>
+          <v-container id="scroll-target" style="max-height: 20rem" class="overflow-y-auto" v-scroll:#scroll-target="onScroll">
+            <v-table>
+              <tbody>
+                <tr v-for="offer in offersByTender" :key="offer.offerId">
+                  <td class="v-col-2 text-left" @click="getOfferById(offer.offerId)">{{ offer.organizationNameByBidder }} </td>
+                  <td class="v-col-2 text-left">{{ offer.spvCode }}</td>
+                  <td class="v-col-2 text-left">{{ offer.price }}</td>
+                  <td class="v-col-2 text-left">{{ offer.country }}</td>
+                  <td class="v-col-2 text-left">{{ offer.date }}</td>
+                  <td class="v-col-3 text-right"> {{ offer.status }} </td>
+                </tr>
+              </tbody>
+            </v-table>
+          </v-container>
+        </v-card>
+      </v-window-item>
 
     <v-window-item value="tenderDescription">
       <v-card class="mx-auto" elevation="8" max-width="1000">
@@ -218,6 +238,7 @@
           </v-card>
         </v-dialog>
     </v-window-item>
+
   </v-window>
 </template>
 
@@ -233,11 +254,17 @@ export default {
     rejectDecision: null,
     dialog: false,
     documentUrl: '',
+    offersByTender: [],
+    totalPages: 1,
+    plannedPage: 1,
+    offersPerPage: 10,
+    loading: false,
+    isOffers: false,
   }),
 
   methods: {
-    getTenderBy(id) {
-      fetch(`${restApiConfig.host}${restApiConfig.tenderContractorDetails}/${id}`, {
+    getTenderBy() {
+      fetch(`${restApiConfig.host}${restApiConfig.tenderContractorDetails}/${this.$route.params.id}`, {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -246,6 +273,40 @@ export default {
       })
         .then(response => response.json())
         .then(tenderDetailsResponse => this.tender = tenderDetailsResponse)
+        .catch(error => console.log('There was an error', error));
+    },
+
+    getOffersByTender() {
+      this.loading = true
+      fetch(`${restApiConfig.host}${restApiConfig.offersByTender}/
+             ${this.$route.params.id}?currentPage=${this.plannedPage}&totalOffers=${this.offersPerPage}`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Accept': 'application/json',
+        }
+      })
+        .then(response => response.json())
+        .then(responseData => {
+          this.totalPages = responseData.totalPages
+          responseData.content.forEach(offer => this.offersByTender.push(offer))
+          this.plannedPage++;
+          if (this.offersByTender.length > 0) {
+            this.isOffers = true;
+          }
+          this.loading = false
+        }).catch(error => console.log('There was an error', error));
+    },
+
+    getOfferById(id){
+      this.$router.push({ name: "offer-details", params: { id: id } });
+    },
+
+    onScroll(e) {
+      const currentPage = Math.ceil(e.target.scrollTop / 230);
+      if (currentPage === this.plannedPage && !this.loading && this.plannedPage <= this.totalPages) {
+        this.getOffersByTender()
+      }
     },
 
     openDialog(document) {
@@ -254,7 +315,8 @@ export default {
   },
 
   mounted() {
-    this.getTenderBy(this.$route.params.id);
+    this.getTenderBy();
+    this.getOffersByTender();
   }
 }
 </script>

@@ -42,6 +42,14 @@ const routes = [
     }
   },
   {
+    path: '/contractor-module/offers-list/:id',
+    name: 'offer-details',
+    components: {
+      toolBar: ToolBar,
+
+    }
+  },
+  {
     path: '/new-tender',
     components: {
       toolBar: ToolBar,
