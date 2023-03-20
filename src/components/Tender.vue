@@ -587,7 +587,7 @@ export default {
       })
         .then(response => response.json())
         .then(dataFromResopnse => {
-          this.tender.contractUrl = dataFromResopnse.fileUrl;
+          this.tender.contractFileName = dataFromResopnse.fileName;
         });
     },
 
@@ -604,7 +604,7 @@ export default {
       })
         .then(response => response.json())
         .then(dataFromResopnse => {
-          this.tender.awardDecisionUrl = dataFromResopnse.fileUrl;
+          this.tender.awardDecisionFileName = dataFromResopnse.fileName;
         });
     },
 
@@ -621,7 +621,7 @@ export default {
       })
         .then(response => response.json())
         .then(dataFromResopnse => {
-          this.tender.rejectDecisionUrl = dataFromResopnse.fileUrl;
+          this.tender.rejectDecisionFileName = dataFromResopnse.fileName;
         });
     }
   },

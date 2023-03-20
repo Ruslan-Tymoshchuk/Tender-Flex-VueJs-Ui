@@ -10,7 +10,7 @@
               <v-sheet class="mx-auto mt-3">
                 <v-form v-model="isFormValid" fast-fail @submit.prevent="authenticate">
                   <v-text-field v-model="email" label="Email" :rules="emailRules"></v-text-field>
-                  <v-text-field v-model="password" label="Password" :rules="passwordRules"></v-text-field>
+                  <v-text-field v-model="password" label="Password" :rules="passwordRules" type="password"></v-text-field>
                   <v-btn :disabled="!isFormValid" type="submit" block class="mt-2" color="success">Log In</v-btn>
                 </v-form>
               </v-sheet>
