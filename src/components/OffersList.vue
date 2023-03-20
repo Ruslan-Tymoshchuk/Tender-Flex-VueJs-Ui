@@ -8,28 +8,40 @@
   </v-toolbar>
 
   <v-card class="mx-auto mt-n7" elevation="8" max-width="1000">
-    <v-toolbar color="primary" height="28" class="text-left">
-      <v-col class="v-col-2">Oficial Name</v-col>
-      <v-col class="v-col-2">Field</v-col>
-      <v-col class="v-col-2">Price</v-col>
-      <v-col class="v-col-2">Country</v-col>
-      <v-col class="v-col-2">Received Date</v-col>
-      <v-col class="v-col-3">Status</v-col>
-    </v-toolbar>
-    <v-container id="scroll-target" style="max-height: 20rem" class="overflow-y-auto" v-scroll:#scroll-target="onScroll">
-      <v-table>
-        <tbody>
-          <tr v-for="offer in receivedOffers" :key="offer.offerId">
-            <td class="v-col-2 text-left" @click="getOfferById(offer.offerId)">{{ offer.organizationNameByBidder }} </td>
-            <td class="v-col-2 text-left">{{ offer.spvCode }}</td>
-            <td class="v-col-2 text-left">{{ offer.price }}</td>
-            <td class="v-col-2 text-left">{{ offer.country }}</td>
-            <td class="v-col-2 text-left">{{ offer.date }}</td>
-            <td class="v-col-3 text-right"> {{ offer.status }} </td>
-          </tr>
-        </tbody>
-      </v-table>
-    </v-container>
+
+    <div v-if="!isOffers">
+      <v-toolbar color="white" height="200">
+        <v-toolbar-title class="text-center" style="font-size: 2rem">“There are no received Offers”</v-toolbar-title>
+      </v-toolbar>
+    </div>
+
+    <div v-if="isOffers">
+      <v-toolbar color="primary" height="28" class="text-left">
+        <v-col class="v-col-2">Oficial Name</v-col>
+        <v-col class="v-col-2">Field</v-col>
+        <v-col class="v-col-2">Price</v-col>
+        <v-col class="v-col-2">Country</v-col>
+        <v-col class="v-col-2">Received Date</v-col>
+        <v-col class="v-col-3">Status</v-col>
+      </v-toolbar>
+      <v-container id="scroll-target" style="max-height: 20rem" class="overflow-y-auto"
+        v-scroll:#scroll-target="onScroll">
+        <v-table>
+          <tbody>
+            <tr v-for="offer in receivedOffers" :key="offer.offerId">
+              <td class="v-col-2 text-left" @click="getOfferById(offer.offerId)">{{ offer.organizationNameByBidder }}
+              </td>
+              <td class="v-col-2 text-left">{{ offer.spvCode }}</td>
+              <td class="v-col-2 text-left">{{ offer.price }}</td>
+              <td class="v-col-2 text-left">{{ offer.country }}</td>
+              <td class="v-col-2 text-left">{{ offer.date }}</td>
+              <td class="v-col-3 text-right"> {{ offer.status }} </td>
+            </tr>
+          </tbody>
+        </v-table>
+      </v-container>
+    </div>
+
   </v-card>
 </template>
 
@@ -43,6 +55,7 @@ export default {
     plannedPage: 1,
     offersPerPage: 10,
     loading: false,
+    isOffers: false,
   }),
 
   methods: {
@@ -59,6 +72,9 @@ export default {
         .then(responseData => {
           this.totalPages = responseData.totalPages
           responseData.content.forEach(offer => this.receivedOffers.push(offer))
+          if (this.receivedOffers.length > 0) {
+            this.isOffers = true;
+          }
           this.plannedPage++;
           this.loading = false
         }).catch(error => console.log('There was an error', error));
