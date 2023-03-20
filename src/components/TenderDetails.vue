@@ -188,8 +188,8 @@
               ><div
                 id="text"
                 style="width: 50rem"
-                @click="openDialog(contract)"
-              > {{ "contract.name" }} </div>
+                @click="openDialog(tender.contractFileName)"
+              > {{ getOriginalFileName(tender.contractFileName) }} </div>
               </v-chip
               ></v-item>
            </v-row>
@@ -204,8 +204,8 @@
               ><div
                 id="text"
                 style="width: 50rem"
-                @click="openDialog(awardDecision)"
-              > {{ "awardDecision.name" }} </div>
+                @click="openDialog(tender.awardDecisionFileName)"
+              > {{ getOriginalFileName(tender.awardDecisionFileName) }} </div>
               </v-chip>
             </v-item>
           </v-row>
@@ -220,8 +220,8 @@
               ><div
                 id="text"
                 style="width: 50rem"
-                @click="openDialog(rejectDecision)"
-              > {{ "rejectDecision.name" }} </div>
+                @click="openDialog(tender.rejectDecisionFileName)"
+              > {{ getOriginalFileName(tender.rejectDecisionFileName) }} </div>
               </v-chip>
             </v-item>
           </v-row>
@@ -247,11 +247,12 @@ import { restApiConfig } from "@/rest.api.config"
 
 export default {
   data: () => ({
-    tender: {},
+    tender: {
+      contractFileName: '',
+      awardDecisionFileName: '',
+      rejectDecisionFileName: '',
+    },
     tab: "tenderDescription",
-    contract: null,
-    awardDecision: null,
-    rejectDecision: null,
     dialog: false,
     documentUrl: '',
     offersByTender: [],
@@ -263,7 +264,7 @@ export default {
   }),
 
   methods: {
-    getTenderBy() {
+    getTenderById() {
       fetch(`${restApiConfig.host}${restApiConfig.tenderContractorDetails}/${this.$route.params.id}`, {
         method: 'GET',
         credentials: 'include',
@@ -309,13 +310,29 @@ export default {
       }
     },
 
-    openDialog(document) {
-      this.dialog = true;
+    getOriginalFileName(uniqueFileName){
+      return uniqueFileName.substring(37);
     },
+
+    openDialog(documentName) {
+      fetch(`${restApiConfig.host}${restApiConfig.presignedUrl}/${documentName}`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Accept': 'application/json',
+        }
+      })
+        .then(response => response.json())
+        .then(responseData => {
+          this.documentUrl = responseData.fileUrl
+          this.dialog = true;
+        })
+        .catch(error => console.log('There was an error', error));
+    }
   },
 
   mounted() {
-    this.getTenderBy();
+    this.getTenderById();
     this.getOffersByTender();
   }
 }
