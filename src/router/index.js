@@ -39,6 +39,7 @@ const routes = [
   },
   {
     path: '/module/:role',
+    name: 'admin-module',
   },
 ]
 const router = createRouter({

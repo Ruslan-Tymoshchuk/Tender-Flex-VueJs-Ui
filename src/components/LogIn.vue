@@ -64,7 +64,7 @@ export default {
           } else if (user.role === "BIDDER") {
             this.$router.push({ name: "bidder-module", params: { role: "bidder" } });
           } else if (user.role === "ADMIN") {
-            this.$router.push(this.$route.query.redirect || '/admin-module');
+            this.$router.push({ name: "admin-module", params: { role: "admin" } });
           }
         }).catch(error => console.log('There was an error', error));
     }

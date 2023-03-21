@@ -28,7 +28,7 @@
         v-scroll:#scroll-target="onScroll">
         <v-table>
           <tbody>
-            <tr v-for="offer in receivedOffers" :key="offer.offerId">
+            <tr v-for="offer in offers" :key="offer.offerId">
               <td class="v-col-2 text-left" @click="getOfferById(offer.offerId)">{{ offer.organizationNameByBidder }}
               </td>
               <td class="v-col-2 text-left">{{ offer.spvCode }}</td>
@@ -50,7 +50,7 @@ import { restApiConfig } from "@/rest.api.config"
 
 export default {
   data: () => ({
-    receivedOffers: [],
+    offers: [],
     totalPages: 1,
     plannedPage: 1,
     offersPerPage: 10,
@@ -72,8 +72,8 @@ export default {
         .then(response => response.json())
         .then(responseData => {
           this.totalPages = responseData.totalPages
-          responseData.content.forEach(offer => this.receivedOffers.push(offer))
-          if (this.receivedOffers.length > 0) {
+          responseData.content.forEach(offer => this.offers.push(offer))
+          if (this.offers.length > 0) {
             this.isOffers = true;
           }
           this.plannedPage++;
@@ -84,7 +84,7 @@ export default {
     onScroll(e) {
       const currentPage = Math.ceil(e.target.scrollTop / 230);
       if (currentPage === this.plannedPage && !this.loading && this.plannedPage <= this.totalPages) {
-        this.getReceivedOffers()
+        this.getOffersList()
       }
     },
   },
