@@ -15,6 +15,7 @@
     </div>
 
   <div v-if="isTenders">
+    <div v-if="`${this.$route.params.role}` === 'contractor'">
     <v-toolbar color="primary" height="28" class="text-left">
       <v-col class="v-col-5">Field</v-col>
       <v-col class="v-col-2">Oficial Name</v-col>
@@ -35,6 +36,29 @@
         </tbody>
       </v-table>
     </v-container>
+  </div>
+  <div v-if="`${this.$route.params.role}` === 'bidder'">
+    <v-toolbar color="primary" height="28" class="text-left">
+      <v-col class="v-col-4">Field</v-col>
+      <v-col class="v-col-2">Contractor Name</v-col>
+      <v-col class="v-col-2">Tender Status</v-col>
+      <v-col class="v-col-2">Deadline</v-col>
+      <v-col class="v-col-2">Offer Status</v-col>
+    </v-toolbar>
+    <v-container id="scroll-target" style="max-height: 20rem" class="overflow-y-auto" v-scroll:#scroll-target="onScroll">
+      <v-table>
+        <tbody>
+          <tr v-for="tender in tenders" :key="tender.tenderId">
+            <td class="v-col-4 text-left" @click="getTenderById(tender.tenderId)">{{ tender.cpvCode }} </td>
+            <td class="v-col-2 text-left">{{ tender.organizationName }}</td>
+            <td class="v-col-2 text-left">{{ tender.tenderStatus }}</td>
+            <td class="v-col-2 text-left">{{ tender.deadline }}</td>
+            <td class="v-col-2 text-right"> {{ tender.offerStatus }} </td>
+          </tr>
+        </tbody>
+      </v-table>
+    </v-container>
+  </div>
   </div>
 </v-card>
 </template>
