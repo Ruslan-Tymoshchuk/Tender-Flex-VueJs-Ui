@@ -7,10 +7,9 @@ export const restApiConfig = {
   newTender: 'api/v1/tender',
   uploadFile: 'api/v1/document/upload',
   presignedUrl: 'api/v1/document/location',
-  totalByContractor: 'api/v1/tender/contractor/total',
-  tendersByContractor: 'api/v1/tender/contractor/list',
-  tenderContractorDetails: 'api/v1/tender/contractor/details',
+  total: 'api/v1/total',
+  tendersList: 'api/v1/tender/list',
+  tenderDetails: 'api/v1/tender/details',
   offerDetails: 'api/v1/offer/details',
-  offersByTender: 'api/v1/offer/list',
-  offersByContractor: 'api/v1/offer/contractor/list'
+  offersList: 'api/v1/offer/list',
 };

@@ -1,6 +1,6 @@
 <template>
   <v-toolbar color="blue" extended extension-height="100">
-    <v-chip href="/contractor-module/tenders-list" style="margin-left: 12rem" variant="text" text-color="white"
+    <v-chip :href="'/module/' +`${this.$route.params.role}` + '/tenders'" style="margin-left: 12rem" variant="text" text-color="white"
       prepend-icon="mdi-keyboard-backspace">Back
     </v-chip>
     <template v-slot:extension>
@@ -265,7 +265,8 @@ export default {
 
   methods: {
     getTenderById() {
-      fetch(`${restApiConfig.host}${restApiConfig.tenderContractorDetails}/${this.$route.params.id}`, {
+      fetch(`${restApiConfig.host}${restApiConfig.tenderDetails}/` +
+            `${this.$route.params.role}/${this.$route.params.id}`, {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -279,8 +280,8 @@ export default {
 
     getOffersByTender() {
       this.loading = true
-      fetch(`${restApiConfig.host}${restApiConfig.offersByTender}/
-             ${this.$route.params.id}?currentPage=${this.plannedPage}&totalOffers=${this.offersPerPage}`, {
+      fetch(`${restApiConfig.host}${restApiConfig.offersList}/${this.$route.params.id}` +
+            `?currentPage=${this.plannedPage}&totalOffers=${this.offersPerPage}`, {
         method: 'GET',
         credentials: 'include',
         headers: {

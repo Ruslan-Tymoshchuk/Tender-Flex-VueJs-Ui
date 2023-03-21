@@ -60,9 +60,9 @@ export default {
         .then(response => response.json())
         .then(user => {
           if (user.role === "CONTRACTOR") {
-            this.$router.push(this.$route.query.redirect || '/contractor-module');
+            this.$router.push({ name: "contractor-module", params: { role: "contractor" } });
           } else if (user.role === "BIDDER") {
-            this.$router.push(this.$route.query.redirect || '/bidder-module');
+            this.$router.push({ name: "bidder-module", params: { role: "bidder" } });
           } else if (user.role === "ADMIN") {
             this.$router.push(this.$route.query.redirect || '/admin-module');
           }

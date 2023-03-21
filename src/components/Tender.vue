@@ -426,7 +426,7 @@
           </v-card-text>
           <v-row class="justify-center mb-8 mt-3">
             <v-btn @click="canselDialog = false" width="160" class="mx-2">No</v-btn>
-            <v-btn color="primary" width="160" class="mx-2">Yes</v-btn>
+            <v-btn href="/module/contractor/tenders" color="primary" width="160" class="mx-2">Yes</v-btn>
           </v-row>
       </v-card>
     </v-dialog>

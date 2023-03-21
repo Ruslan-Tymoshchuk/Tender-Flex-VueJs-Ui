@@ -1,7 +1,7 @@
 <template>
   <v-toolbar color="blue" extended extension-height="100">
-    <v-chip href="/contractor-module/tenders-list" style="margin-left: 12rem" variant="text" text-color="white"
-      prepend-icon="mdi-keyboard-backspace">Back
+    <v-chip :href="'/module/' +`${this.$route.params.role}`+ '/tenders/'"
+    style="margin-left: 12rem" variant="text" text-color="white" prepend-icon="mdi-keyboard-backspace">Back
     </v-chip>
     <template v-slot:extension>
       <v-container class="px-15">

@@ -59,9 +59,10 @@ export default {
   }),
 
   methods: {
-    getReceivedOffers() {
+    getOffersList() {
       this.loading = true
-      fetch(`${restApiConfig.host}${restApiConfig.offersByContractor}?currentPage=${this.plannedPage}&totalOffers=${this.offersPerPage}`, {
+      fetch(`${restApiConfig.host}${restApiConfig.offersList}/${this.$route.params.role}` +
+      `?currentPage=${this.plannedPage}&totalOffers=${this.offersPerPage}`, {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -89,7 +90,7 @@ export default {
   },
 
   mounted() {
-    this.getReceivedOffers();
+    this.getOffersList();
   }
 }
 </script>

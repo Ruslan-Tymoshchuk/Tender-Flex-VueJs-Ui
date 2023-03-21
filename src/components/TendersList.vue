@@ -18,7 +18,7 @@
     <v-container id="scroll-target" style="max-height: 20rem" class="overflow-y-auto" v-scroll:#scroll-target="onScroll">
       <v-table>
         <tbody>
-          <tr v-for="tender in tendersByContractor" :key="tender.tenderId">
+          <tr v-for="tender in allTenders" :key="tender.tenderId">
             <td class="v-col-5 text-left" @click="getTenderById(tender.tenderId)">{{ tender.cpvCode }} </td>
             <td class="v-col-2 text-left">{{ tender.organizationName }}</td>
             <td class="v-col-2 text-left">{{ tender.status }}</td>
@@ -43,13 +43,14 @@ export default {
     totalPages: 1,
     tenders: 0,
     offers: 0,
-    tendersByContractor: [],
+    allTenders: [],
   }),
 
   methods: {
-    getTendersByContractor() {
+    getAllTenders() {
       this.loading = true
-      fetch(`${restApiConfig.host}${restApiConfig.tendersByContractor}?currentPage=${this.plannedPage}&totalTenders=${this.tendersPerPage}`, {
+      fetch(`${restApiConfig.host}${restApiConfig.tendersList}/${this.$route.params.role}` +
+            `?currentPage=${this.plannedPage}&totalTenders=${this.tendersPerPage}`, {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -59,7 +60,7 @@ export default {
         .then(response => response.json())
         .then(responseData => {
           this.totalPages = responseData.totalPages
-          responseData.content.forEach(tender => this.tendersByContractor.push(tender))
+          responseData.content.forEach(tender => this.allTenders.push(tender))
           this.plannedPage++;
           this.loading = false
         }).catch(error => console.log('There was an error', error));
@@ -78,7 +79,7 @@ export default {
   },
 
   mounted() {
-    this.getTendersByContractor();
+    this.getAllTenders();
   }
 }
 </script>
