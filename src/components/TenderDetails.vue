@@ -181,7 +181,7 @@
             <v-item>
               <v-chip
                 size="large"
-                class="mb-6"
+                class="mb-5"
                 color="blue"
                 prepend-icon="mdi-file-document-multiple-outline"
                 label
@@ -193,6 +193,7 @@
               </v-chip
               ></v-item>
            </v-row>
+          <div v-if="`${this.$route.params.role}` === 'contractor'" class="mt-4">
           <v-row>
             <v-item>
               <v-chip
@@ -225,6 +226,7 @@
               </v-chip>
             </v-item>
           </v-row>
+        </div>
         </v-item-group>
       </v-container>
 
