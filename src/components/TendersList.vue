@@ -2,7 +2,7 @@
   <v-toolbar color="blue" extended extension-height="100">
     <template v-slot:extension>
       <v-container class="px-15">
-        <v-toolbar-title class="ml-10 mb-15" style="font-size: 2rem">My Tenders</v-toolbar-title>
+        <v-toolbar-title class="ml-10 mb-15" style="font-size: 2rem">{{ title }}</v-toolbar-title>
       </v-container>
     </template>
   </v-toolbar>
@@ -78,6 +78,7 @@ export default {
     tenders: [],
     isTenders: false,
     noTendersMessage: '',
+    title: '',
   }),
 
   methods: {
@@ -119,8 +120,10 @@ export default {
     this.getTenders();
     if (this.$route.params.role === "contractor") {
         this.noTendersMessage = "“There are no published Tenders. Create a Tender.”"
+        this.title = "My Tenders"
     } else if (this.$route.params.role === "bidder"){
         this.noTendersMessage = "“There are no available Tenders.”"
+        this.title = "Tenders"
     }
   }
 }
