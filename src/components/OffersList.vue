@@ -11,7 +11,7 @@
 
     <div v-if="!isOffers">
       <v-toolbar color="white" height="200">
-        <v-toolbar-title class="text-center" style="font-size: 2rem">“There are no received Offers”</v-toolbar-title>
+        <v-toolbar-title class="text-center" style="font-size: 2rem">{{ noOffersMessage }}</v-toolbar-title>
       </v-toolbar>
     </div>
 
@@ -56,6 +56,7 @@ export default {
     offersPerPage: 10,
     loading: false,
     isOffers: false,
+    noOffersMessage: '',
   }),
 
   methods: {
@@ -91,6 +92,11 @@ export default {
 
   mounted() {
     this.getOffersList();
+    if (this.$route.params.role === "contractor") {
+        this.noOffersMessage = "“There are no received Offers”"
+    } else if (this.$route.params.role === "bidder"){
+        this.noOffersMessage = "“There are no sent Offers in your list”"
+    }
   }
 }
 </script>

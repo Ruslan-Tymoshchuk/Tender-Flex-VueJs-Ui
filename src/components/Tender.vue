@@ -545,6 +545,7 @@ export default {
     },
 
     async createTender() {
+      this.$router.push("/module/contractor/tenders")
       Promise.all([
         await this.uploadContract(),
         await this.uploadAwardDecision(),

@@ -8,6 +8,13 @@
   </v-toolbar>
 
   <v-card class="mt-n7 mx-auto" elevation="8" max-width="1000">
+  <div v-if="!isTenders">
+      <v-toolbar color="white" height="200">
+        <v-toolbar-title class="text-center" style="font-size: 2rem">{{ noTendersMessage }}</v-toolbar-title>
+      </v-toolbar>
+    </div>
+
+  <div v-if="isTenders">
     <v-toolbar color="primary" height="28" class="text-left">
       <v-col class="v-col-5">Field</v-col>
       <v-col class="v-col-2">Oficial Name</v-col>
@@ -18,7 +25,7 @@
     <v-container id="scroll-target" style="max-height: 20rem" class="overflow-y-auto" v-scroll:#scroll-target="onScroll">
       <v-table>
         <tbody>
-          <tr v-for="tender in allTenders" :key="tender.tenderId">
+          <tr v-for="tender in tenders" :key="tender.tenderId">
             <td class="v-col-5 text-left" @click="getTenderById(tender.tenderId)">{{ tender.cpvCode }} </td>
             <td class="v-col-2 text-left">{{ tender.organizationName }}</td>
             <td class="v-col-2 text-left">{{ tender.status }}</td>
@@ -28,7 +35,8 @@
         </tbody>
       </v-table>
     </v-container>
-  </v-card>
+  </div>
+</v-card>
 </template>
 
 <script>
@@ -43,11 +51,13 @@ export default {
     totalPages: 1,
     tenders: 0,
     offers: 0,
-    allTenders: [],
+    tenders: [],
+    isTenders: false,
+    noTendersMessage: '',
   }),
 
   methods: {
-    getAllTenders() {
+    getTenders() {
       this.loading = true
       fetch(`${restApiConfig.host}${restApiConfig.tendersList}/${this.$route.params.role}` +
             `?currentPage=${this.plannedPage}&totalTenders=${this.tendersPerPage}`, {
@@ -60,7 +70,10 @@ export default {
         .then(response => response.json())
         .then(responseData => {
           this.totalPages = responseData.totalPages
-          responseData.content.forEach(tender => this.allTenders.push(tender))
+          responseData.content.forEach(tender => this.tenders.push(tender))
+          if (this.tenders.length > 0) {
+            this.isTenders = true;
+          }
           this.plannedPage++;
           this.loading = false
         }).catch(error => console.log('There was an error', error));
@@ -69,7 +82,7 @@ export default {
     onScroll(e) {
       const currentPage = Math.ceil(e.target.scrollTop / 230);
       if (currentPage === this.plannedPage && !this.loading && this.plannedPage <= this.totalPages) {
-        this.getTendersByContractor()
+        this.getTenders()
       }
     },
 
@@ -79,7 +92,12 @@ export default {
   },
 
   mounted() {
-    this.getAllTenders();
+    this.getTenders();
+    if (this.$route.params.role === "contractor") {
+        this.noTendersMessage = "“There are no published Tenders. Create a Tender.”"
+    } else if (this.$route.params.role === "bidder"){
+        this.noTendersMessage = "“There are no available Tenders.”"
+    }
   }
 }
 </script>
