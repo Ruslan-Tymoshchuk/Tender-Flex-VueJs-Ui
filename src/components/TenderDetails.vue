@@ -1,6 +1,6 @@
 <template>
   <v-toolbar color="blue" extended extension-height="100">
-    <v-chip :href="'/module/' +`${this.$route.params.role}` + '/tenders'" style="margin-left: 12rem" variant="text" text-color="white"
+    <v-chip :href="'/module/' +`${this.role}` + '/tenders'" style="margin-left: 12rem" variant="text" text-color="white"
       prepend-icon="mdi-keyboard-backspace">Back
     </v-chip>
     <template v-slot:extension>
@@ -193,7 +193,7 @@
               </v-chip
               ></v-item>
            </v-row>
-          <div v-if="`${this.$route.params.role}` === 'contractor'" class="mt-4">
+          <div v-if="role === 'contractor'" class="mt-4">
           <v-row>
             <v-item>
               <v-chip
@@ -228,6 +228,15 @@
           </v-row>
         </div>
         </v-item-group>
+        <div v-if="role ==='bidder'">
+        <v-row class="d-flex justify-end mt-5 mb-10 mr-2">
+            <v-col md="3">
+             <v-btn type="submit" block variant="flat" color="blue" @click="createOffer(tenderId)">
+              + Create Offer
+             </v-btn>
+           </v-col>
+           </v-row>
+        </div>
       </v-container>
 
         <v-dialog v-model="dialog" width="auto">
@@ -263,12 +272,14 @@ export default {
     offersPerPage: 10,
     loading: false,
     isOffers: false,
+    role: '',
+    tenderId: 0,
   }),
 
   methods: {
     getTenderById() {
       fetch(`${restApiConfig.host}${restApiConfig.tenderDetails}/` +
-            `${this.$route.params.role}/${this.$route.params.id}`, {
+            `${this.$route.params.role}/${this.tenderId}`, {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -331,10 +342,16 @@ export default {
           this.dialog = true;
         })
         .catch(error => console.log('There was an error', error));
-    }
+    },
+
+    createOffer(tenderId){
+      this.$router.push({ name: "new-offer", params: { tender_id: tenderId } });
+    },
   },
 
   mounted() {
+    this.role = this.$route.params.role
+    this.tenderId = this.$route.params.id
     this.getTenderById();
     this.getOffersByTender();
   }

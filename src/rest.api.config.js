@@ -5,6 +5,7 @@ export const restApiConfig = {
   tenderTypes: 'api/v1/tender_type/list',
   currencies: 'api/v1/currency/list',
   newTender: 'api/v1/tender',
+  newOffer: 'api/v1/offer',
   uploadFile: 'api/v1/document/upload',
   presignedUrl: 'api/v1/document/location',
   total: 'api/v1/total',
