@@ -1,6 +1,6 @@
 <template>
   <v-toolbar color="blue" extended extension-height="100">
-    <v-chip :href="'/module/' +`${this.$route.params.role}`+ '/tenders/'"
+    <v-chip :href="'/module/' +`${role}`+ '/tenders/'"
     style="margin-left: 12rem" variant="text" text-color="white" prepend-icon="mdi-keyboard-backspace">Back
     </v-chip>
     <template v-slot:extension>
@@ -114,7 +114,7 @@
       </v-card>
     </v-dialog>
 
-    <v-row class="d-flex justify-end mt-2 mb-10 mr-10">
+    <v-row v-if="role === 'contractor'" class="d-flex justify-end mt-2 mb-10 mr-10">
       <v-col md="3" class="mr-5">
         <v-btn type="submit" block variant="outlined" color="blue" @click="sendRejectDecision = true">
           Send Reject Decision
@@ -134,6 +134,7 @@ import { restApiConfig } from "@/rest.api.config"
 
 export default {
   data: () => ({
+    role: '',
     offer: {
       documentName: '',
     },
@@ -177,6 +178,7 @@ export default {
   },
 
   mounted() {
+    this.role = this.$route.params.role
     this.getOfferById();
   }
 }

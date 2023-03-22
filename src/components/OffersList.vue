@@ -88,6 +88,10 @@ export default {
         this.getOffersList()
       }
     },
+
+    getOfferById(id){
+      this.$router.push({ name: "offer-details", params: { id: id } });
+    },
   },
 
   mounted() {
