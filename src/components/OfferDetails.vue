@@ -88,8 +88,17 @@
       <v-item-group class="mx-8">
         <v-row>
           <v-item>
-            <v-chip size="large" class="mb-6" color="blue" prepend-icon="mdi-file-document-multiple-outline" label>
-              <div id="text" style="width: 50rem" @click="openDialog(document)"> {{ "document.name" }} </div>
+            <v-chip
+             size="large"
+             class="mb-6"
+             color="blue"
+             prepend-icon="mdi-file-document-multiple-outline"
+             label>
+            <div
+             id="text"
+             style="width: 50rem"
+             @click="openDialog(offer.documentName)"
+             > {{ getOriginalFileName(offer.documentName) }} </div>
             </v-chip></v-item>
         </v-row>
       </v-item-group>
@@ -97,7 +106,7 @@
 
     <v-dialog v-model="dialog" width="auto">
       <v-card>
-        <iframe :src=documentUrl width="800" height="500">
+        <iframe :src=fileUrl width="800" height="500">
         </iframe>
         <v-card-actions>
           <v-btn color="primary" block @click="dialog = false">Close</v-btn>
@@ -125,10 +134,11 @@ import { restApiConfig } from "@/rest.api.config"
 
 export default {
   data: () => ({
-    offer: {},
-    document: null,
+    offer: {
+      documentName: '',
+    },
     dialog: false,
-    documentUrl: '',
+    fileUrl: '',
   }),
 
   methods: {
@@ -145,8 +155,24 @@ export default {
         .catch(error => console.log('There was an error', error));
     },
 
-    openDialog(document) {
-      this.dialog = true;
+    getOriginalFileName(uniqueFileName){
+      return uniqueFileName.substring(37);
+    },
+
+    openDialog(documentName) {
+      fetch(`${restApiConfig.host}${restApiConfig.presignedUrl}/${documentName}`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Accept': 'application/json',
+        }
+      })
+        .then(response => response.json())
+        .then(responseData => {
+          this.fileUrl = responseData.fileUrl
+          this.dialog = true;
+        })
+        .catch(error => console.log('There was an error', error));
     },
   },
 
