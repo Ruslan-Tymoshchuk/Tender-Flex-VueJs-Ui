@@ -35,7 +35,7 @@ const routes = [
       children: [
         { path: 'tenders', component: TendersList },
         { path: 'new-offer/:tender_id', name: 'new-offer', component: Offer },
-        { path: 'offers', component: OffersList },
+        { path: 'offers', name: "offers-list", component: OffersList },
         { path: 'tenders/details/:id', name: "tender-details", component: TenderDetails },
         { path: 'offers/details/:id', name: "myoffer-details", component: MyOfferDetails },
       ],

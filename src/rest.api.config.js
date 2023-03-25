@@ -15,6 +15,7 @@ export const restApiConfig = {
   tenderDetailsByOffer: 'api/v1/tender/details/offer',
   offerDetails: 'api/v1/offer/details',
   offersList: 'api/v1/offer/list',
-  awardDecision: 'api/v1/offer/award_decision',
-  rejectDecision: 'api/v1/offer/reject_decision',
+  awardDecision: 'api/v1/offer/decision/award',
+  rejectDecision: 'api/v1/offer/decision/reject',
+  decision: 'api/v1/offer/decision',
 };

@@ -41,12 +41,12 @@
         </v-row>
         <v-row class="d-flex justify-center mt-2 mb-10">
       <v-col md="3">
-        <v-btn type="submit" block variant="outlined" color="blue" @click="decline">
+        <v-btn type="submit" block variant="outlined" color="blue" @click="saveDecision('decline')">
             Decline
         </v-btn>
          </v-col>
           <v-col md="3">
-           <v-btn type="submit" block variant="flat" color="blue" @click="approve">
+           <v-btn type="submit" block variant="flat" color="blue" @click="saveDecision('approve')">
              Approve
            </v-btn>
          </v-col>
@@ -405,7 +405,22 @@ export default {
           this.dialog = true;
         })
         .catch(error => console.log('There was an error', error));
-    }
+    },
+
+    saveDecision(decision) {
+      fetch(`${restApiConfig.host}${restApiConfig.decision}/${decision}`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          offerId: this.offerId,
+          decision: `${decision}`,
+        })
+      })
+        .catch(error => console.log('There was an error', error));
+    },
   },
 
   mounted() {
