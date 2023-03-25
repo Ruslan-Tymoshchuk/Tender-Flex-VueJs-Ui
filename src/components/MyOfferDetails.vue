@@ -54,6 +54,31 @@
       </v-card>
     </v-window-item>
 
+    <v-window-item value="rejectDecision">
+      <v-card class="mx-auto" elevation="8" max-width="1000">
+        <v-toolbar color="white" height="280" class="text-left">
+          <v-toolbar-title class="text-center" style="font-size: 1.5rem">
+            “Offer is rejected by contractor”
+          </v-toolbar-title>
+        </v-toolbar>
+        <v-row class="mb-15" justify="center">
+        <v-col md = 3 class="text-center">
+        <v-chip
+             size="large"
+             color="blue"
+             prepend-icon="mdi-file-document-multiple-outline"
+             label>
+            <div
+             id="text"
+             style="width: 50rem"
+             @click="openDialog(offer.rejectDecision)"
+             > View document </div>
+            </v-chip>
+          </v-col>
+        </v-row>
+      </v-card>
+    </v-window-item>
+
     <v-window-item value="tenderDescription">
       <v-card class="mx-auto" elevation="8" max-width="1000">
         <v-toolbar color="white" height="240" class="text-left">
