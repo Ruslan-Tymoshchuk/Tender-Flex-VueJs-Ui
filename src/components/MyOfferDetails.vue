@@ -416,6 +416,7 @@ export default {
         },
         body: JSON.stringify({
           offerId: this.offerId,
+          tenderId: this.tender.tenderId,
           decision: `${decision}`,
         })
       })
