@@ -2,18 +2,21 @@
  <v-toolbar color="blue">
     <v-row>
       <v-img class="ml-10" max-width="140" src="@/assets/tender-flex-Logo.svg" />
-      <v-chip :href="'/module/' +`${this.$route.params.role}` + '/tenders'" class="my-2 ml-12" variant="flat" color="blue-darken-3" text-color="white" prepend-icon="mdi-pulse">
+      <v-chip :href="'/module/' +`${role}` + '/tenders'" class="my-2 ml-12" variant="flat" color="blue-darken-3" text-color="white" prepend-icon="mdi-pulse">
         Tenders {{ tenders }}
       </v-chip>
-      <v-chip :href="'/module/' +`${this.$route.params.role}` + '/offers'" class="my-2 ml-10" variant="text" text-color="white" prepend-icon="mdi-message-processing-outline">
+      <v-chip :href="'/module/' +`${role}` + '/offers'" class="my-2 ml-10" variant="flat" color="blue-darken-3" text-color="white" prepend-icon="mdi-message-processing-outline">
         Offers {{ offers }}
       </v-chip>
       <v-spacer></v-spacer>
-      <div v-if="this.$route.params.role === 'contractor'">
-      <v-btn v-if="this.$route.path !== '/module/contractor/new-tender'" href="/module/contractor/new-tender" variant="flat" color="indigo-darken-4" class="my-3 mr-4" size="small">
+      <div v-if="role === 'contractor'">
+      <v-btn v-if="this.$route.path !== '/module/contractor/new-tender'" href="/module/contractor/new-tender" variant="flat" color="indigo-darken-4" class="mt-3 mr-6" size="small">
         + Create new Tender
       </v-btn>
       </div>
+      <v-chip class="mt-2 mr-4" variant="flat" color="blue-darken-3" prepend-icon="mdi-account-check-outline">
+         {{ role }}
+      </v-chip>
       <v-btn href="/" icon class="mr-6">
         <v-icon>mdi-export</v-icon>
       </v-btn>
@@ -28,6 +31,7 @@ import { restApiConfig } from "@/rest.api.config"
 
 export default {
   data: () => ({
+    role: '',
     route: '/',
     tenders: 0,
     offers: 0,
@@ -52,6 +56,7 @@ export default {
   },
 
   mounted() {
+    this.role = this.$route.params.role;
     this.getTotalByModule();
   }
 }
