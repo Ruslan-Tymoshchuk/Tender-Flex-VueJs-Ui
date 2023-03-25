@@ -7,6 +7,8 @@
       <v-container class="px-15">
         <v-toolbar-title class="ml-14 mb-4" style="font-size: 1.5rem">{{ offer.organizationNameByBidder }}</v-toolbar-title>
         <v-tabs v-model="tab" height="18" class="mb-15 ml-10" color="indigo-darken-2">
+          <v-tab v-if="offer.bidderSt === 'Offer selected by Contractor'" value="awardDecision">Award Decision</v-tab>
+          <v-tab v-if="offer.bidderSt === 'Offer rejected by Contractor'" value="rejectDecision">Reject Decision</v-tab>
           <v-tab value="tenderDescription">Tender Description</v-tab>
           <v-tab value="myOffer">My Offer</v-tab>
         </v-tabs>
@@ -15,6 +17,42 @@
   </v-toolbar>
 
   <v-window v-model="tab" class="mt-n7 pb-10">
+    <v-window-item value="awardDecision">
+      <v-card class="mx-auto" elevation="8" max-width="1000">
+        <v-toolbar color="white" height="280" class="text-left">
+          <v-toolbar-title class="text-center" style="font-size: 1.5rem">
+            “Congratulation! Your Offer was selected by Contractor”
+          </v-toolbar-title>
+        </v-toolbar>
+        <v-row class="mb-10" justify="center">
+        <v-col md = 3 class="text-center">
+        <v-chip
+             size="large"
+             color="blue"
+             prepend-icon="mdi-file-document-multiple-outline"
+             label>
+            <div
+             id="text"
+             style="width: 50rem"
+             @click="openDialog(offer.awardDecision)"
+             > View document </div>
+            </v-chip>
+          </v-col>
+        </v-row>
+        <v-row class="d-flex justify-center mt-2 mb-10">
+      <v-col md="3">
+        <v-btn type="submit" block variant="outlined" color="blue" @click="decline">
+            Decline
+        </v-btn>
+         </v-col>
+          <v-col md="3">
+           <v-btn type="submit" block variant="flat" color="blue" @click="approve">
+             Approve
+           </v-btn>
+         </v-col>
+       </v-row>
+      </v-card>
+    </v-window-item>
 
     <v-window-item value="tenderDescription">
       <v-card class="mx-auto" elevation="8" max-width="1000">
@@ -290,6 +328,8 @@ export default {
     role: '',
     offer: {
       documentName: '',
+      awardDecision: '',
+      rejectDecision: '',
     },
     dialog: false,
     fileUrl: '',
