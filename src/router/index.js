@@ -5,6 +5,7 @@ import TendersList from '@/components/TendersList.vue'
 import Tender from '@/components/Tender.vue'
 import TenderDetails from '@/components/TenderDetails.vue'
 import OfferDetails from '@/components/OfferDetails.vue'
+import MyOfferDetails from '@/components/MyOfferDetails.vue'
 import Offer from '@/components/Offer.vue'
 import OffersList from '@/components/OffersList.vue'
 
@@ -24,7 +25,7 @@ const routes = [
         { path: 'tenders', component: TendersList },
         { path: 'offers', component: OffersList },
         { path: 'tenders/details/:id', name: "tender-details", component: TenderDetails },
-        { path: 'offers/details/:id', name: "offer-details", component: OfferDetails },
+        { path: 'offers/details/:id/award/:award/reject/:reject', name: "offer-details", component: OfferDetails },
       ],
   },
   {
@@ -36,7 +37,7 @@ const routes = [
         { path: 'new-offer/:tender_id', name: 'new-offer', component: Offer },
         { path: 'offers', component: OffersList },
         { path: 'tenders/details/:id', name: "tender-details", component: TenderDetails },
-        { path: 'offers/details/:id', name: "offer-details", component: OfferDetails },
+        { path: 'offers/details/:id', name: "myoffer-details", component: MyOfferDetails },
       ],
   },
   {

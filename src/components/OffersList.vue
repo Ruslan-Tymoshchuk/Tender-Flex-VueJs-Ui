@@ -29,13 +29,14 @@
         <v-table>
           <tbody>
             <tr v-for="offer in offers" :key="offer.offerId">
-              <td class="v-col-2 text-left" @click="getOfferById(offer.offerId)">{{ offer.organizationNameByBidder }}
-              </td>
-              <td class="v-col-2 text-left">{{ offer.spvCode }}</td>
+              <td v-if="this.role === 'bidder'" class="v-col-2 text-left" @click="getOfferById(offer.offerId)">{{ offer.organizationNameByBidder }}</td>
+              <td v-if="this.role === 'contractor'" class="v-col-2 text-left">{{ offer.organizationNameByBidder }}</td>
+              <td class="v-col-2 text-left">{{ offer.fieldOfTheTender }}</td>
               <td class="v-col-2 text-left">{{ offer.price }}</td>
               <td class="v-col-2 text-left">{{ offer.country }}</td>
               <td class="v-col-2 text-left">{{ offer.date }}</td>
-              <td class="v-col-3 text-right"> {{ offer.status }} </td>
+              <td v-if="this.role === 'bidder'" class="v-col-3 text-right"> {{ offer.bidderSt }} </td>
+              <td v-if="this.role === 'contractor'" class="v-col-3 text-right"> {{ offer.contractorSt }} </td>
             </tr>
           </tbody>
         </v-table>
@@ -50,6 +51,7 @@ import { restApiConfig } from "@/rest.api.config"
 
 export default {
   data: () => ({
+    role: '',
     offers: [],
     totalPages: 1,
     plannedPage: 1,
@@ -90,15 +92,16 @@ export default {
     },
 
     getOfferById(id){
-      this.$router.push({ name: "offer-details", params: { id: id } });
+      this.$router.push({ name: "myoffer-details", params: { id: id } });
     },
   },
 
   mounted() {
     this.getOffersList();
-    if (this.$route.params.role === "contractor") {
+    this.role = this.$route.params.role;
+    if (this.role === "contractor") {
         this.noOffersMessage = "“There are no received Offers”"
-    } else if (this.$route.params.role === "bidder"){
+    } else if (this.role === "bidder"){
         this.noOffersMessage = "“There are no sent Offers in your list”"
     }
   }

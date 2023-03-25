@@ -116,7 +116,7 @@
 
     <v-row v-if="role === 'contractor'" class="d-flex justify-end mt-2 mb-10 mr-10">
       <v-col md="3" class="mr-5">
-        <v-btn type="submit" block variant="outlined" color="blue" @click="sendRejectDecision = true">
+        <v-btn type="submit" block variant="outlined" color="blue" @click="sendRejectDecision">
           Send Reject Decision
         </v-btn>
         </v-col>
@@ -144,7 +144,7 @@ export default {
 
   methods: {
     getOfferById() {
-      fetch(`${restApiConfig.host}${restApiConfig.offerDetails}/${this.$route.params.id}`, {
+      fetch(`${restApiConfig.host}${restApiConfig.offerDetails}/${this.offerId}`, {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -175,10 +175,43 @@ export default {
         })
         .catch(error => console.log('There was an error', error));
     },
+
+    sendAwardDecision(){
+      fetch(`${restApiConfig.host}${restApiConfig.awardDecision}`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          offerId: this.offerId,
+          awardDecisionFileName: this.$route.params.award,
+        })
+      })
+        .then(() => this.$router.push({ name: "contractor-module", params: { role: this.role } }))
+        .catch(error => console.log('There was an error', error));
+    },
+
+    sendRejectDecision(){
+      fetch(`${restApiConfig.host}${restApiConfig.rejectDecision}`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          offerId: this.offerId,
+          rejectDecisionFileName: this.$route.params.reject,
+        })
+      })
+        .then(() => this.$router.push({ name: "contractor-module", params: { role: this.role } }))
+        .catch(error => console.log('There was an error', error));
+    }
   },
 
   mounted() {
     this.role = this.$route.params.role
+    this.offerId = this.$route.params.id
     this.getOfferById();
   }
 }

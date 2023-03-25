@@ -136,9 +136,9 @@
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
               </v-btn>
             </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.cpvCode" :counter="10" label="CPV Code"
-              required density="compact">
-            </v-text-field>
+            <v-select single-line color="blue" variant="outlined" v-model="cpv" label="CPV Code"
+              required density="compact" :items="cpvs" item-value="id" item-title="code" return-object persistent-hint>
+            </v-select>
           </v-col>
 
           <v-col cols="12" md="4">
@@ -442,8 +442,10 @@ export default {
   data: () => ({
     countries: [],
     tenderTypes: [],
+    cpvs: [],
     currencies: [],
     country: null,
+    cpv: null,
     currency: null,
     minDeadline: null,
     isDisabled: true,
@@ -455,7 +457,7 @@ export default {
       firstName: '',
       lastName: '',
       phone: '',
-      cpvCode: '',
+      cpvId: '',
       type: null,
       details: '',
       maxPrice: 0,
@@ -512,6 +514,18 @@ export default {
         .then(dataFromResopnse => this.countries = dataFromResopnse)
     },
 
+    getCpvs() {
+      fetch(`${restApiConfig.host}${restApiConfig.cpvs}`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Accept': 'application/json',
+        }
+      })
+        .then(response => response.json())
+        .then(dataFromResopnse => this.cpvs = dataFromResopnse)
+    },
+
     getTenderTypes() {
       fetch(`${restApiConfig.host}${restApiConfig.tenderTypes}`, {
         method: 'GET',
@@ -558,6 +572,7 @@ export default {
 
     saveTender() {
       this.tender.countryId = this.country.id;
+      this.tender.cpvId = this.cpv.id;
       this.tender.currencyId = this.currency.id;
       fetch(`${restApiConfig.host}${restApiConfig.newTender}`, {
         method: 'POST',
@@ -629,6 +644,7 @@ export default {
 
   mounted() {
     this.getCountries();
+    this.getCpvs();
     this.getTenderTypes();
     this.getCurrencies();
     this.getCurrentdate();
