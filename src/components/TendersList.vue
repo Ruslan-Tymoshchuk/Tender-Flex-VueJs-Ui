@@ -8,7 +8,7 @@
   </v-toolbar>
 
   <v-card class="mt-n7 mx-auto" elevation="8" max-width="1000">
-  <div v-if="!isTenders">
+  <div v-if="isHasNoTenders">
       <v-toolbar color="white" height="200">
         <v-toolbar-title class="text-center" style="font-size: 2rem">{{ noTendersMessage }}</v-toolbar-title>
       </v-toolbar>
@@ -29,7 +29,7 @@
           <tr class="table" v-for="tender in tenders" :key="tender.tenderId" >
             <td class="v-col-5 text-left cpv">
              <div>
-              <label class="cpv-code" @click="getTenderById(tender.tenderId, tender.status)">{{ tender.cpvCode }}</label>
+              <label class="cpv-code" @click="getTenderById(tender.tenderId)">{{ tender.cpvCode }}</label>
             </div>
             <div>
               <strong>{{ tender.cpvDescription }}</strong>
@@ -60,7 +60,7 @@
           <tr class="table" v-for="tender in tenders" :key="tender.tenderId">
             <td class="v-col-4 text-left cpv">
              <div>
-              <label class="cpv-code" @click="getTenderById(tender.tenderId, tender.tenderStatus)">{{ tender.cpvCode }}</label>
+              <label class="cpv-code" @click="getTenderById(tender.tenderId)">{{ tender.cpvCode }}</label>
             </div>
             <div>
               <strong>{{ tender.cpvDescription }}</strong>
@@ -93,6 +93,7 @@ export default {
     offers: 0,
     tenders: [],
     isTenders: false,
+    isHasNoTenders: false,
     noTendersMessage: '',
     title: '',
   }),
@@ -114,6 +115,8 @@ export default {
           responseData.content.forEach(tender => this.tenders.push(tender))
           if (this.tenders.length > 0) {
             this.isTenders = true;
+          } else {
+            this.isHasNoTenders = true;
           }
           this.plannedPage++;
           this.loading = false
@@ -127,10 +130,8 @@ export default {
       }
     },
 
-    getTenderById(id, status) {
-      if (status !== "Tender closed") {
+    getTenderById(id) {
         this.$router.push({ name: "tender-details", params: { id: id } });
-      }
     }
   },
 

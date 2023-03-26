@@ -9,7 +9,7 @@
 
   <v-card class="mx-auto mt-n7" elevation="8" max-width="1000">
 
-    <div v-if="!isOffers">
+    <div v-if="isHasNoOffers">
       <v-toolbar color="white" height="200">
         <v-toolbar-title class="text-center" style="font-size: 2rem">{{ noOffersMessage }}</v-toolbar-title>
       </v-toolbar>
@@ -18,9 +18,9 @@
     <div v-if="isOffers">
       <v-toolbar color="primary" height="28" class="text-left">
         <v-col class="v-col-2 ml-2">Oficial Name</v-col>
-        <v-col class="v-col-2 ml-1 mr-10">Field</v-col>
-        <v-col class="v-col-1 ml-9 mr-8">Price</v-col>
-        <v-col class="v-col-1 ml-3">Country</v-col>
+        <v-col class="v-col-2 ml-4 mr-10">Field</v-col>
+        <v-col class="v-col-1 ml-10 mr-8">Price</v-col>
+        <v-col class="v-col-1">Country</v-col>
         <v-col class="v-col-2 ml-2">Received Date</v-col>
         <v-col class="v-col-2">Status</v-col>
       </v-toolbar>
@@ -66,6 +66,7 @@ export default {
     offersPerPage: 10,
     loading: false,
     isOffers: false,
+    isHasNoOffers: false,
     noOffersMessage: '',
   }),
 
@@ -86,6 +87,8 @@ export default {
           responseData.content.forEach(offer => this.offers.push(offer))
           if (this.offers.length > 0) {
             this.isOffers = true;
+          } else {
+            this.isHasNoOffers = true;
           }
           this.plannedPage++;
           this.loading = false
