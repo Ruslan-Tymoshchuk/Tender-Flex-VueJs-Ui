@@ -55,6 +55,22 @@
   margin-top: 2rem;
 }
 
+.table {
+  height: 4rem;
+}
+
+.table:hover {
+  color: #176ea1;
+}
+
+.cpv-code {
+  color: #1f9dec;
+}
+
+.cpv-code:hover {
+  color: #11ad0c;
+}
+
 html {
   background-color: #e0e0e0;
   overflow-y: auto;

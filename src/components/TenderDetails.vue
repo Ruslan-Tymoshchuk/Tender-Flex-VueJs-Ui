@@ -19,25 +19,31 @@
     <v-window-item value="offers">
         <v-card class="mx-auto" elevation="8" max-width="1000">
           <v-toolbar color="primary" height="28" class="text-left">
-            <v-col class="v-col-2">Oficial Name</v-col>
-            <v-col class="v-col-2">Field</v-col>
-            <v-col class="v-col-2">Price</v-col>
-            <v-col class="v-col-2">Country</v-col>
-            <v-col class="v-col-2">Received Date</v-col>
-            <v-col class="v-col-3">Status</v-col>
-          </v-toolbar>
-          <v-container id="scroll-target" style="max-height: 20rem" class="overflow-y-auto" v-scroll:#scroll-target="onScroll">
+            <v-col class="v-col-2 ml-2">Oficial Name</v-col>
+            <v-col class="v-col-2 ml-4 mr-10">Field</v-col>
+            <v-col class="v-col-1 ml-14 mr-0">Price</v-col>
+            <v-col class="v-col-1 ml-1">Country</v-col>
+            <v-col class="v-col-2 ml-2 mr-4">Received Date</v-col>
+            <v-col class="v-col-2 ml-15">Status</v-col>
+        </v-toolbar>
+          <v-container id="scroll-target" style="max-height: 25rem" class="overflow-y-auto" v-scroll:#scroll-target="onScroll">
             <v-table>
               <tbody>
-                <tr v-for="offer in offersByTender" :key="offer.offerId">
-                  <td class="v-col-2 text-left" @click="getOfferById(offer.offerId)">{{ offer.organizationNameByBidder }} </td>
-                  <td class="v-col-2 text-left">{{ offer.fieldOfTheTender }}</td>
-                  <td class="v-col-2 text-left">{{ offer.price }}</td>
-                  <td class="v-col-2 text-left">{{ offer.country }}</td>
-                  <td class="v-col-2 text-left">{{ offer.date }}</td>
-                  <td class="v-col-3 text-right"> {{ offer.contractorSt }} </td>
-                </tr>
-              </tbody>
+                  <tr class="table" v-for="offer in offersByTender" :key="offer.offerId">
+                    <td class="v-col-2 text-left cpv">
+                   <div>
+                    <label class="cpv-code" @click="getOfferById(offer.offerId)">
+                      <strong>{{ offer.organizationNameByBidder }}</strong>
+                    </label>
+                   </div>
+                   </td>
+                    <td class="v-col-3 text-left">{{ offer.fieldOfTheTender }}</td>
+                    <td class="v-col-1 text-left">{{ offer.price }}</td>
+                    <td class="v-col-1 text-left">{{ offer.country }}</td>
+                    <td class="v-col-2 text-left">{{ offer.date }}</td>
+                    <td class="v-col-2 text-right"> {{ offer.contractorSt }} </td>
+                  </tr>
+                </tbody>
             </v-table>
           </v-container>
         </v-card>
@@ -228,7 +234,7 @@
           </v-row>
         </div>
         </v-item-group>
-        <div v-if="role ==='bidder'">
+        <div v-if="role ==='bidder' && tender.offerStatus === 'Offer has not sent'">
         <v-row class="d-flex justify-end mt-5 mb-10 mr-2">
             <v-col md="3">
              <v-btn type="submit" block variant="flat" color="blue" @click="createOffer(tenderId)">
@@ -320,7 +326,7 @@ export default {
     },
 
     onScroll(e) {
-      const currentPage = Math.ceil(e.target.scrollTop / 230);
+      const currentPage = Math.ceil(e.target.scrollTop / 300);
       if (currentPage === this.plannedPage && !this.loading && this.plannedPage <= this.totalPages) {
         this.getOffersByTender()
       }

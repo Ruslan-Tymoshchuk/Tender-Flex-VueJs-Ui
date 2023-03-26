@@ -23,15 +23,24 @@
       <v-col class="v-col-2">Deadline</v-col>
       <v-col class="v-col-2">Offers</v-col>
     </v-toolbar>
-    <v-container id="scroll-target" style="max-height: 20rem" class="overflow-y-auto" v-scroll:#scroll-target="onScroll">
+    <v-container id="scroll-target" style="max-height: 25rem" class="overflow-y-auto" v-scroll:#scroll-target="onScroll">
       <v-table>
         <tbody>
-          <tr v-for="tender in tenders" :key="tender.tenderId">
-            <td class="v-col-5 text-left" @click="getTenderById(tender.tenderId)">{{ tender.cpvCode }} </td>
+          <tr class="table" v-for="tender in tenders" :key="tender.tenderId" >
+            <td class="v-col-5 text-left cpv">
+             <div>
+              <label class="cpv-code" @click="getTenderById(tender.tenderId, tender.status)">{{ tender.cpvCode }}</label>
+            </div>
+            <div>
+              <strong>{{ tender.cpvDescription }}</strong>
+            </div>
+           </td>
             <td class="v-col-2 text-left">{{ tender.organizationName }}</td>
             <td class="v-col-2 text-left">{{ tender.status }}</td>
             <td class="v-col-2 text-left">{{ tender.deadline }}</td>
-            <td class="v-col-2 text-right"> {{ tender.offersAmount }} </td>
+            <td class="v-col-2 text-right">
+              <div v-if="tender.status === 'Tender in progress'">{{ tender.offersAmount }}</div>
+            </td>
           </tr>
         </tbody>
       </v-table>
@@ -45,15 +54,22 @@
       <v-col class="v-col-2">Deadline</v-col>
       <v-col class="v-col-2">Offer Status</v-col>
     </v-toolbar>
-    <v-container id="scroll-target" style="max-height: 20rem" class="overflow-y-auto" v-scroll:#scroll-target="onScroll">
+    <v-container id="scroll-target" style="max-height: 25rem" class="overflow-y-auto" v-scroll:#scroll-target="onScroll">
       <v-table>
         <tbody>
-          <tr v-for="tender in tenders" :key="tender.tenderId">
-            <td class="v-col-4 text-left" @click="getTenderById(tender.tenderId)">{{ tender.cpvCode }} </td>
+          <tr class="table" v-for="tender in tenders" :key="tender.tenderId">
+            <td class="v-col-4 text-left cpv">
+             <div>
+              <label class="cpv-code" @click="getTenderById(tender.tenderId, tender.status)">{{ tender.cpvCode }}</label>
+            </div>
+            <div>
+              <strong>{{ tender.cpvDescription }}</strong>
+            </div>
+           </td>
             <td class="v-col-2 text-left">{{ tender.organizationName }}</td>
             <td class="v-col-2 text-left">{{ tender.tenderStatus }}</td>
             <td class="v-col-2 text-left">{{ tender.deadline }}</td>
-            <td class="v-col-2 text-right"> {{ tender.offerStatus }} </td>
+            <td class="v-col-2 text-left"> {{ tender.offerStatus }} </td>
           </tr>
         </tbody>
       </v-table>
@@ -105,14 +121,16 @@ export default {
     },
 
     onScroll(e) {
-      const currentPage = Math.ceil(e.target.scrollTop / 230);
+      const currentPage = Math.ceil(e.target.scrollTop / 300);
       if (currentPage === this.plannedPage && !this.loading && this.plannedPage <= this.totalPages) {
         this.getTenders()
       }
     },
 
-    getTenderById(id) {
-      this.$router.push({ name: "tender-details", params: { id: id } });
+    getTenderById(id, status) {
+      if (status !== "Tender closed") {
+        this.$router.push({ name: "tender-details", params: { id: id } });
+      }
     }
   },
 

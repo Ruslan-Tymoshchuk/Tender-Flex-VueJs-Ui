@@ -114,7 +114,7 @@
       </v-card>
     </v-dialog>
 
-    <v-row v-if="role === 'contractor'" class="d-flex justify-end mt-2 mb-10 mr-10">
+    <v-row v-if="offer.contractorSt === 'Offer received'" class="d-flex justify-end mt-2 mb-10 mr-10">
       <v-col md="3" class="mr-5">
         <v-btn type="submit" block variant="outlined" color="blue" @click="sendRejectDecision">
           Send Reject Decision
