@@ -403,7 +403,7 @@
     <v-row class="justify-end pb-15 mr-12 mt-3">
       <v-col cols="9" md="2">
         <v-btn type="submit" block class="mt-2" variant="outlined" color="blue"
-          size="large" @click="canselDialog = true">
+          size="large" @click="cancelDialog = true">
           Cancel
         </v-btn>
         </v-col>
@@ -417,15 +417,15 @@
   </v-container>
 
   <div class="text-center">
-    <v-dialog v-model="canselDialog" activator="parent" width="500">
+    <v-dialog v-model="cancelDialog" activator="parent" width="500">
       <v-card>
-        <v-toolbar color="primary" title="CANCELLATION CONFIRMATION" height="50"></v-toolbar>
+        <v-toolbar color="primary" title="Cancellation confirmation" height="50"></v-toolbar>
           <v-card-text class="text-center">
             <div>Do you really want to cancel the new Tender creation?</div>
             <div>All you entered data will be lost</div>
           </v-card-text>
           <v-row class="justify-center mb-8 mt-3">
-            <v-btn @click="canselDialog = false" width="160" class="mx-2">No</v-btn>
+            <v-btn @click="cancelDialog = false" width="160" class="mx-2">No</v-btn>
             <v-btn href="/module/contractor/tenders" color="primary" width="160" class="mx-2">Yes</v-btn>
           </v-row>
       </v-card>
@@ -469,7 +469,7 @@ export default {
     },
     valid: false,
     dialog: false,
-    canselDialog: false,
+    cancelDialog: false,
     isContract: false,
     isAwardDecision: false,
     isRejectedDecision: false,
