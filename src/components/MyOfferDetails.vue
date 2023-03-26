@@ -7,7 +7,8 @@
       <v-container class="px-15">
         <v-toolbar-title class="ml-14 mb-4" style="font-size: 1.5rem">{{ offer.organizationNameByBidder }}</v-toolbar-title>
         <v-tabs v-model="tab" height="18" class="mb-15 ml-10" color="indigo-darken-2">
-          <v-tab v-if="offer.bidderSt === 'Offer selected by Contractor'" value="awardDecision">Award Decision</v-tab>
+          <v-tab v-if="offer.bidderSt === 'Offer selected by Contractor' || offer.bidderSt === 'Contract declined by Bidder' || offer.bidderSt === 'Contract approved by Bidder'"
+          value="awardDecision">Award Decision</v-tab>
           <v-tab v-if="offer.bidderSt === 'Offer rejected by Contractor'" value="rejectDecision">Reject Decision</v-tab>
           <v-tab value="tenderDescription">Tender Description</v-tab>
           <v-tab value="myOffer">My Offer</v-tab>
@@ -20,8 +21,14 @@
     <v-window-item value="awardDecision">
       <v-card class="mx-auto" elevation="8" max-width="1000">
         <v-toolbar color="white" height="280" class="text-left">
-          <v-toolbar-title class="text-center" style="font-size: 1.5rem">
+          <v-toolbar-title v-if="offer.bidderSt === 'Offer selected by Contractor'" class="text-center" style="font-size: 1.5rem">
             “Congratulation! Your Offer was selected by Contractor”
+          </v-toolbar-title>
+          <v-toolbar-title v-if="offer.bidderSt === 'Contract declined by Bidder'" class="text-center" style="font-size: 1.5rem">
+            “Contract is declined by Bidder”
+          </v-toolbar-title>
+          <v-toolbar-title v-if="offer.bidderSt === 'Contract approved by Bidder'" class="text-center" style="font-size: 1.5rem">
+            “Contract is approved by Bidder”
           </v-toolbar-title>
         </v-toolbar>
         <v-row class="mb-10" justify="center">
@@ -39,7 +46,7 @@
             </v-chip>
           </v-col>
         </v-row>
-        <v-row class="d-flex justify-center mt-2 mb-10">
+        <v-row v-if="offer.bidderSt === 'Offer selected by Contractor'" class="d-flex justify-center mt-2 mb-10">
       <v-col md="3">
         <v-btn type="submit" block variant="outlined" color="blue" @click="saveDecision('decline')">
             Decline
@@ -350,6 +357,7 @@ export default {
       contractFileName: '',
     },
     tab: "tenderDescription",
+    decisionTitle: '',
     role: '',
     offer: {
       documentName: '',
@@ -421,7 +429,7 @@ export default {
         })
       })
         .catch(error => console.log('There was an error', error));
-    },
+    }
   },
 
   mounted() {
