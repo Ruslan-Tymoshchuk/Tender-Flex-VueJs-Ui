@@ -60,7 +60,7 @@
           <tr class="table" v-for="tender in tenders" :key="tender.tenderId">
             <td class="v-col-4 text-left cpv">
              <div>
-              <label class="cpv-code" @click="getTenderById(tender.tenderId, tender.status)">{{ tender.cpvCode }}</label>
+              <label class="cpv-code" @click="getTenderById(tender.tenderId, tender.tenderStatus)">{{ tender.cpvCode }}</label>
             </div>
             <div>
               <strong>{{ tender.cpvDescription }}</strong>
