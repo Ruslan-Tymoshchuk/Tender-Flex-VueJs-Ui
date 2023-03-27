@@ -324,10 +324,10 @@ export default {
 
     async createOffer() {
       this.$router.push("/module/bidder/tenders")
-      Promise.all([
-        await this.uploadDocument(),
-        this.saveOffer()
+      await Promise.all([
+        this.uploadDocument(),
       ]).then(() => {
+        this.saveOffer();
         alert("Offer was successfully created!");
       });
     },

@@ -560,12 +560,12 @@ export default {
 
     async createTender() {
       this.$router.push("/module/contractor/tenders")
-      Promise.all([
-        await this.uploadContract(),
-        await this.uploadAwardDecision(),
-        await this.uploadRejectDecision(),
-        this.saveTender()
+      await Promise.all([
+         this.uploadContract(),
+         this.uploadAwardDecision(),
+         this.uploadRejectDecision(),
       ]).then(() => {
+        this.saveTender()
         alert("Tender was successfully created!");
       });
     },
