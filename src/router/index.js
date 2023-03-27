@@ -22,7 +22,7 @@ const routes = [
     component: ToolBar,
       children: [
         { path: 'new-tender', component: Tender },
-        { path: 'tenders', component: TendersList },
+        { path: 'tenders', name: 'tenders', component: TendersList },
         { path: 'offers', component: OffersList },
         { path: 'tenders/details/:id', name: "tender-details", component: TenderDetails },
         { path: 'offers/details/:id/award/:award/reject/:reject', name: "offer-details", component: OfferDetails },

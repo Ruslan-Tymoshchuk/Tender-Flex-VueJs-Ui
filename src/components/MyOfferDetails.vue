@@ -431,6 +431,8 @@ export default {
           decision: `${decision}`,
         })
       })
+        .then(response => response.json())
+        .then(responseData => this.offer.bidderSt = responseData.bidderSt)
         .catch(error => console.log('There was an error', error));
     },
 

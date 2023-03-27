@@ -188,7 +188,7 @@ export default {
           awardDecisionFileName: this.$route.params.award,
         })
       })
-        .then(() => this.$router.push({ name: "contractor-module", params: { role: this.role } }))
+        .then(() => this.$router.push({ name: "tenders", params: { role: this.role } }))
         .catch(error => console.log('There was an error', error));
     },
 
@@ -204,7 +204,7 @@ export default {
           rejectDecisionFileName: this.$route.params.reject,
         })
       })
-        .then(() => this.$router.push({ name: "contractor-module", params: { role: this.role } }))
+        .then(() => this.$router.push({ name: "tenders", params: { role: this.role } }))
         .catch(error => console.log('There was an error', error));
     },
 
