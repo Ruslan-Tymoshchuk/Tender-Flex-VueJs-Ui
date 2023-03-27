@@ -6,7 +6,7 @@
     <template v-slot:extension>
       <v-container class="px-15">
         <v-toolbar-title class="ml-14 mb-4" style="font-size: 1.5rem">{{ tender.cpvCode }}</v-toolbar-title>
-        <v-tabs v-model="tab" height="18" class="mb-15 ml-10" color="indigo-darken-2">
+        <v-tabs v-model="tab" height="30" class="mb-10 ml-12" :color=tabColor>
           <v-tab v-if="isOffers" value="offers">Offers</v-tab>
           <v-tab value="tenderDescription">Tender Description</v-tab>
         </v-tabs>
@@ -191,11 +191,11 @@
                 color="blue"
                 prepend-icon="mdi-file-document-multiple-outline"
                 label
+                @click="openDialog(tender.contractFileName)"
               ><div
                 id="text"
                 style="width: 50rem"
-                @click="openDialog(tender.contractFileName)"
-              > {{ getOriginalFileName(tender.contractFileName) }} </div>
+                > {{ getOriginalFileName(tender.contractFileName) }} </div>
               </v-chip
               ></v-item>
            </v-row>
@@ -208,11 +208,11 @@
                 color="blue"
                 prepend-icon="mdi-file-document-multiple-outline"
                 label
+                @click="openDialog(tender.awardDecisionFileName)"
               ><div
                 id="text"
                 style="width: 50rem"
-                @click="openDialog(tender.awardDecisionFileName)"
-              > {{ getOriginalFileName(tender.awardDecisionFileName) }} </div>
+                > {{ getOriginalFileName(tender.awardDecisionFileName) }} </div>
               </v-chip>
             </v-item>
           </v-row>
@@ -224,10 +224,10 @@
                 color="blue"
                 prepend-icon="mdi-file-document-multiple-outline"
                 label
+                @click="openDialog(tender.rejectDecisionFileName)"
               ><div
                 id="text"
                 style="width: 50rem"
-                @click="openDialog(tender.rejectDecisionFileName)"
               > {{ getOriginalFileName(tender.rejectDecisionFileName) }} </div>
               </v-chip>
             </v-item>
@@ -261,6 +261,7 @@
 
 <script>
 import { restApiConfig } from "@/rest.api.config"
+import { tabColor } from "@/assets/tab.color";
 
 export default {
   data: () => ({
@@ -270,6 +271,7 @@ export default {
       rejectDecisionFileName: '',
     },
     tab: "tenderDescription",
+    tabColor: tabColor,
     dialog: false,
     documentUrl: '',
     offersByTender: [],

@@ -93,11 +93,11 @@
              class="mb-6"
              color="blue"
              prepend-icon="mdi-file-document-multiple-outline"
-             label>
-            <div
+             label
+             @click="openDialog(offer.documentName)"
+             ><div
              id="text"
              style="width: 50rem"
-             @click="openDialog(offer.documentName)"
              > {{ getOriginalFileName(offer.documentName) }} </div>
             </v-chip></v-item>
         </v-row>

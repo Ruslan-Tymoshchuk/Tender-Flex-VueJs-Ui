@@ -6,7 +6,7 @@
     <template v-slot:extension>
       <v-container class="px-15">
         <v-toolbar-title class="ml-14 mb-4" style="font-size: 1.5rem">{{ offer.organizationNameByBidder }}</v-toolbar-title>
-        <v-tabs v-model="tab" height="18" class="mb-15 ml-10" color="indigo-darken-2">
+        <v-tabs v-model="tab" height="30" class="mb-10 ml-12" :color="tabColor">
           <v-tab v-if="offer.bidderSt === 'Offer selected by Contractor' || offer.bidderSt === 'Contract declined by Bidder' || offer.bidderSt === 'Contract approved by Bidder'"
           value="awardDecision">Award Decision</v-tab>
           <v-tab v-if="offer.bidderSt === 'Offer rejected by Contractor'" value="rejectDecision">Reject Decision</v-tab>
@@ -37,11 +37,11 @@
              size="large"
              color="blue"
              prepend-icon="mdi-file-document-multiple-outline"
-             label>
-            <div
+             label
+             @click="openDialog(offer.awardDecision)"
+             ><div
              id="text"
              style="width: 50rem"
-             @click="openDialog(offer.awardDecision)"
              > View document </div>
             </v-chip>
           </v-col>
@@ -74,12 +74,13 @@
              size="large"
              color="blue"
              prepend-icon="mdi-file-document-multiple-outline"
-             label>
-            <div
+             label
+             @click="openDialog(offer.rejectDecision)"
+             ><div
              id="text"
              style="width: 50rem"
-             @click="openDialog(offer.rejectDecision)"
-             > View document </div>
+             > View document
+             </div>
             </v-chip>
           </v-col>
         </v-row>
@@ -228,10 +229,10 @@
                 color="blue"
                 prepend-icon="mdi-file-document-multiple-outline"
                 label
+                @click="openDialog(tender.contractFileName)"
               ><div
                 id="text"
                 style="width: 50rem"
-                @click="openDialog(tender.contractFileName)"
               > {{ getOriginalFileName(tender.contractFileName) }} </div>
               </v-chip
               ></v-item>
@@ -322,11 +323,11 @@
              class="mb-6"
              color="blue"
              prepend-icon="mdi-file-document-multiple-outline"
-             label>
-            <div
+             label
+             @click="openDialog(offer.documentName)"
+             ><div
              id="text"
              style="width: 50rem"
-             @click="openDialog(offer.documentName)"
              > {{ getOriginalFileName(offer.documentName) }} </div>
             </v-chip></v-item>
         </v-row>
@@ -350,6 +351,7 @@
 
 <script>
 import { restApiConfig } from "@/rest.api.config"
+import { tabColor } from "@/assets/tab.color";
 
 export default {
   data: () => ({
@@ -357,6 +359,7 @@ export default {
       contractFileName: '',
     },
     tab: "tenderDescription",
+    tabColor,
     decisionTitle: '',
     role: '',
     offer: {
