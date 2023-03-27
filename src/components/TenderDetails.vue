@@ -262,6 +262,7 @@
 <script>
 import { restApiConfig } from "@/rest.api.config"
 import { tabColor } from "@/assets/tab.color";
+import { getOriginalFileName } from "@/components/actions";
 
 export default {
   data: () => ({
@@ -282,6 +283,7 @@ export default {
     isOffers: false,
     role: '',
     tenderId: 0,
+    getOriginalFileName
   }),
 
   methods: {
@@ -332,10 +334,6 @@ export default {
       if (currentPage === this.plannedPage && !this.loading && this.plannedPage <= this.totalPages) {
         this.getOffersByTender()
       }
-    },
-
-    getOriginalFileName(uniqueFileName){
-      return uniqueFileName.substring(37);
     },
 
     openDialog(documentName) {

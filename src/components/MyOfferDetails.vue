@@ -351,7 +351,8 @@
 
 <script>
 import { restApiConfig } from "@/rest.api.config"
-import { tabColor } from "@/assets/tab.color";
+import { tabColor } from "@/assets/tab.color"
+import { getOriginalFileName } from "@/components/actions"
 
 export default {
   data: () => ({
@@ -369,6 +370,7 @@ export default {
     },
     dialog: false,
     fileUrl: '',
+    getOriginalFileName
   }),
 
   methods: {
@@ -396,10 +398,6 @@ export default {
         .then(response => response.json())
         .then(tenderDetailsResponse => this.tender = tenderDetailsResponse)
         .catch(error => console.log('There was an error', error));
-    },
-
-    getOriginalFileName(uniqueFileName){
-      return uniqueFileName.substring(37);
     },
 
     openDialog(documentName) {
