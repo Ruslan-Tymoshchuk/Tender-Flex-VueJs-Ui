@@ -1,6 +1,6 @@
 <template>
   <v-toolbar color="blue" extended extension-height="100">
-    <v-chip :href="'/module/' +`${this.role}` + '/tenders'" style="margin-left: 12rem" variant="text" text-color="white"
+    <v-chip @click="goByLink(`/module/${this.role}/tenders`)" style="margin-left: 12rem" variant="text" text-color="white"
       prepend-icon="mdi-keyboard-backspace">Back
     </v-chip>
     <template v-slot:extension>
@@ -355,6 +355,10 @@ export default {
     createOffer(tenderId){
       this.$router.push({ name: "new-offer", params: { tender_id: tenderId } });
     },
+
+    goByLink(link) {
+      this.$router.push(link)
+    }
   },
 
   mounted() {

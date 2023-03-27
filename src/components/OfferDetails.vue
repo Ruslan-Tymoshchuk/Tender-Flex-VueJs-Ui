@@ -1,6 +1,6 @@
 <template>
   <v-toolbar color="blue" extended extension-height="100">
-    <v-chip :href="'/module/' +`${role}`+ '/tenders/'"
+    <v-chip @click="goByLink(`/module/${this.role}/tenders`)"
     style="margin-left: 12rem" variant="text" text-color="white" prepend-icon="mdi-keyboard-backspace">Back
     </v-chip>
     <template v-slot:extension>
@@ -206,6 +206,10 @@ export default {
       })
         .then(() => this.$router.push({ name: "contractor-module", params: { role: this.role } }))
         .catch(error => console.log('There was an error', error));
+    },
+
+    goByLink(link) {
+      this.$router.push(link)
     }
   },
 
