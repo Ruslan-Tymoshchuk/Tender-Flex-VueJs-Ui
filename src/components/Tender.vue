@@ -555,26 +555,30 @@ export default {
     },
 
     getDeadlineDate() {
+      this.alert = true;
       this.minDeadline = format(new Date().getTime() + 86400000, 'yyyy-MM-dd');
     },
 
     async createTender() {
       this.$router.push("/module/contractor/tenders")
-      await Promise.all([
-         this.uploadContract(),
-         this.uploadAwardDecision(),
-         this.uploadRejectDecision(),
-      ]).then(() => {
-        this.saveTender()
-        alert("Tender was successfully created!");
-      });
+      try {
+        await Promise.all([
+          this.uploadContract(),
+          this.uploadAwardDecision(),
+          this.uploadRejectDecision(),
+        ]);
+        await this.saveTender();
+        alert("Tender was created");
+      } catch (error) {
+        alert("Error occured when saving the tender");
+      }
     },
 
-    saveTender() {
+   async saveTender() {
       this.tender.countryId = this.country.id;
       this.tender.cpvId = this.cpv.id;
       this.tender.currencyId = this.currency.id;
-      fetch(`${restApiConfig.host}${restApiConfig.newTender}`, {
+      await fetch(`${restApiConfig.host}${restApiConfig.newTender}`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -583,7 +587,7 @@ export default {
         body: JSON.stringify(this.tender)
       }).then(response => {
         if (response.status !== 200) {
-          alert("There was an error saving the tender!");
+          alert("There was an error when saving the tender!");
         }
       }).catch(error => {
         alert("There was an error!");

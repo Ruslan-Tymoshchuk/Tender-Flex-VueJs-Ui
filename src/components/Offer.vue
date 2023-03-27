@@ -324,18 +324,21 @@ export default {
 
     async createOffer() {
       this.$router.push("/module/bidder/tenders")
-      await Promise.all([
-        this.uploadDocument(),
-      ]).then(() => {
-        this.saveOffer();
-        alert("Offer was successfully created!");
-      });
+      try {
+        await Promise.all([
+          this.uploadDocument(),
+        ]);
+        await this.saveOffer();
+        alert("Offer was created");
+      } catch (error) {
+        alert("Error occured when saving the tender");
+      }
     },
 
-    saveOffer() {
+    async saveOffer() {
       this.offer.countryId = this.country.id;
       this.offer.currencyId = this.currency.id;
-      fetch(`${restApiConfig.host}${restApiConfig.newOffer}`, {
+      await fetch(`${restApiConfig.host}${restApiConfig.newOffer}`, {
         method: 'POST',
         credentials: 'include',
         headers: {
