@@ -27,14 +27,10 @@
       <v-table>
         <tbody>
           <tr class="table" v-for="tender in tenders" :key="tender.tenderId" >
-            <td class="v-col-5 text-left cpv">
-             <div>
-              <label class="cpv-code" @click="getTenderById(tender.tenderId)">{{ tender.cpvCode }}</label>
-            </div>
-            <div>
-              <strong>{{ tender.cpvDescription }}</strong>
-            </div>
-           </td>
+            <td class="v-col-5 text-left">
+             <div class="cpv-code" @click="getTenderById(tender.tenderId)">{{ tender.cpvCode }}</div>
+             <strong>{{ tender.cpvDescription }}</strong>
+            </td>
             <td class="v-col-2 text-left">{{ tender.organizationName }}</td>
             <td class="v-col-2 text-left">{{ tender.status }}</td>
             <td class="v-col-2 text-left">{{ tender.deadline }}</td>
@@ -58,13 +54,9 @@
       <v-table>
         <tbody>
           <tr class="table" v-for="tender in tenders" :key="tender.tenderId">
-            <td class="v-col-4 text-left cpv">
-             <div>
-              <label class="cpv-code" @click="getTenderById(tender.tenderId)">{{ tender.cpvCode }}</label>
-            </div>
-            <div>
-              <strong>{{ tender.cpvDescription }}</strong>
-            </div>
+            <td class="v-col-4 text-left">
+             <div class="cpv-code" @click="getTenderById(tender.tenderId)">{{ tender.cpvCode }}</div>
+             <strong>{{ tender.cpvDescription }}</strong>
            </td>
             <td class="v-col-2 text-left">{{ tender.organizationName }}</td>
             <td class="v-col-2 text-left">{{ tender.tenderStatus }}</td>

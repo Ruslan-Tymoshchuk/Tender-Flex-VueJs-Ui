@@ -57,10 +57,7 @@
 
 .table {
   height: 4rem;
-}
-
-.table:hover {
-  color: #176ea1;
+  cursor: default;
 }
 
 .cpv-code {
@@ -69,6 +66,7 @@
 
 .cpv-code:hover {
   color: #11ad0c;
+  cursor: pointer;
 }
 
 html {
