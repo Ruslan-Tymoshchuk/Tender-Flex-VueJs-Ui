@@ -9,7 +9,7 @@
         text-color="white"
         prepend-icon="mdi-pulse"
         @click="goByLink(`/module/${this.role}/tenders`)">
-        Tenders {{ tenders }}
+        Tenders {{ totalStore.tenders }}
       </v-chip>
       <v-chip
         class="my-2 ml-10"
@@ -18,7 +18,7 @@
         text-color="white"
         prepend-icon="mdi-message-processing-outline"
         @click="goByLink(`/module/${this.role}/offers`)">
-        Offers {{ offers }}
+        Offers {{ totalStore.offers }}
       </v-chip>
       <v-spacer></v-spacer>
       <div v-if="role === 'contractor'">
@@ -49,33 +49,16 @@
  </template>
 
 <script>
-import { restApiConfig } from "@/rest.api.config"
+import { totalStore } from "@/components/actions"
 
 export default {
   data: () => ({
     role: '',
     route: '/',
-    tenders: 0,
-    offers: 0,
+    totalStore
   }),
 
   methods: {
-    getTotalByModule() {
-      fetch(`${restApiConfig.host}${restApiConfig.total}/${this.$route.params.role}`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Accept': 'application/json',
-        }
-      })
-        .then(response => response.json())
-        .then(response => {
-          this.tenders = response.tenders;
-          this.offers = response.offers;
-        })
-        .catch(error => console.log('There was an error', error));
-    },
-
     goByLink(link) {
       this.$router.push(link)
     }
@@ -83,7 +66,7 @@ export default {
 
   mounted() {
     this.role = this.$route.params.role;
-    this.getTotalByModule();
+    this.totalStore.getTotalByModule(this.role)
   }
 }
 </script>

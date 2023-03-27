@@ -168,12 +168,13 @@
                 closable color="blue"
                 prepend-icon="mdi-file-document-multiple-outline"
                 label
-                @click:close="isDocument = false">
-              <div
+                @click:close="isDocument = false"
+                @click="openDialog(document)"
+                ><div
                 id="text"
                 style="width: 50rem"
-                @click="openDialog(document)"
-              > {{ document.name }} </div>
+                > {{ document.name }}
+                </div>
               </v-chip
               ></v-item>
             <v-item v-if="!isDocument">
@@ -257,7 +258,8 @@
 </template>
 
 <script>
-import { restApiConfig } from "@/rest.api.config"
+import { restApiConfig } from "@/rest.api.config";
+import { totalStore } from "@/components/actions";
 
 export default {
   data: () => ({
@@ -285,6 +287,7 @@ export default {
     isDocument: false,
     document: null,
     documentUrl: '',
+    totalStore
   }),
 
   methods: {
@@ -329,6 +332,7 @@ export default {
           this.uploadDocument(),
         ]);
         await this.saveOffer();
+        this.totalStore.getTotalByModule(this.$route.params.role);
         alert("Offer was created");
       } catch (error) {
         alert("Error occured when saving the tender");

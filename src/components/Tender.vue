@@ -265,11 +265,11 @@
                 closable color="blue"
                 prepend-icon="mdi-file-document-multiple-outline"
                 label
-                @click:close="isContract = false">
-              <div
+                @click:close="isContract = false"
+                @click="openDialog(attachment.contract)"
+              ><div
                 id="text"
                 style="width: 50rem"
-                @click="openDialog(attachment.contract)"
               > {{ attachment.contract.name }} </div>
               </v-chip
               ></v-item>
@@ -310,10 +310,10 @@
                 prepend-icon="mdi-file-document-multiple-outline"
                 label
                 @click:close="isAwardDecision = false"
+                @click="openDialog(attachment.awardDecision)"
               ><div
                 id="text"
                 style="width: 50rem"
-                @click="openDialog(attachment.awardDecision)"
               > {{ attachment.awardDecision.name }} </div>
               </v-chip>
             </v-item>
@@ -352,10 +352,10 @@
                 prepend-icon="mdi-file-document-multiple-outline"
                 label
                 @click:close="isRejectedDecision = false"
+                @click="openDialog(attachment.rejectDecision)"
               ><div
                 id="text"
                 style="width: 50rem"
-                @click="openDialog(attachment.rejectDecision)"
               > {{ attachment.rejectDecision.name }} </div>
               </v-chip>
             </v-item>
@@ -437,6 +437,7 @@
 <script>
 import { restApiConfig } from "@/rest.api.config"
 import { format } from 'date-fns'
+import { totalStore } from "@/components/actions";
 
 export default {
   data: () => ({
@@ -479,6 +480,7 @@ export default {
       rejectDecision: null,
     },
     documentUrl: '',
+    totalStore
   }),
 
   methods: {
@@ -568,6 +570,7 @@ export default {
           this.uploadRejectDecision(),
         ]);
         await this.saveTender();
+        this.totalStore.getTotalByModule(this.$route.params.role);
         alert("Tender was created");
       } catch (error) {
         alert("Error occured when saving the tender");
