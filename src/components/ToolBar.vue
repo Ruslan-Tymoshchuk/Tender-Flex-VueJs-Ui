@@ -30,9 +30,8 @@
         color="green">
         {{ successAlert.message }}
       </v-chip>
-      <div v-if="role === 'contractor'">
       <v-chip
-        v-if="this.$route.path !== '/module/contractor/new-tender'"
+        v-if="checkIsNewTender"
         router-link to="/module/contractor/new-tender"
         variant="flat"
         color="indigo-darken-4"
@@ -40,7 +39,6 @@
         >
         + Create new Tender
       </v-chip>
-      </div>
       <v-chip
         class="mt-2 mr-4"
         variant="flat"
@@ -71,6 +69,18 @@ export default {
   mounted() {
     this.role = this.$route.params.role;
     this.totalStore.getTotalByModule(this.role)
+  },
+
+  computed: {
+
+    checkIsNewTender() {
+      if (this.$route.path !== '/module/contractor/new-tender' &&
+          this.role === 'contractor') {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 }
 </script>
