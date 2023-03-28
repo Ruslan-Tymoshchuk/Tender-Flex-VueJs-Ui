@@ -25,3 +25,16 @@ export const totalStore = reactive ({
       .catch(error => console.log('There was an error', error));
   }
 })
+
+export const successAlert = reactive ({
+  isActivated: false,
+  message: '',
+
+    activateAlert(message) {
+      this.message = message
+      this.isActivated = true;
+      setTimeout(() => {
+        this.isActivated = false;
+      }, 7000);
+    }
+})

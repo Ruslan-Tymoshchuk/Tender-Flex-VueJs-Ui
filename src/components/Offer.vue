@@ -259,7 +259,7 @@
 
 <script>
 import { restApiConfig } from "@/rest.api.config";
-import { totalStore } from "@/components/actions";
+import { totalStore, successAlert } from "@/components/actions";
 
 export default {
   data: () => ({
@@ -287,7 +287,8 @@ export default {
     isDocument: false,
     document: null,
     documentUrl: '',
-    totalStore
+    totalStore,
+    successAlert
   }),
 
   methods: {
@@ -333,7 +334,7 @@ export default {
         ]);
         await this.saveOffer();
         this.totalStore.getTotalByModule(this.$route.params.role);
-        alert("Offer was created");
+        this.successAlert.activateAlert("Offer was successfully created");
       } catch (error) {
         alert("Error occured when saving the tender");
       }

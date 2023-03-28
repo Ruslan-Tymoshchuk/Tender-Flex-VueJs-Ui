@@ -437,7 +437,7 @@
 <script>
 import { restApiConfig } from "@/rest.api.config"
 import { format } from 'date-fns'
-import { totalStore } from "@/components/actions";
+import { totalStore, successAlert } from "@/components/actions";
 
 export default {
   data: () => ({
@@ -480,7 +480,8 @@ export default {
       rejectDecision: null,
     },
     documentUrl: '',
-    totalStore
+    totalStore,
+    successAlert
   }),
 
   methods: {
@@ -571,7 +572,7 @@ export default {
         ]);
         await this.saveTender();
         this.totalStore.getTotalByModule(this.$route.params.role);
-        alert("Tender was created");
+        this.successAlert.activateAlert("Tender was successfully created");
       } catch (error) {
         alert("Error occured when saving the tender");
       }

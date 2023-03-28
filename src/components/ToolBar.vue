@@ -21,16 +21,25 @@
         Offers {{ totalStore.offers }}
       </v-chip>
       <v-spacer></v-spacer>
+      <v-chip
+        v-model="successAlert.isActivated"
+        class="my-2 mr-6"
+        closable
+        variant="elevated"
+        type="success"
+        color="green">
+        {{ successAlert.message }}
+      </v-chip>
       <div v-if="role === 'contractor'">
-      <v-btn
+      <v-chip
         v-if="this.$route.path !== '/module/contractor/new-tender'"
         @click="goByLink('/module/contractor/new-tender')"
         variant="flat"
         color="indigo-darken-4"
-        class="mt-3 mr-6"
-        size="small">
+        class="my-2 mr-6"
+        >
         + Create new Tender
-      </v-btn>
+      </v-chip>
       </div>
       <v-chip
         class="mt-2 mr-4"
@@ -49,13 +58,14 @@
  </template>
 
 <script>
-import { totalStore } from "@/components/actions"
+import { totalStore, successAlert} from "@/components/actions"
 
 export default {
   data: () => ({
     role: '',
     route: '/',
-    totalStore
+    totalStore,
+    successAlert,
   }),
 
   methods: {
