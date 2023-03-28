@@ -8,7 +8,7 @@
         color="blue-darken-3"
         text-color="white"
         prepend-icon="mdi-pulse"
-        @click="goByLink(`/module/${this.role}/tenders`)">
+        @click="goByLink(`/module/${role}/tenders`)">
         Tenders {{ totalStore.tenders }}
       </v-chip>
       <v-chip
@@ -17,7 +17,7 @@
         color="blue-darken-3"
         text-color="white"
         prepend-icon="mdi-message-processing-outline"
-        @click="goByLink(`/module/${this.role}/offers`)">
+        @click="goByLink(`/module/${role}/offers`)">
         Offers {{ totalStore.offers }}
       </v-chip>
       <v-spacer></v-spacer>
