@@ -6,7 +6,7 @@
     <template v-slot:extension>
       <v-container class="px-15">
         <v-toolbar-title class="ml-14 mb-4" style="font-size: 1.5rem">{{ offer.organizationNameByBidder }}</v-toolbar-title>
-        <v-tabs v-model="tab" height="30" class="mb-10 ml-12" :color="tabColor">
+        <v-tabs v-model="tab" height="30" class="mb-10 ml-12" color="cyan-accent-2">
           <v-tab v-if="offer.bidderSt === 'Offer selected by Contractor' || offer.bidderSt === 'Contract declined by Bidder' || offer.bidderSt === 'Contract approved by Bidder'"
           value="awardDecision">Award Decision</v-tab>
           <v-tab v-if="offer.bidderSt === 'Offer rejected by Contractor'" value="rejectDecision">Reject Decision</v-tab>
@@ -351,7 +351,6 @@
 
 <script>
 import { restApiConfig } from "@/rest.api.config"
-import { tabColor } from "@/assets/tab.color"
 import { getOriginalFileName } from "@/components/actions"
 
 export default {
@@ -360,7 +359,6 @@ export default {
       contractFileName: '',
     },
     tab: "tenderDescription",
-    tabColor,
     decisionTitle: '',
     role: '',
     offer: {

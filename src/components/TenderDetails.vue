@@ -6,7 +6,7 @@
     <template v-slot:extension>
       <v-container class="px-15">
         <v-toolbar-title class="ml-14 mb-4" style="font-size: 1.5rem">{{ tender.cpvCode }}</v-toolbar-title>
-        <v-tabs v-model="tab" height="30" class="mb-10 ml-12" :color=tabColor>
+        <v-tabs v-model="tab" height="30" class="mb-10 ml-12" color="cyan-accent-2">
           <v-tab v-if="isOffers" value="offers">Offers</v-tab>
           <v-tab value="tenderDescription">Tender Description</v-tab>
         </v-tabs>
@@ -261,7 +261,6 @@
 
 <script>
 import { restApiConfig } from "@/rest.api.config"
-import { tabColor } from "@/assets/tab.color";
 import { getOriginalFileName } from "@/components/actions";
 
 export default {
@@ -272,7 +271,6 @@ export default {
       rejectDecisionFileName: '',
     },
     tab: "tenderDescription",
-    tabColor: tabColor,
     dialog: false,
     documentUrl: '',
     offersByTender: [],
