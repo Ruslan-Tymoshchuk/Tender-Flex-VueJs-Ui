@@ -1,6 +1,6 @@
 <template>
   <v-toolbar color="blue" extended extension-height="100">
-    <v-chip @click="goByLink(`/module/${this.role}/tenders`)"
+    <v-chip router-link :to="`/module/${role}/tenders`"
     style="margin-left: 12rem" variant="text" text-color="white" prepend-icon="mdi-keyboard-backspace">Back
     </v-chip>
     <template v-slot:extension>
@@ -114,7 +114,7 @@
       </v-card>
     </v-dialog>
 
-    <v-row v-if="offer.contractorSt === 'Offer received'" class="d-flex justify-end mt-2 mb-10 mr-10">
+    <v-row v-if="checkIsOfferReceived" class="d-flex justify-end mt-2 mb-10 mr-10">
       <v-col md="3" class="mr-5">
         <v-btn type="submit" block variant="outlined" color="blue" @click="sendRejectDecision">
           Send Reject Decision
@@ -204,10 +204,6 @@ export default {
       })
         .then(() => this.$router.push({ name: "tenders", params: { role: this.role } }))
         .catch(error => console.log('There was an error', error));
-    },
-
-    goByLink(link) {
-      this.$router.push(link)
     }
   },
 
@@ -215,6 +211,16 @@ export default {
     this.role = this.$route.params.role
     this.offerId = this.$route.params.id
     this.getOfferById();
+  },
+
+  computed: {
+    checkIsOfferReceived() {
+      if (this.offer.contractorSt === "Offer received") {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 }
 </script>
