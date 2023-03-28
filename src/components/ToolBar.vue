@@ -8,7 +8,7 @@
         color="blue-darken-3"
         text-color="white"
         prepend-icon="mdi-pulse"
-        @click="goByLink(`/module/${role}/tenders`)">
+        router-link :to="`/module/${role}/tenders`">
         Tenders {{ totalStore.tenders }}
       </v-chip>
       <v-chip
@@ -17,7 +17,7 @@
         color="blue-darken-3"
         text-color="white"
         prepend-icon="mdi-message-processing-outline"
-        @click="goByLink(`/module/${role}/offers`)">
+       router-link :to="`/module/${role}/offers`">
         Offers {{ totalStore.offers }}
       </v-chip>
       <v-spacer></v-spacer>
@@ -33,7 +33,7 @@
       <div v-if="role === 'contractor'">
       <v-chip
         v-if="this.$route.path !== '/module/contractor/new-tender'"
-        @click="goByLink('/module/contractor/new-tender')"
+        router-link to="/module/contractor/new-tender"
         variant="flat"
         color="indigo-darken-4"
         class="my-2 mr-6"
@@ -48,7 +48,7 @@
         prepend-icon="mdi-account-check-outline"
         > {{ role }}
       </v-chip>
-      <v-btn icon class="mr-6" @click="goByLink('/')">
+      <v-btn icon class="mr-6" router-link to="/">
         <v-icon>mdi-export</v-icon>
       </v-btn>
       <v-divider class="mt-1" color="black"></v-divider>
@@ -67,12 +67,6 @@ export default {
     totalStore,
     successAlert,
   }),
-
-  methods: {
-    goByLink(link) {
-      this.$router.push(link)
-    }
-  },
 
   mounted() {
     this.role = this.$route.params.role;
