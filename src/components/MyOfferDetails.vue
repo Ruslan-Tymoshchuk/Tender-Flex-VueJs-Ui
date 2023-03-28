@@ -7,9 +7,8 @@
       <v-container class="px-15">
         <v-toolbar-title class="ml-14 mb-4" style="font-size: 1.5rem">{{ offer.organizationNameByBidder }}</v-toolbar-title>
         <v-tabs v-model="tab" height="30" class="mb-10 ml-12" color="cyan-accent-2">
-          <v-tab v-if="offer.bidderSt === 'Offer selected by Contractor' || offer.bidderSt === 'Contract declined by Bidder' || offer.bidderSt === 'Contract approved by Bidder'"
-          value="awardDecision">Award Decision</v-tab>
-          <v-tab v-if="offer.bidderSt === 'Offer rejected by Contractor'" value="rejectDecision">Reject Decision</v-tab>
+          <v-tab v-if="checkIsAwardDecision" value="awardDecision">Award Decision</v-tab>
+          <v-tab v-if="checkIsRejectDecision" value="rejectDecision">Reject Decision</v-tab>
           <v-tab value="tenderDescription">Tender Description</v-tab>
           <v-tab value="myOffer">My Offer</v-tab>
         </v-tabs>
@@ -21,13 +20,13 @@
     <v-window-item value="awardDecision">
       <v-card class="mx-auto" elevation="8" max-width="1000">
         <v-toolbar color="white" height="280" class="text-left">
-          <v-toolbar-title v-if="offer.bidderSt === 'Offer selected by Contractor'" class="text-center" style="font-size: 1.5rem">
+          <v-toolbar-title v-if="checkIsOfferSelected" class="text-center" style="font-size: 1.5rem">
             “Congratulation! Your Offer was selected by Contractor”
           </v-toolbar-title>
-          <v-toolbar-title v-if="offer.bidderSt === 'Contract declined by Bidder'" class="text-center" style="font-size: 1.5rem">
+          <v-toolbar-title v-if="checkIsContractDeclined" class="text-center" style="font-size: 1.5rem">
             “Contract is declined by Bidder”
           </v-toolbar-title>
-          <v-toolbar-title v-if="offer.bidderSt === 'Contract approved by Bidder'" class="text-center" style="font-size: 1.5rem">
+          <v-toolbar-title v-if="checkIsContractApproved" class="text-center" style="font-size: 1.5rem">
             “Contract is approved by Bidder”
           </v-toolbar-title>
         </v-toolbar>
@@ -46,7 +45,7 @@
             </v-chip>
           </v-col>
         </v-row>
-        <v-row v-if="offer.bidderSt === 'Offer selected by Contractor'" class="d-flex justify-center mt-2 mb-10">
+        <v-row v-if="checkIsOfferSelected" class="d-flex justify-center mt-2 mb-10">
       <v-col md="3">
         <v-btn type="submit" block variant="outlined" color="blue" @click="saveDecision('decline')">
             Decline
@@ -438,6 +437,48 @@ export default {
     this.offerId = this.$route.params.id
     this.getOfferById();
     this.getTenderDetailsByOffer();
+  },
+
+  computed: {
+    checkIsAwardDecision() {
+      if (this.offer.bidderSt === "Offer selected by Contractor" || this.offer.bidderSt === "Contract declined by Bidder" || this.offer.bidderSt === "Contract approved by Bidder") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
+    checkIsRejectDecision() {
+      if (this.offer.bidderSt === "Offer rejected by Contractor") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
+    checkIsOfferSelected() {
+       if (this.offer.bidderSt === "Offer selected by Contractor") {
+         return true;
+       } else {
+        return false;
+       }
+    },
+
+    checkIsContractDeclined() {
+      if (this.offer.bidderSt === "Contract declined by Bidder") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
+    checkIsContractApproved() {
+      if (this.offer.bidderSt === "Contract approved by Bidder") {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 }
 </script>
