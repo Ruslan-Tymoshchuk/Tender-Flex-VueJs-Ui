@@ -116,7 +116,7 @@ export default {
     },
 
     onScroll(e) {
-      const currentPage = Math.ceil(e.target.scrollTop / 290);
+      const currentPage = Math.ceil(e.target.scrollTop / 285);
       if (currentPage === this.plannedPage && !this.loading && this.plannedPage <= this.totalPages) {
         this.getTenders()
       }

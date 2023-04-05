@@ -12,6 +12,7 @@ import OffersList from '@/components/OffersList.vue'
 const routes = [
   {
     path: '/',
+    name: 'login',
     components: {
       default: LogIn,
     }
