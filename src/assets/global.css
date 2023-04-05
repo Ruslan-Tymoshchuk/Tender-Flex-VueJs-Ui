@@ -1,0 +1,75 @@
+.login {
+  background-image: url('../assets/clouds-flex.jpg');
+  background-size: cover;
+  height: 100dvh;
+}
+
+.horizontal-divider {
+  background-color: #e0e0e0;
+  width: 100%;
+  height: 0.1rem;
+}
+
+.horizontal-divider-details {
+  background-color: #bdbdbd;
+  width: 100%;
+  height: 0.1rem;
+}
+
+.chapter-label {
+  white-space: nowrap;
+  padding-right: 0.5rem;
+  font-size: 1.3rem;
+}
+
+.inf-icon:hover {
+  color: #0277bd;
+}
+
+.inf-icon {
+  color: #42a5f5;
+}
+
+.mdi-file-document-multiple-outline {
+  color: #0a0f12;
+}
+
+.file-label {
+  padding: 0.7rem 2.8rem;
+  cursor: auto;
+}
+
+.required:before {
+  content: "*";
+  margin-bottom: 0.5rem;
+  margin-right: 0.2rem;
+  color: #e0e0e0;
+}
+
+.details-title {
+  color: #8c8c8c;
+}
+
+.details-container {
+  width: 57rem;
+  margin-top: 2rem;
+}
+
+.table {
+  height: 4rem;
+  cursor: default;
+}
+
+.cpv-code {
+  color: #1f9dec;
+}
+
+.cpv-code:hover {
+  color: #11ad0c;
+  cursor: pointer;
+}
+
+html {
+  background-color: #e0e0e0;
+  overflow-y: auto;
+}
