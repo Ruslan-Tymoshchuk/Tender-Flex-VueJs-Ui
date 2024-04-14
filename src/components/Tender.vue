@@ -19,23 +19,23 @@
         </v-row>
 
           <v-row class="mt-5 mx-8">
-            <TextInputField
+            <InputField
                 title="Oficial name"
                 tooltip="Enter the name of the buyer (e.g. Aeroporto Friuli Venezia Giulia S.p.A.)"
                 fieldLabel="Name of Organization"
                 fieldName="organizationName"
                 :counter="50"
                 @updateValue="updatedValueInParent"
-            ></TextInputField>
+            ></InputField>
 
-            <TextInputField
+            <InputField
                 title="National Registration Number"
                 tooltip="Enter the national registration number of the buyer (e.g.ULG BE 0325 777 171)"
                 fieldLabel="National Registration Number"
                 fieldName="nationalRegistrationNumber"
                 :counter="10"
                 @updateValue="updatedValueInParent"
-            ></TextInputField>
+            ></InputField>
 
           <v-col cols="12" md="4">
             <v-chip class="required" variant="text">Country
@@ -49,14 +49,14 @@
             </v-select>
           </v-col>
 
-            <TextInputField
+            <InputField
                 title="City / Town"
                 tooltip="Enter the city of the buyer"
                 fieldLabel="City"
                 fieldName="city"
                 :counter="50"
                 @updateValue="updatedValueInParent"
-            ></TextInputField>
+            ></InputField>
         </v-row>
 
         <v-row>
@@ -67,25 +67,25 @@
         </v-row>
 
         <v-row class="mt-5 mx-8">
-            <TextInputField
+            <InputField
                 title="First Name"
                 tooltip="Enter the name of contact person"
                 fieldLabel="Name"
                 fieldName="firstName"
                 :counter="50"
                 @updateValue="updatedValueInParent"
-            ></TextInputField>
+            ></InputField>
 
-            <TextInputField
+            <InputField
                 title="Last Name"
                 tooltip="Enter the surname of contact person"
                 fieldLabel="Surname"
                 fieldName="lastName"
                 :counter="50"
                 @updateValue="updatedValueInParent"
-            ></TextInputField>
+            ></InputField>
 
-            <TextInputField
+            <InputField
                 title="Phone number"
                 tooltip="Enter the phone number of the contact person"
                 fieldLabel="Phone"
@@ -93,7 +93,7 @@
                 :counter="8"
                 inputFieldType="number"
                 @updateValue="updatedValueInParent"
-            ></TextInputField>
+            ></InputField>
         </v-row>
 
         <v-row>
@@ -130,32 +130,32 @@
             </v-select>
           </v-col>
 
-          <TextInputField
+          <InputField
                 title="Description"
                 tooltip="Enter detailed information about the Tender"
                 fieldLabel="Description"
                 fieldName="details"
                 :counter="250"
                 @updateValue="updatedValueInParent"
-            ></TextInputField>
+            ></InputField>
 
-            <TextInputField
+            <InputField
                 title="Maximum Tender Value"
                 tooltip="Enter maximum price of the Tender contract"
                 fieldLabel="Maximum tender value"
                 fieldName="maxPrice"
                 inputFieldType="number"
                 @updateValue="updatedValueInParent"
-            ></TextInputField>
+            ></InputField>
 
-            <TextInputField
+            <InputField
                 title="Minimum Tender Value"
                 tooltip="Enter minimum price of the Tender contract"
                 fieldLabel="Minimum tender value"
                 fieldName="minPrice"
                 inputFieldType="number"
                 @updateValue="updatedValueInParent"
-            ></TextInputField>
+            ></InputField>
 
           <v-col cols="12" md="4">
             <v-chip class="required" variant="text">Currency
@@ -406,13 +406,13 @@
 import { restApiConfig } from "@/rest.api.config"
 import { format } from 'date-fns'
 import { totalStore, successAlert } from "@/components/actions"
-import TextInputField from "@/components/childs/TextInputField.vue"
+import InputField from "@/components/childs/InputField.vue"
 
 
 
 export default {
   components:{
-    TextInputField
+    InputField
   },
   data: () => ({
     countries: [],
