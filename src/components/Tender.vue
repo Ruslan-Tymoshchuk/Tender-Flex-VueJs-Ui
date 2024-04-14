@@ -18,34 +18,24 @@
           </v-container>
         </v-row>
 
-        <v-row class="mt-5 mx-8">
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">Oficial name
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">
-                  Enter the name of the buyer (e.g. Aeroporto Friuli Venezia Giulia S.p.A.)
-                </v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.organizationName" :counter="50"
-              label="Name of Organization" required density="compact">
-            </v-text-field>
-          </v-col>
+          <v-row class="mt-5 mx-8">
+            <TextInputField
+                title="Oficial name"
+                tooltip="Enter the name of the buyer (e.g. Aeroporto Friuli Venezia Giulia S.p.A.)"
+                fieldLabel="Name of Organization"
+                fieldName="organizationName"
+                :counter="50"
+                @updateValue="updatedValueInParent"
+            ></TextInputField>
 
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">National Registration Number
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">
-                  Enter the national registration number of the buyer (e.g.ULG BE 0325 777 171)
-                </v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.nationalRegistrationNumber"
-              :counter="10" label="National Registration Number" required density="compact">
-            </v-text-field>
-          </v-col>
+            <TextInputField
+                title="National Registration Number"
+                tooltip="Enter the national registration number of the buyer (e.g.ULG BE 0325 777 171)"
+                fieldLabel="National Registration Number"
+                fieldName="nationalRegistrationNumber"
+                :counter="10"
+                @updateValue="updatedValueInParent"
+            ></TextInputField>
 
           <v-col cols="12" md="4">
             <v-chip class="required" variant="text">Country
@@ -59,17 +49,14 @@
             </v-select>
           </v-col>
 
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">City / Town
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">Enter the city of the buyer</v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.city" :counter="50" label="City"
-              required density="compact">
-            </v-text-field>
-          </v-col>
+            <TextInputField
+                title="City / Town"
+                tooltip="Enter the city of the buyer"
+                fieldLabel="City"
+                fieldName="city"
+                :counter="50"
+                @updateValue="updatedValueInParent"
+            ></TextInputField>
         </v-row>
 
         <v-row>
@@ -80,43 +67,33 @@
         </v-row>
 
         <v-row class="mt-5 mx-8">
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">First Name
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">Enter the name of contact person</v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.firstName" :counter="50"
-              label="Name" required density="compact">
-            </v-text-field>
-          </v-col>
+            <TextInputField
+                title="First Name"
+                tooltip="Enter the name of contact person"
+                fieldLabel="Name"
+                fieldName="firstName"
+                :counter="50"
+                @updateValue="updatedValueInParent"
+            ></TextInputField>
 
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">Last Name
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">Enter the surname of contact person</v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.lastName" :counter="50"
-              label="Surname" required density="compact">
-            </v-text-field>
-          </v-col>
+            <TextInputField
+                title="Last Name"
+                tooltip="Enter the surname of contact person"
+                fieldLabel="Surname"
+                fieldName="lastName"
+                :counter="50"
+                @updateValue="updatedValueInParent"
+            ></TextInputField>
 
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">Phone number
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">
-                  Enter the phone number of the contact person
-                </v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.phone" :counter="8" type="number"
-              label="Phone" required density="compact">
-            </v-text-field>
-          </v-col>
+            <TextInputField
+                title="Phone number"
+                tooltip="Enter the phone number of the contact person"
+                fieldLabel="Phone"
+                fieldName="phone"
+                :counter="8"
+                inputFieldType="number"
+                @updateValue="updatedValueInParent"
+            ></TextInputField>
         </v-row>
 
         <v-row>
@@ -153,41 +130,32 @@
             </v-select>
           </v-col>
 
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">Description
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">Enter detailed information about the Tender</v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.details" label="Description"
-              required :counter="250" density="compact">
-            </v-text-field>
-          </v-col>
+          <TextInputField
+                title="Description"
+                tooltip="Enter detailed information about the Tender"
+                fieldLabel="Description"
+                fieldName="details"
+                :counter="250"
+                @updateValue="updatedValueInParent"
+            ></TextInputField>
 
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">Maximum Tender Value
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">Enter minimum price of the Tender contract</v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.maxPrice"
-              label="Maximum tender value" required density="compact" type="number">
-            </v-text-field>
-          </v-col>
+            <TextInputField
+                title="Maximum Tender Value"
+                tooltip="Enter maximum price of the Tender contract"
+                fieldLabel="Maximum tender value"
+                fieldName="maxPrice"
+                inputFieldType="number"
+                @updateValue="updatedValueInParent"
+            ></TextInputField>
 
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">Minimum Tender Value
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">Enter maximum price of the Tender contract</v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.minPrice"
-              label="Minimum tender value" required density="compact" type="number">
-            </v-text-field>
-          </v-col>
+            <TextInputField
+                title="Minimum Tender Value"
+                tooltip="Enter minimum price of the Tender contract"
+                fieldLabel="Minimum tender value"
+                fieldName="minPrice"
+                inputFieldType="number"
+                @updateValue="updatedValueInParent"
+            ></TextInputField>
 
           <v-col cols="12" md="4">
             <v-chip class="required" variant="text">Currency
@@ -437,9 +405,15 @@
 <script>
 import { restApiConfig } from "@/rest.api.config"
 import { format } from 'date-fns'
-import { totalStore, successAlert } from "@/components/actions";
+import { totalStore, successAlert } from "@/components/actions"
+import TextInputField from "@/components/childs/TextInputField.vue"
+
+
 
 export default {
+  components:{
+    TextInputField
+  },
   data: () => ({
     countries: [],
     tenderTypes: [],
@@ -451,18 +425,9 @@ export default {
     minDeadline: null,
     isDisabled: true,
     tender: {
-      organizationName: '',
-      nationalRegistrationNumber: '',
       countryId: '',
-      city: '',
-      firstName: '',
-      lastName: '',
-      phone: '',
       cpvId: '',
       type: null,
-      details: '',
-      maxPrice: 0,
-      minPrice: 0,
       currencyId: '',
       publication: null,
       deadline: null,
@@ -647,6 +612,10 @@ export default {
         .then(dataFromResopnse => {
           this.tender.rejectDecisionFileName = dataFromResopnse.fileName;
         });
+    },
+
+    updatedValueInParent(value, fieldName) {
+      this.tender[fieldName] = value;
     }
   },
 
