@@ -1,11 +1,7 @@
 <template>
-  <v-toolbar color="blue" extended extension-height="100">
-    <template v-slot:extension>
-      <v-container class="px-15">
-        <v-toolbar-title class="ml-10 mb-15" style="font-size: 2rem">Create new Tender</v-toolbar-title>
-      </v-container>
-    </template>
-  </v-toolbar>
+  <ToolBarTitle
+      title="Create new Tender"
+  ></ToolBarTitle>
 
   <v-card class="mt-n7 mx-auto" elevation="8" max-width="1000">
     <v-container class="pa-10">
@@ -249,7 +245,6 @@
                 density="compact"
               ></v-text-field>
               <input
-                input
                 id="contract-input"
                 class="d-none"
                 type="file"
@@ -407,12 +402,12 @@ import { restApiConfig } from "@/rest.api.config"
 import { format } from 'date-fns'
 import { totalStore, successAlert } from "@/components/actions"
 import InputField from "@/components/childs/InputField.vue"
-
-
+import ToolBarTitle from "@/components/childs/ToolBarTitle.vue";
 
 export default {
   components:{
-    InputField
+    InputField,
+    ToolBarTitle
   },
   data: () => ({
     countries: [],
