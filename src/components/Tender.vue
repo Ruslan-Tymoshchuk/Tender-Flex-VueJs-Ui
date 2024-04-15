@@ -8,10 +8,7 @@
       <v-form v-model="valid" fast-fail @submit.prevent="createTender">
 
         <v-row>
-          <v-container class="d-flex align-center">
-            <p class="chapter-label">Contractor</p>
-            <v-div class="horizontal-divider"></v-div>
-          </v-container>
+          <Chapter title="Contractor"></Chapter>
         </v-row>
 
           <v-row class="mt-5 mx-8">
@@ -56,10 +53,7 @@
         </v-row>
 
         <v-row>
-          <v-container class="d-flex align-center">
-            <p class="chapter-label">Contact person</p>
-            <div class="horizontal-divider"></div>
-          </v-container>
+          <Chapter title="Contact person"></Chapter>
         </v-row>
 
         <v-row class="mt-5 mx-8">
@@ -93,10 +87,7 @@
         </v-row>
 
         <v-row>
-          <v-container class="d-flex align-center">
-            <p class="chapter-label">Subject matter of the procurement</p>
-            <div class="horizontal-divider"></div>
-          </v-container>
+          <Chapter title="Subject matter of the procurement"></Chapter>
         </v-row>
 
         <v-row class="mt-5 mx-8">
@@ -167,10 +158,7 @@
         </v-row>
 
         <v-row>
-          <v-container class="d-flex align-center">
-            <p class="chapter-label">Date</p>
-            <div class="horizontal-divider"></div>
-          </v-container>
+          <Chapter title="Date"></Chapter>
         </v-row>
 
         <v-row class="mt-5 mx-8">
@@ -214,10 +202,7 @@
         </v-row>
 
         <v-row>
-          <v-container class="d-flex align-center">
-            <p class="chapter-label">Documents</p>
-            <div class="horizontal-divider"></div>
-          </v-container>
+          <Chapter title="Documents"></Chapter>
         </v-row>
 
         <v-item-group class="py-5 mx-2">
@@ -403,11 +388,13 @@ import { format } from 'date-fns'
 import { totalStore, successAlert } from "@/components/actions"
 import InputField from "@/components/childs/InputField.vue"
 import ToolBarTitle from "@/components/childs/ToolBarTitle.vue";
+import Chapter from "@/components/childs/Chapter.vue";
 
 export default {
   components:{
     InputField,
-    ToolBarTitle
+    ToolBarTitle,
+    Chapter
   },
   data: () => ({
     countries: [],
