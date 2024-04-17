@@ -137,17 +137,15 @@
                 @updateValue="updatedValueInParent"
             ></InputField>
 
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">Currency
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">Choose the currency</v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-select single-line color="blue" variant="outlined" v-model="currency" label="Currency" required
-              density="compact" :items="currencies" item-value="id" item-title="currencyType" return-object persistent-hint>
-            </v-select>
-          </v-col>
+            <SelectOption
+                title="Currency"
+                btnTooltip="Choose the currency"
+                label="Currency"
+                itemTitle="currencyType"
+                :items="currencies"
+                fieldName="currencyId"
+                @updateValue="updatedValueInParent">
+            </SelectOption>
         </v-row>
 
         <v-row>
@@ -517,7 +515,6 @@ export default {
     },
 
    async saveTender() {
-      this.tender.currencyId = this.currency.id;
       await fetch(`${restApiConfig.host}${restApiConfig.newTender}`, {
         method: 'POST',
         credentials: 'include',
