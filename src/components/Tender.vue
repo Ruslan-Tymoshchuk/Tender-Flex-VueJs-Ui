@@ -30,17 +30,15 @@
                 @updateValue="updatedValueInParent"
             ></InputField>
 
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">Country
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">Choose the country of the buyer</v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-select single-line color="blue" variant="outlined" v-model="country" label="Choose the country"
-              required density="compact" :items="countries" item-value="id" item-title="countryName" return-object persistent-hint>
-            </v-select>
-          </v-col>
+            <SelectOption
+                title="Country"
+                btnTooltip="Choose the country of the buyer"
+                label="Choose the country"
+                itemTitle="countryName"
+                :items="countries"
+                fieldName="countryId"
+                @updateValue="updatedValueInParent">
+            </SelectOption>
 
             <InputField
                 title="City / Town"
@@ -91,20 +89,15 @@
         </v-row>
 
         <v-row class="mt-5 mx-8">
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">CPV code
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">
-                  Choose CPV code with corresponded to this code description
-                </v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-select single-line color="blue" variant="outlined" v-model="cpv" label="CPV Code"
-              required density="compact" :items="cpvs" item-value="id" item-title="code" return-object persistent-hint>
-            </v-select>
-          </v-col>
-
+          <SelectOption
+                title="CPV code"
+                btnTooltip="Choose CPV code with corresponded to this code description"
+                label="CPV Code"
+                itemTitle="code"
+                :items="cpvs"
+                fieldName="cpvId"
+                @updateValue="updatedValueInParent">
+            </SelectOption>
           <v-col cols="12" md="4">
             <v-chip class="required" variant="text">Tipe of Tender
               <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
@@ -389,26 +382,24 @@ import { totalStore, successAlert } from "@/components/actions"
 import InputField from "@/components/childs/InputField.vue"
 import ToolBarTitle from "@/components/childs/ToolBarTitle.vue";
 import Chapter from "@/components/childs/Chapter.vue";
+import SelectOption from "@/components/childs/SelectOption.vue"
 
 export default {
   components:{
     InputField,
     ToolBarTitle,
-    Chapter
+    Chapter,
+    SelectOption
   },
   data: () => ({
     countries: [],
     tenderTypes: [],
     cpvs: [],
     currencies: [],
-    country: null,
-    cpv: null,
     currency: null,
     minDeadline: null,
     isDisabled: true,
     tender: {
-      countryId: '',
-      cpvId: '',
       type: null,
       currencyId: '',
       publication: null,
@@ -526,8 +517,6 @@ export default {
     },
 
    async saveTender() {
-      this.tender.countryId = this.country.id;
-      this.tender.cpvId = this.cpv.id;
       this.tender.currencyId = this.currency.id;
       await fetch(`${restApiConfig.host}${restApiConfig.newTender}`, {
         method: 'POST',
