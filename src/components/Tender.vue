@@ -430,9 +430,9 @@ export default {
       this.$router.push("/module/contractor/tenders")
       try {
         await Promise.all([
-          this.uploadContract(),
-          this.uploadAwardDecision(),
-          this.uploadRejectDecision(),
+          this.uploadDocument(this.attachment.contract, 'contractFileName'),
+          this.uploadDocument(this.attachment.awardDecision, 'awardDecisionFileName'),
+          this.uploadDocument(this.attachment.rejectDecision, 'rejectDecisionFileName'),
         ]);
         await this.saveTender();
         this.totalStore.getTotalByModule(this.$route.params.role);
@@ -460,9 +460,9 @@ export default {
       });
     },
 
-    async uploadContract() {
+    async uploadDocument(document, fileName) {
       const formData = new FormData()
-      formData.append("document", this.attachment.contract)
+      formData.append("document", document)
       await fetch(`${restApiConfig.host}${restApiConfig.uploadFile}`, {
         method: 'POST',
         credentials: 'include',
@@ -473,41 +473,7 @@ export default {
       })
         .then(response => response.json())
         .then(dataFromResopnse => {
-          this.tender.contractFileName = dataFromResopnse.fileName;
-        });
-    },
-
-    async uploadAwardDecision() {
-      const formData = new FormData()
-      formData.append("document", this.attachment.awardDecision)
-      await fetch(`${restApiConfig.host}${restApiConfig.uploadFile}`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          "Accept": "*/*",
-        },
-        body: formData,
-      })
-        .then(response => response.json())
-        .then(dataFromResopnse => {
-          this.tender.awardDecisionFileName = dataFromResopnse.fileName;
-        });
-    },
-
-    async uploadRejectDecision() {
-      const formData = new FormData()
-      formData.append("document", this.attachment.rejectDecision)
-      await fetch(`${restApiConfig.host}${restApiConfig.uploadFile}`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          "Accept": "*/*",
-        },
-        body: formData,
-      })
-        .then(response => response.json())
-        .then(dataFromResopnse => {
-          this.tender.rejectDecisionFileName = dataFromResopnse.fileName;
+          this.tender[fileName] = dataFromResopnse.fileName;
         });
     },
 
