@@ -8,8 +8,8 @@
         <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
       </v-btn>
     </v-chip>
-    <v-text-field single-line color="blue" variant="outlined" v-model="inputValue" @change="updateValue" :counter="counter"
-       :type="inputFieldType" :label="fieldLabel" required density="compact">
+    <v-text-field single-line color="blue" variant="outlined" v-model="inputValue" @change="updateValue"
+      :counter="counter" :type="inputFieldType" :label="fieldLabel" required density="compact" :min="startDate" :disabled="isDisabled">
     </v-text-field>
   </v-col>
 </template>
@@ -26,6 +26,8 @@ export default {
     tooltip: '',
     fieldLabel: '',
     fieldName: '',
+    startDate: null,
+    isDisabled: Boolean,
     inputFieldType: "text",
   },
 

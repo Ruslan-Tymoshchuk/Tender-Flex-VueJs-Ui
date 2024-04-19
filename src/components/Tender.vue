@@ -153,43 +153,33 @@
         </v-row>
 
         <v-row class="mt-5 mx-8">
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">Publication Date
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">Today date</v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.publication"
-              label="Publication Date" type="date" required density="compact" disabled>
-            </v-text-field>
-          </v-col>
+          <InputField
+                title="Publication Date"
+                tooltip="Today date"
+                :fieldLabel="currentDate"
+                fieldName="publication"
+                :isDisabled="true"
+            ></InputField>
 
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">Deadline for Offer Submission
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">Choose the deadline date for Offer submission</v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.deadline"
-              label="Deadline for Offer Submission" type="date" required density="compact" :min="minDeadline" @change="isDisabled = false">
-            </v-text-field>
-          </v-col>
+            <InputField
+                title="Deadline for Offer Submission"
+                tooltip="Choose the deadline date for Offer submission"
+                fieldLabel="Deadline for Offer Submission"
+                fieldName="deadline"
+                inputFieldType="date"
+                :startDate="minDeadline"
+                @updateValue="updatedValueInParent"
+            ></InputField>
 
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">Deadline for Signing
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">
-                  Choose the deadline date for signed contract submission
-                </v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.deadlineForSignedContract"
-              label="DeadLine for Signed Contract Submission" required density="compact" type="date" :min="minDeadline" :disabled="isDisabled">
-            </v-text-field>
-          </v-col>
+            <InputField
+                title="Deadline for Signing"
+                tooltip="Choose the deadline date for signed contract submission"
+                fieldLabel="DeadLine for Signed Contract Submission"
+                fieldName="deadlineForSignedContract"
+                inputFieldType="date"
+                :startDate="minDeadline"
+                @updateValue="updatedValueInParent"
+            ></InputField>
         </v-row>
 
         <v-row>
@@ -397,12 +387,9 @@ export default {
     currency: null,
     minDeadline: null,
     isDisabled: true,
+    currentDate: null,
     tender: {
       type: null,
-      currencyId: '',
-      publication: null,
-      deadline: null,
-      deadlineForSignedContract: null,
     },
     valid: false,
     dialog: false,
@@ -489,15 +476,6 @@ export default {
         .then(dataFromResopnse => this.currencies = dataFromResopnse);
     },
 
-    getCurrentdate() {
-      this.tender.publication = format(new Date(), 'yyyy-MM-dd');
-    },
-
-    getDeadlineDate() {
-      this.alert = true;
-      this.minDeadline = format(new Date().getTime() + 86400000, 'yyyy-MM-dd');
-    },
-
     async createTender() {
       this.$router.push("/module/contractor/tenders")
       try {
@@ -515,6 +493,7 @@ export default {
     },
 
    async saveTender() {
+    this.tender.publication = this.currentDate
       await fetch(`${restApiConfig.host}${restApiConfig.newTender}`, {
         method: 'POST',
         credentials: 'include',
@@ -592,9 +571,8 @@ export default {
     this.getCpvs();
     this.getTenderTypes();
     this.getCurrencies();
-    this.getCurrentdate();
-    this.getDeadlineDate();
+    this.currentDate = format(new Date(), 'yyyy-MM-dd');
+    this.minDeadline = format(new Date().getTime() + 86400000, 'yyyy-MM-dd');
   }
 }
-
 </script>
