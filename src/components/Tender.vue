@@ -397,11 +397,7 @@ export default {
     isContract: false,
     isAwardDecision: false,
     isRejectedDecision: false,
-    attachment: {
-      contract: null,
-      awardDecision: null,
-      rejectDecision: null,
-    },
+    attachment: {},
     documentUrl: '',
     totalStore,
     successAlert
@@ -418,8 +414,8 @@ export default {
       this.dialog = true;
     },
 
-    getCountries() {
-      fetch(`${restApiConfig.host}${restApiConfig.countries}`, {
+    getListOf(listName) {
+      fetch(`${restApiConfig.host}${restApiConfig[listName]}`, {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -427,43 +423,7 @@ export default {
         }
       })
         .then(response => response.json())
-        .then(dataFromResopnse => this.countries = dataFromResopnse)
-    },
-
-    getCpvs() {
-      fetch(`${restApiConfig.host}${restApiConfig.cpvs}`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Accept': 'application/json',
-        }
-      })
-        .then(response => response.json())
-        .then(dataFromResopnse => this.cpvs = dataFromResopnse)
-    },
-
-    getTenderTypes() {
-      fetch(`${restApiConfig.host}${restApiConfig.tenderTypes}`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Accept': 'application/json',
-        }
-      })
-        .then(response => response.json())
-        .then(dataFromResopnse => this.tenderTypes = dataFromResopnse)
-    },
-
-    getCurrencies() {
-      fetch(`${restApiConfig.host}${restApiConfig.currencies}`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Accept': 'application/json',
-        },
-      })
-        .then(response => response.json())
-        .then(dataFromResopnse => this.currencies = dataFromResopnse);
+        .then(dataFromResopnse => this[listName] = dataFromResopnse)
     },
 
     async createTender() {
@@ -557,10 +517,10 @@ export default {
   },
 
   mounted() {
-    this.getCountries();
-    this.getCpvs();
-    this.getTenderTypes();
-    this.getCurrencies();
+    this.getListOf('countries');
+    this.getListOf('cpvs');
+    this.getListOf('tenderTypes');
+    this.getListOf('currencies');
     this.currentDate = format(new Date(), 'yyyy-MM-dd');
     this.minDeadline = format(new Date().getTime() + 86400000, 'yyyy-MM-dd');
   }
