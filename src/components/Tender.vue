@@ -215,7 +215,7 @@
                 class="d-none"
                 type="file"
                 accept="application/pdf"
-                @change="onFileChangedContract">
+                @change="onFileChanged($event, 'isContract', 'contract')">
               <v-btn
                 color="primary"
                 rounded="0"
@@ -258,7 +258,7 @@
                 class="d-none"
                 type="file"
                 accept="application/pdf"
-                @change="onFileChangedAwardDecision"
+                @change="onFileChanged($event, 'isAwardDecision', 'awardDecision')"
               ><v-btn
                 color="primary"
                 rounded="0"
@@ -300,7 +300,7 @@
                 class="d-none"
                 type="file"
                 accept="application/pdf"
-                @change="onFileChangedRejectDecision"
+                @change="onFileChanged($event, 'isRejectedDecision', 'rejectDecision')"
               ><v-btn
                 color="primary"
                 rounded="0"
@@ -408,19 +408,9 @@ export default {
   }),
 
   methods: {
-    onFileChangedContract(event) {
-      this.isContract = true;
-      this.attachment.contract = event.target.files[0];
-    },
-
-    onFileChangedAwardDecision(event) {
-      this.isAwardDecision = true;
-      this.attachment.awardDecision = event.target.files[0];
-    },
-
-    onFileChangedRejectDecision(event) {
-      this.isRejectedDecision = true;
-      this.attachment.rejectDecision = event.target.files[0];
+    onFileChanged(event, isFile, choosedFile) {
+      this[isFile] = true;
+      this.attachment[choosedFile] = event.target.files[0];
     },
 
     openDialog(document) {
