@@ -187,140 +187,35 @@
         </v-row>
 
         <v-item-group class="py-5 mx-2">
-          <v-row class="mt-5 mx-8">
-            <v-item v-if="isContract">
-              <v-chip
-                size="large"
-                class="mb-6"
-                closable color="blue"
-                prepend-icon="mdi-file-document-multiple-outline"
-                label
-                @click:close="isContract = false"
-                @click="openDialog(attachment.contract)"
-              ><div
-                id="text"
-                style="width: 50rem"
-              > {{ attachment.contract.name }} </div>
-              </v-chip
-              ></v-item>
-            <v-item v-if="!isContract">
-              <v-text-field
-                single-line
-                label="* Contract"
-                variant="outlined"
-                density="compact"
-              ></v-text-field>
-              <input
-                id="contract-input"
-                class="d-none"
-                type="file"
-                accept="application/pdf"
-                @change="onFileChanged($event, 'isContract', 'contract')">
-              <v-btn
-                color="primary"
-                rounded="0"
-                height="40"
-                width="150">
-              <label
-                class="file-label"
-                for="contract-input"
-              >Upload</label>
-              </v-btn
-            ></v-item>
-          </v-row>
-
-          <v-row class="mt-5 mx-8">
-            <v-item v-if="isAwardDecision">
-              <v-chip
-                size="large"
-                class="mb-6"
-                closable
-                color="blue"
-                prepend-icon="mdi-file-document-multiple-outline"
-                label
-                @click:close="isAwardDecision = false"
-                @click="openDialog(attachment.awardDecision)"
-              ><div
-                id="text"
-                style="width: 50rem"
-              > {{ attachment.awardDecision.name }} </div>
-              </v-chip>
-            </v-item>
-            <v-item v-if="!isAwardDecision">
-              <v-text-field
-                single-line
-                label="* Award decision"
-                variant="outlined"
-                density="compact"
-              ></v-text-field>
-              <input
-                id="award-decision-input"
-                class="d-none"
-                type="file"
-                accept="application/pdf"
-                @change="onFileChanged($event, 'isAwardDecision', 'awardDecision')"
-              ><v-btn
-                color="primary"
-                rounded="0"
-                height="40"
-                width="150"
-              ><label
-                class="file-label"
-                for="award-decision-input"
-              >Upload</label
-              ></v-btn>
-            </v-item>
-          </v-row>
-          <v-row class="mt-5 mx-8">
-            <v-item v-if="isRejectedDecision">
-              <v-chip
-                size="large"
-                class="mb-6"
-                closable
-                color="blue"
-                prepend-icon="mdi-file-document-multiple-outline"
-                label
-                @click:close="isRejectedDecision = false"
-                @click="openDialog(attachment.rejectDecision)"
-              ><div
-                id="text"
-                style="width: 50rem"
-              > {{ attachment.rejectDecision.name }} </div>
-              </v-chip>
-            </v-item>
-            <v-item v-if="!isRejectedDecision">
-              <v-text-field
-                single-line
-                label="* Reject decision"
-                variant="outlined"
-                density="compact"
-              ></v-text-field>
-              <input
-                id="reject-decision-input"
-                class="d-none"
-                type="file"
-                accept="application/pdf"
-                @change="onFileChanged($event, 'isRejectedDecision', 'rejectDecision')"
-              ><v-btn
-                color="primary"
-                rounded="0"
-                height="40"
-                width="150"
-              ><label
-                class="file-label"
-                for="reject-decision-input"
-              >Upload</label
-              ></v-btn>
-            </v-item>
-          </v-row>
+          <InputFileField
+            label="* Contract"
+            fileType="contract"
+            labelId="contract-input"
+            @updateValue="updateFileDataInParent"
+            @openDocument="openDocumentInParent"
+          ></InputFileField>
+          <InputFileField
+            label="* Award decision"
+            fileType="awardDecision"
+            labelId="award-decision-input"
+            @updateValue="updateFileDataInParent"
+            @openDocument="openDocumentInParent"
+          ></InputFileField>
+          <InputFileField
+            label="* Reject decision"
+            fileType="rejectDecision"
+            labelId="reject-decision-input"
+            @updateValue="updateFileDataInParent"
+            @openDocument="openDocumentInParent"
+          ></InputFileField>
         </v-item-group>
 
-        <v-dialog v-model="dialog" width="auto">
+        <v-dialog v-model="isDialog" width="auto">
           <v-card>
             <iframe :src=documentUrl width="800" height="500">
             </iframe>
             <v-card-actions>
-              <v-btn color="primary" block @click="dialog = false">Close</v-btn>
+              <v-btn color="primary" block @click="isDialog = false">Close</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -368,16 +263,18 @@ import { restApiConfig } from "@/rest.api.config"
 import { format } from 'date-fns'
 import { totalStore, successAlert } from "@/components/actions"
 import InputField from "@/components/childs/InputField.vue"
-import ToolBarTitle from "@/components/childs/ToolBarTitle.vue";
-import Chapter from "@/components/childs/Chapter.vue";
+import ToolBarTitle from "@/components/childs/ToolBarTitle.vue"
+import Chapter from "@/components/childs/Chapter.vue"
 import SelectOption from "@/components/childs/SelectOption.vue"
+import InputFileField from "@/components/childs/InputFileField.vue"
 
 export default {
   components:{
     InputField,
     ToolBarTitle,
     Chapter,
-    SelectOption
+    SelectOption,
+    InputFileField
   },
   data: () => ({
     countries: [],
@@ -392,7 +289,7 @@ export default {
       type: null,
     },
     valid: false,
-    dialog: false,
+    isDialog: false,
     cancelDialog: false,
     isContract: false,
     isAwardDecision: false,
@@ -411,7 +308,7 @@ export default {
 
     openDialog(document) {
       this.documentUrl = URL.createObjectURL(document);
-      this.dialog = true;
+      this.isDialog = true;
     },
 
     getListOf(listName) {
@@ -479,6 +376,15 @@ export default {
 
     updatedValueInParent(value, fieldName) {
       this.tender[fieldName] = value;
+    },
+
+    updateFileDataInParent(fileType, file){
+      this.attachment[fileType] = file
+    },
+
+    openDocumentInParent(fileUrl){
+      this.documentUrl = fileUrl
+      this.isDialog = true
     }
   },
 
