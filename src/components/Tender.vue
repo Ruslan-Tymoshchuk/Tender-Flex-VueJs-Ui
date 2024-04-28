@@ -208,17 +208,12 @@
             @updateValue="updateFileDataInParent"
             @openDocument="openDocumentInParent"
           ></InputFileField>
+          <ModalFileRenderer
+          v-model="isDialog"
+          :documentUrl="documentUrl"
+          @close="closeDocumentInParent"
+          ></ModalFileRenderer>
         </v-item-group>
-
-        <v-dialog v-model="isDialog" width="auto">
-          <v-card>
-            <iframe :src=documentUrl width="800" height="500">
-            </iframe>
-            <v-card-actions>
-              <v-btn color="primary" block @click="isDialog = false">Close</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
       </v-form>
     </v-container>
   </v-card>
@@ -267,6 +262,7 @@ import ToolBarTitle from "@/components/childs/ToolBarTitle.vue"
 import Chapter from "@/components/childs/Chapter.vue"
 import SelectOption from "@/components/childs/SelectOption.vue"
 import InputFileField from "@/components/childs/InputFileField.vue"
+import ModalFileRenderer from "@/components/childs/ModalFileRenderer.vue"
 
 export default {
   components:{
@@ -274,7 +270,8 @@ export default {
     ToolBarTitle,
     Chapter,
     SelectOption,
-    InputFileField
+    InputFileField,
+    ModalFileRenderer
   },
   data: () => ({
     countries: [],
@@ -375,6 +372,10 @@ export default {
     openDocumentInParent(fileUrl){
       this.documentUrl = fileUrl
       this.isDialog = true
+    },
+
+    closeDocumentInParent(){
+      this.isDialog = false
     }
   },
 
