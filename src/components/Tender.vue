@@ -301,16 +301,6 @@ export default {
   }),
 
   methods: {
-    onFileChanged(event, isFile, choosedFile) {
-      this[isFile] = true;
-      this.attachment[choosedFile] = event.target.files[0];
-    },
-
-    openDialog(document) {
-      this.documentUrl = URL.createObjectURL(document);
-      this.isDialog = true;
-    },
-
     getListOf(listName) {
       fetch(`${restApiConfig.host}${restApiConfig[listName]}`, {
         method: 'GET',
