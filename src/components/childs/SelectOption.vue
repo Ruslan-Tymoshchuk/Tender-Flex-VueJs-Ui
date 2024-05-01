@@ -32,6 +32,7 @@ export default {
   }),
 
   props: {
+    instance: '',
     title: '',
     btnTooltip: '',
     label: '',
@@ -42,7 +43,7 @@ export default {
 
   computed: {
     updateValue() {
-      this.$emit('updateValue', this.selectedItem.id, this.fieldName);
+      this.$emit('updateValue', this.instance, this.fieldName, this.selectedItem.id);
     },
   }
 }

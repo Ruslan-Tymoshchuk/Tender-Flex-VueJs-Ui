@@ -13,6 +13,7 @@
 
           <v-row class="mt-5 mx-8">
             <InputField
+                instance="tender"
                 title="Oficial name"
                 tooltip="Enter the name of the buyer (e.g. Aeroporto Friuli Venezia Giulia S.p.A.)"
                 fieldLabel="Name of Organization"
@@ -20,8 +21,8 @@
                 :counter="50"
                 @updateValue="updatedValueInParent"
             ></InputField>
-
             <InputField
+                instance="tender"
                 title="National Registration Number"
                 tooltip="Enter the national registration number of the buyer (e.g.ULG BE 0325 777 171)"
                 fieldLabel="National Registration Number"
@@ -29,8 +30,8 @@
                 :counter="10"
                 @updateValue="updatedValueInParent"
             ></InputField>
-
             <SelectOption
+                instance="tender"
                 title="Country"
                 btnTooltip="Choose the country of the buyer"
                 label="Choose the country"
@@ -39,8 +40,8 @@
                 fieldName="countryId"
                 @updateValue="updatedValueInParent">
             </SelectOption>
-
             <InputField
+                instance="tender"
                 title="City / Town"
                 tooltip="Enter the city of the buyer"
                 fieldLabel="City"
@@ -56,6 +57,7 @@
 
         <v-row class="mt-5 mx-8">
             <InputField
+                instance="tender"
                 title="First Name"
                 tooltip="Enter the name of contact person"
                 fieldLabel="Name"
@@ -63,8 +65,8 @@
                 :counter="50"
                 @updateValue="updatedValueInParent"
             ></InputField>
-
             <InputField
+                instance="tender"
                 title="Last Name"
                 tooltip="Enter the surname of contact person"
                 fieldLabel="Surname"
@@ -72,8 +74,8 @@
                 :counter="50"
                 @updateValue="updatedValueInParent"
             ></InputField>
-
             <InputField
+                instance="tender"
                 title="Phone number"
                 tooltip="Enter the phone number of the contact person"
                 fieldLabel="Phone"
@@ -90,6 +92,7 @@
 
         <v-row class="mt-5 mx-8">
           <SelectOption
+                instance="tender"
                 title="CPV code"
                 btnTooltip="Choose CPV code with corresponded to this code description"
                 label="CPV Code"
@@ -98,8 +101,8 @@
                 fieldName="cpvId"
                 @updateValue="updatedValueInParent">
             </SelectOption>
-
             <SelectOption
+                instance="tender"
                 title="Tipe of Tender"
                 btnTooltip="Choose the type of contract"
                 label="Type"
@@ -108,8 +111,8 @@
                 fieldName="typeOfTenderId"
                 @updateValue="updatedValueInParent">
             </SelectOption>
-
             <InputField
+                instance="tender"
                 title="Description"
                 tooltip="Enter detailed information about the Tender"
                 fieldLabel="Description"
@@ -117,8 +120,8 @@
                 :counter="250"
                 @updateValue="updatedValueInParent"
             ></InputField>
-
             <InputField
+                instance="tender"
                 title="Maximum Tender Value"
                 tooltip="Enter maximum price of the Tender contract"
                 fieldLabel="Maximum tender value"
@@ -126,8 +129,8 @@
                 inputFieldType="number"
                 @updateValue="updatedValueInParent"
             ></InputField>
-
             <InputField
+                instance="tender"
                 title="Minimum Tender Value"
                 tooltip="Enter minimum price of the Tender contract"
                 fieldLabel="Minimum tender value"
@@ -135,8 +138,8 @@
                 inputFieldType="number"
                 @updateValue="updatedValueInParent"
             ></InputField>
-
             <SelectOption
+                instance="tender"
                 title="Currency"
                 btnTooltip="Choose the currency"
                 label="Currency"
@@ -153,14 +156,15 @@
 
         <v-row class="mt-5 mx-8">
           <InputField
+                instance="tender"
                 title="Publication Date"
                 tooltip="Today date"
                 :fieldLabel="currentDate"
                 fieldName="publication"
                 :isDisabled="true"
             ></InputField>
-
             <InputField
+                instance="tender"
                 title="Deadline for Offer Submission"
                 tooltip="Choose the deadline date for Offer submission"
                 fieldLabel="Deadline for Offer Submission"
@@ -169,8 +173,8 @@
                 :startDate="minDeadline"
                 @updateValue="updatedValueInParent"
             ></InputField>
-
             <InputField
+                instance="tender"
                 title="Deadline for Signing"
                 tooltip="Choose the deadline date for signed contract submission"
                 fieldLabel="DeadLine for Signed Contract Submission"
@@ -187,24 +191,27 @@
 
         <v-item-group class="py-5 mx-2">
           <InputFileField
+            instance="attachment"
             label="* Contract"
             fileType="contract"
             labelId="contract-input"
-            @updateValue="updateFileDataInParent"
+            @updateValue="updatedValueInParent"
             @openDocument="openDocumentInParent"
           ></InputFileField>
           <InputFileField
+            instance="attachment"
             label="* Award decision"
             fileType="awardDecision"
             labelId="award-decision-input"
-            @updateValue="updateFileDataInParent"
+            @updateValue="updatedValueInParent"
             @openDocument="openDocumentInParent"
           ></InputFileField>
           <InputFileField
+            instance="attachment"
             label="* Reject decision"
             fileType="rejectDecision"
             labelId="reject-decision-input"
-            @updateValue="updateFileDataInParent"
+            @updateValue="updatedValueInParent"
             @openDocument="openDocumentInParent"
           ></InputFileField>
           <ModalFileRenderer
@@ -277,7 +284,6 @@ export default {
     typesOfTender: [],
     cpvs: [],
     currencies: [],
-    currency: null,
     minDeadline: null,
     isDisabled: true,
     currentDate: null,
@@ -358,12 +364,8 @@ export default {
         });
     },
 
-    updatedValueInParent(value, fieldName) {
-      this.tender[fieldName] = value;
-    },
-
-    updateFileDataInParent(fileType, file) {
-      this.attachment[fileType] = file
+    updatedValueInParent(instance, fieldName, value) {
+      this[instance][fieldName] = value
     },
 
     openDocumentInParent(fileUrl){

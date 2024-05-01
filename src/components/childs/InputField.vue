@@ -21,6 +21,7 @@ export default {
   }),
 
   props: {
+    instance: '',
     counter: '',
     title: '',
     tooltip: '',
@@ -33,7 +34,7 @@ export default {
 
   methods: {
     updateValue() {
-      this.$emit('updateValue', this.inputValue, this.fieldName);
+      this.$emit('updateValue', this.instance, this.fieldName, this.inputValue);
     },
   }
 }

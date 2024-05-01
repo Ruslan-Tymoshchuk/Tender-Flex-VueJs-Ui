@@ -52,6 +52,7 @@ export default {
   }),
 
   props: {
+    instance: '',
     label: '',
     fileType: '',
     labelId: ''
@@ -61,7 +62,7 @@ export default {
     updateValue(event, fileType){
       this.isFile = true;
       this.file = event.target.files[0];
-      this.$emit('updateValue', fileType, this.file)
+      this.$emit('updateValue', instance, fileType, this.file)
     },
 
     openDocument(){
