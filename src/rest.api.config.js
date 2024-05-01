@@ -1,9 +1,9 @@
 export const restApiConfig = {
   host:'http://localhost:8080/',
-  logIn:'api/v1/auth/signin',
+  logIn:'api/v1/auth/login',
   countries: 'api/v1/country/list',
   cpvs: 'api/v1/cpv/list',
-  tenderTypes: 'api/v1/tender_type/list',
+  typesOfTender: 'api/v1/type_of_tender/list',
   currencies: 'api/v1/currency/list',
   newTender: 'api/v1/tender',
   newOffer: 'api/v1/offer',

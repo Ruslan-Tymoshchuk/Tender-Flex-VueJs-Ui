@@ -98,19 +98,18 @@
                 fieldName="cpvId"
                 @updateValue="updatedValueInParent">
             </SelectOption>
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">Tipe of Tender
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">Choose the type of contract</v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-select single-line color="blue" variant="outlined" v-model="tender.type" label="Type" required
-              density="compact" :items="tenderTypes">
-            </v-select>
-          </v-col>
 
-          <InputField
+            <SelectOption
+                title="Tipe of Tender"
+                btnTooltip="Choose the type of contract"
+                label="Type"
+                itemTitle="title"
+                :items="typesOfTender"
+                fieldName="typeOfTenderId"
+                @updateValue="updatedValueInParent">
+            </SelectOption>
+
+            <InputField
                 title="Description"
                 tooltip="Enter detailed information about the Tender"
                 fieldLabel="Description"
@@ -275,16 +274,14 @@ export default {
   },
   data: () => ({
     countries: [],
-    tenderTypes: [],
+    typesOfTender: [],
     cpvs: [],
     currencies: [],
     currency: null,
     minDeadline: null,
     isDisabled: true,
     currentDate: null,
-    tender: {
-      type: null,
-    },
+    tender: {},
     valid: false,
     isDialog: false,
     cancelDialog: false,
@@ -365,7 +362,7 @@ export default {
       this.tender[fieldName] = value;
     },
 
-    updateFileDataInParent(fileType, file){
+    updateFileDataInParent(fileType, file) {
       this.attachment[fileType] = file
     },
 
@@ -382,7 +379,7 @@ export default {
   mounted() {
     this.getListOf('countries');
     this.getListOf('cpvs');
-    this.getListOf('tenderTypes');
+    this.getListOf('typesOfTender');
     this.getListOf('currencies');
     this.currentDate = format(new Date(), 'yyyy-MM-dd');
     this.minDeadline = format(new Date().getTime() + 86400000, 'yyyy-MM-dd');
