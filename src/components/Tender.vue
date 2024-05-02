@@ -245,6 +245,7 @@ import SelectOption from "@/components/childs/SelectOption.vue"
 import InputFileField from "@/components/childs/InputFileField.vue"
 import ModalFileRenderer from "@/components/childs/ModalFileRenderer.vue"
 import ConfirmationMenu from "@/components/childs/ConfirmationMenu.vue"
+import axios from "axios"
 
 export default {
   components:{
@@ -275,15 +276,18 @@ export default {
 
   methods: {
     getListOf(listName) {
-      fetch(`${restApiConfig.host}${restApiConfig[listName]}`, {
-        method: 'GET',
-        credentials: 'include',
+      axios.get(`${restApiConfig.host}${restApiConfig[listName]}`, {
+        withCredentials: true,
         headers: {
           'Accept': 'application/json',
         }
       })
-        .then(response => response.json())
-        .then(dataFromResopnse => this[listName] = dataFromResopnse)
+        .then(response => {
+          this[listName] = response.data;
+        })
+        .catch(error => {
+          alert("Error occurred when fetching the data: " + error);
+        });
     },
 
     async createTender() {
