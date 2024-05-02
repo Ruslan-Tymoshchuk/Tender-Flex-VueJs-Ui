@@ -91,7 +91,7 @@
         </v-row>
 
         <v-row class="mt-5 mx-8">
-          <SelectOption
+            <SelectOption
                 instance="tender"
                 title="CPV code"
                 btnTooltip="Choose CPV code with corresponded to this code description"
@@ -155,7 +155,7 @@
         </v-row>
 
         <v-row class="mt-5 mx-8">
-          <InputField
+            <InputField
                 instance="tender"
                 title="Publication Date"
                 tooltip="Today date"
@@ -190,73 +190,47 @@
         </v-row>
 
         <v-item-group class="py-5 mx-2">
-          <InputFileField
-            instance="attachment"
-            label="* Contract"
-            fileType="contract"
-            labelId="contract-input"
-            @updateValue="updatedValueInParent"
-            @openDocument="openDocumentInParent"
-          ></InputFileField>
-          <InputFileField
-            instance="attachment"
-            label="* Award decision"
-            fileType="awardDecision"
-            labelId="award-decision-input"
-            @updateValue="updatedValueInParent"
-            @openDocument="openDocumentInParent"
-          ></InputFileField>
-          <InputFileField
-            instance="attachment"
-            label="* Reject decision"
-            fileType="rejectDecision"
-            labelId="reject-decision-input"
-            @updateValue="updatedValueInParent"
-            @openDocument="openDocumentInParent"
-          ></InputFileField>
-          <ModalFileRenderer
-          v-model="isDialog"
-          :documentUrl="documentUrl"
-          @close="closeDocumentInParent"
-          ></ModalFileRenderer>
+            <InputFileField
+                instance="attachment"
+                label="* Contract"
+                fileType="contract"
+                labelId="contract-input"
+                @updateValue="updatedValueInParent"
+                @openDocument="openDocumentInParent"
+            ></InputFileField>
+            <InputFileField
+                instance="attachment"
+                label="* Award decision"
+                fileType="awardDecision"
+                labelId="award-decision-input"
+                @updateValue="updatedValueInParent"
+                @openDocument="openDocumentInParent"
+            ></InputFileField>
+            <InputFileField
+                instance="attachment"
+                label="* Reject decision"
+                fileType="rejectDecision"
+                labelId="reject-decision-input"
+                @updateValue="updatedValueInParent"
+                @openDocument="openDocumentInParent"
+            ></InputFileField>
+            <ModalFileRenderer
+                v-model="isDialog"
+                :documentUrl="documentUrl"
+                @close="closeDocumentInParent"
+            ></ModalFileRenderer>
         </v-item-group>
       </v-form>
     </v-container>
   </v-card>
 
-  <v-container class="px-10">
-    <v-row class="justify-end pb-15 mr-12 mt-3">
-      <v-col cols="9" md="2">
-        <v-btn type="submit" block class="mt-2" variant="outlined" color="blue"
-          size="large" @click="cancelDialog = true">
-          Cancel
-        </v-btn>
-        </v-col>
-      <v-col cols="9" md="2">
-        <v-btn type="submit" block class="mt-2" variant="flat" color="blue"
-          size="large" @click="createTender">
-          Publish
-        </v-btn>
-      </v-col>
-    </v-row>
-  </v-container>
-
-  <div class="text-center">
-    <v-dialog v-model="cancelDialog" activator="parent" width="500">
-      <v-card>
-        <v-toolbar color="primary" title="Cancellation confirmation" height="50"></v-toolbar>
-          <v-card-text class="text-center">
-            <div>Do you really want to cancel the new Tender creation?</div>
-            <div>All you entered data will be lost</div>
-          </v-card-text>
-          <v-row class="justify-center mb-8 mt-3">
-            <v-btn @click="cancelDialog = false" width="160" class="mx-2">No</v-btn>
-            <v-btn href="/module/contractor/tenders" color="primary" width="160" class="mx-2">Yes</v-btn>
-          </v-row>
-      </v-card>
-    </v-dialog>
-  </div>
-
+  <ConfirmationMenu
+      btnTitle="Publish"
+      firstLineExplanation="Do you really want to cancel the new Tender creation?"
+      secondLineExplanaton="All you entered data will be lost"
+      redirectUrl="/module/contractor/tenders"
+      @saveDocument="createTender"
+  ></ConfirmationMenu>
 </template>
 
 <script>
@@ -269,6 +243,7 @@ import Chapter from "@/components/childs/Chapter.vue"
 import SelectOption from "@/components/childs/SelectOption.vue"
 import InputFileField from "@/components/childs/InputFileField.vue"
 import ModalFileRenderer from "@/components/childs/ModalFileRenderer.vue"
+import ConfirmationMenu from "@/components/childs/ConfirmationMenu.vue"
 
 export default {
   components:{
@@ -277,7 +252,8 @@ export default {
     Chapter,
     SelectOption,
     InputFileField,
-    ModalFileRenderer
+    ModalFileRenderer,
+    ConfirmationMenu
   },
   data: () => ({
     countries: [],
@@ -290,10 +266,6 @@ export default {
     tender: {},
     valid: false,
     isDialog: false,
-    cancelDialog: false,
-    isContract: false,
-    isAwardDecision: false,
-    isRejectedDecision: false,
     attachment: {},
     documentUrl: '',
     totalStore,
