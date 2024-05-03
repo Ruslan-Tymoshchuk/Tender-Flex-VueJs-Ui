@@ -275,19 +275,18 @@ export default {
   }),
 
   methods: {
-    getListOf(listName) {
-      axios.get(`${restApiConfig.host}${restApiConfig[listName]}`, {
-        withCredentials: true,
-        headers: {
-          'Accept': 'application/json',
-        }
-      })
-        .then(response => {
-          this[listName] = response.data;
-        })
-        .catch(error => {
-          alert("Error occurred when fetching the data: " + error);
+    async getListOf(listName) {
+      try {
+        const response = await axios.get(`${restApiConfig.host}${restApiConfig[listName]}`, {
+          withCredentials: true,
+          headers: {
+            'Accept': 'application/json',
+          }
         });
+        this[listName] = response.data;
+      } catch (error) {
+        alert("Error occurred when fetching the data: " + error);
+      }
     },
 
     async createTender() {
