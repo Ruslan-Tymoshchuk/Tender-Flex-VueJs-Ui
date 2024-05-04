@@ -305,39 +305,35 @@ export default {
       }
     },
 
-   async saveTender() {
-    this.tender.publication = this.currentDate
-      await fetch(`${restApiConfig.host}${restApiConfig.newTender}`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(this.tender)
-      }).then(response => {
-        if (response.status !== 200) {
-          alert("There was an error when saving the tender!");
-        }
-      }).catch(error => {
-        alert("There was an error!");
-      });
+    async saveTender() {
+      try {
+        this.tender.publication = this.currentDate;
+        await axios.post(`${restApiConfig.host}${restApiConfig.newTender}`, this.tender, {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+      } catch (error) {
+        alert("Error occurred while saving the tender:", error);
+      }
     },
 
     async uploadDocument(document, fileName) {
-      const formData = new FormData()
-      formData.append("document", document)
-      await fetch(`${restApiConfig.host}${restApiConfig.uploadFile}`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          "Accept": "*/*",
-        },
-        body: formData,
-      })
-        .then(response => response.json())
-        .then(dataFromResopnse => {
-          this.tender[fileName] = dataFromResopnse.fileName;
+      try {
+        const formData = new FormData();
+        formData.append("document", document);
+        const response = await axios.post(`${restApiConfig.host}${restApiConfig.uploadFile}`, formData, {
+          withCredentials: true,
+          headers: {
+            "Accept": "*/*",
+            "Content-Type": "multipart/form-data"
+          }
         });
+        this.tender[fileName] = response.data.fileName;
+      } catch (error) {
+        alert("Error occurred while uploading document: " + error);
+      }
     },
 
     updatedValueInParent(instance, fieldName, value) {

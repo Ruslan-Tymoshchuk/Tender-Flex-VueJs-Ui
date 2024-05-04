@@ -62,7 +62,7 @@ export default {
     updateValue(event, fileType){
       this.isFile = true;
       this.file = event.target.files[0];
-      this.$emit('updateValue', instance, fileType, this.file)
+      this.$emit('updateValue', this.instance, fileType, this.file)
     },
 
     openDocument(){
