@@ -17,7 +17,7 @@
         color="blue-darken-3"
         text-color="white"
         prepend-icon="mdi-message-processing-outline"
-       router-link :to="`/module/${role}/offers`">
+        router-link :to="`/module/${role}/offers`">
         Offers {{ totalStore.offers }}
       </v-chip>
       <v-spacer></v-spacer>
@@ -29,6 +29,15 @@
         type="success"
         color="green">
         {{ successAlert.message }}
+      </v-chip>
+      <v-chip
+        v-model="exceptionAlert.isActivated"
+        class="my-2 mr-6"
+        closable
+        variant="elevated"
+        type="error"
+        color="red">
+        {{ exceptionAlert.message }}
       </v-chip>
       <v-chip
         v-if="checkIsNewTender"
@@ -56,7 +65,7 @@
  </template>
 
 <script>
-import { totalStore, successAlert} from "@/components/actions"
+import { totalStore, successAlert, exceptionAlert} from "@/components/actions"
 
 export default {
   data: () => ({
@@ -64,6 +73,7 @@ export default {
     route: '/',
     totalStore,
     successAlert,
+    exceptionAlert
   }),
 
   mounted() {

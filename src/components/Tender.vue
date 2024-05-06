@@ -5,6 +5,7 @@
 
   <v-card class="mt-n7 mx-auto" elevation="8" max-width="1000">
     <v-container class="pa-10">
+
       <v-form v-model="valid" fast-fail @submit.prevent="createTender">
 
         <v-row>
@@ -237,7 +238,7 @@
 <script>
 import { restApiConfig } from "@/rest.api.config"
 import { format } from 'date-fns'
-import { totalStore, successAlert } from "@/components/actions"
+import { totalStore, successAlert, exceptionAlert } from "@/components/actions"
 import InputField from "@/components/childs/InputField.vue"
 import ToolBarTitle from "@/components/childs/ToolBarTitle.vue"
 import Chapter from "@/components/childs/Chapter.vue"
@@ -271,7 +272,8 @@ export default {
     attachment: {},
     documentUrl: '',
     totalStore,
-    successAlert
+    successAlert,
+    exceptionAlert,
   }),
 
   methods: {
@@ -285,7 +287,7 @@ export default {
         });
         this[listName] = response.data;
       } catch (error) {
-        alert("Error occurred when fetching the data: " + error);
+        this.exceptionAlert.activateAlert("Error occurred when fetching the data: " + error)
       }
     },
 
@@ -301,51 +303,47 @@ export default {
         this.totalStore.getTotalByModule(this.$route.params.role);
         this.successAlert.activateAlert("Tender was successfully created");
       } catch (error) {
-        alert("Error occured when saving the tender");
+        if (error.response && error.response.status === 400) {
+          this.exceptionAlert.activateAlert(error.response.data.message);
+        } else {
+          this.exceptionAlert.activateAlert(error);
+        }
       }
     },
 
     async saveTender() {
-      try {
-        this.tender.publication = this.currentDate;
-        await axios.post(`${restApiConfig.host}${restApiConfig.newTender}`, this.tender, {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
-      } catch (error) {
-        alert("Error occurred while saving the tender:", error);
-      }
+      this.tender.publication = this.currentDate;
+      await axios.post(`${restApiConfig.host}${restApiConfig.newTender}`, this.tender, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
     },
 
     async uploadDocument(document, fileName) {
-      try {
-        const formData = new FormData();
-        formData.append("document", document);
-        const response = await axios.post(`${restApiConfig.host}${restApiConfig.uploadFile}`, formData, {
-          withCredentials: true,
-          headers: {
-            "Accept": "*/*",
-            "Content-Type": "multipart/form-data"
-          }
-        });
-        this.tender[fileName] = response.data.fileName;
-      } catch (error) {
-        alert("Error occurred while uploading document: " + error);
-      }
+      const formData = new FormData();
+      formData.append("document", document);
+      const response = await axios.post(`${restApiConfig.host}${restApiConfig.uploadFile}`, formData, {
+        withCredentials: true,
+        headers: {
+          "Accept": "*/*",
+          "Content-Type": "multipart/form-data"
+        }
+      });
+      this.tender[fileName] = response.data.fileName;
     },
 
     updatedValueInParent(instance, fieldName, value) {
       this[instance][fieldName] = value
     },
 
-    openDocumentInParent(fileUrl){
+    openDocumentInParent(fileUrl) {
       this.documentUrl = fileUrl
       this.isDialog = true
     },
 
-    closeDocumentInParent(){
+    closeDocumentInParent() {
       this.isDialog = false
     }
   },

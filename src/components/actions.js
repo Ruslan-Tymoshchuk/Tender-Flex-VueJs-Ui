@@ -40,6 +40,19 @@ export const successAlert = reactive({
   }
 })
 
+export const exceptionAlert = reactive({
+  isActivated: false,
+  message: '',
+
+  activateAlert(message) {
+    this.message = message
+    this.isActivated = true;
+    setTimeout(() => {
+      this.isActivated = false;
+    }, 5000);
+  }
+})
+
 export const confirmRedirect = (email, password) => {
   authenticate(email, password)
     .then(user => {
