@@ -1,6 +1,7 @@
 import { reactive } from 'vue'
 import { restApiConfig } from "@/rest.api.config"
 import router from "@/router/index";
+import axios from 'axios';
 
 export const getOriginalFileName = (uniqueFileName) => {
   return uniqueFileName.substring(37);
@@ -54,7 +55,7 @@ export const exceptionAlert = reactive({
 })
 
 export const confirmRedirect = (email, password) => {
-  authenticate(email, password)
+  authenticate({ email, password })
     .then(user => {
       if (user.role === "CONTRACTOR") {
         router.push({ name: "contractor-module", params: { role: "contractor" } });
@@ -64,20 +65,15 @@ export const confirmRedirect = (email, password) => {
         router.push({ name: "admin-module", params: { role: "admin" } });
       }
     })
-    .catch(() => "There was an error")
+    .catch((error) => alert(error.response.data.message))
 }
 
-const authenticate = (email, password) =>
-  new Promise((resolve, reject) =>
-    fetch(`${restApiConfig.host}${restApiConfig.logIn}`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ email, password })
-    })
-      .then(response => response.json())
-      .then(json => resolve(json))
-      .catch(error => reject(error))
-  )
+const authenticate = async (authenticationRequest) => {
+  const response = await axios.post(`${restApiConfig.host}${restApiConfig.logIn}`, authenticationRequest, {
+    withCredentials: true,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  return response.data;
+};
