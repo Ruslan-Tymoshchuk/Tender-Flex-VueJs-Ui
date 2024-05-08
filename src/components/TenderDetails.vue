@@ -262,6 +262,7 @@
 <script>
 import { restApiConfig } from "@/rest.api.config"
 import { getOriginalFileName } from "@/components/actions";
+import axios from "axios";
 
 export default {
   data: () => ({
@@ -285,18 +286,19 @@ export default {
   }),
 
   methods: {
-    getTenderById() {
-      fetch(`${restApiConfig.host}${restApiConfig.tenderDetails}/` +
-            `${this.$route.params.role}/${this.tenderId}`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Accept': 'application/json',
-        }
-      })
-        .then(response => response.json())
-        .then(tenderDetailsResponse => this.tender = tenderDetailsResponse)
-        .catch(error => console.log('There was an error', error));
+    async getTenderById() {
+      try {
+        const response = await axios.get(`${restApiConfig.host}${restApiConfig.tenderDetails}/` +
+          `${this.$route.params.role}/${this.tenderId}`, {
+          withCredentials: true,
+          headers: {
+            'Accept': 'application/json',
+          }
+        });
+        this.tender = response;
+      } catch (error) {
+        alert("There was an error when fetching the tender " + error.response.data.message)
+      }
     },
 
     getOffersByTender() {
