@@ -1,4 +1,4 @@
-<template >
+<template>
   <div class="login">
     <v-container>
       <v-img contain height="80" src="@/assets/tender-flex-Logo.svg" style="margin-top: 12vh" />
@@ -9,9 +9,12 @@
             <v-container class="px-8">
               <v-sheet class="mx-auto mt-3">
                 <v-form v-model="isFormValid" fast-fail @submit.prevent="confirmRedirect(email, password)">
-                  <v-text-field v-model="email" label="Email" :rules="emailRules"></v-text-field>
-                  <v-text-field v-model="password" label="Password" :rules="passwordRules" type="password"></v-text-field>
-                  <v-btn :disabled="!isFormValid" type="submit" block class="mt-2" color="success">Log In</v-btn>
+                  <v-alert v-if="exceptionAlert.isActivated" :text="exceptionAlert.message" type="error" variant="outlined"></v-alert>
+                  <div v-else>
+                    <v-text-field v-model="email" label="Email" :rules="emailRules"></v-text-field>
+                    <v-text-field v-model="password" label="Password" :rules="passwordRules" type="password"></v-text-field>
+                    <v-btn :disabled="!isFormValid" type="submit" block class="mt-2" color="success">Log In</v-btn>
+                  </div>
                 </v-form>
               </v-sheet>
             </v-container>
@@ -24,10 +27,13 @@
 
 <script>
 import { confirmRedirect } from "@/components/actions";
+import { exceptionAlert } from "@/components/alerts";
 
 export default {
   data: () => ({
     confirmRedirect,
+    exceptionAlert,
+    isAlertDialog: true,
     isFormValid: false,
     email: '',
     emailRules: [

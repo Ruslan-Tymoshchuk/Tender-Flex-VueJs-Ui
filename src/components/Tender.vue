@@ -238,7 +238,8 @@
 <script>
 import { restApiConfig } from "@/rest.api.config"
 import { format } from 'date-fns'
-import { totalStore, successAlert, exceptionAlert } from "@/components/actions"
+import { totalStore,  } from "@/components/actions"
+import { successAlert, exceptionAlert } from "@/components/alerts"
 import InputField from "@/components/childs/InputField.vue"
 import ToolBarTitle from "@/components/childs/ToolBarTitle.vue"
 import Chapter from "@/components/childs/Chapter.vue"

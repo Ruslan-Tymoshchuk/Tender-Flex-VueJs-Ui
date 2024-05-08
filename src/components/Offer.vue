@@ -259,7 +259,8 @@
 
 <script>
 import { restApiConfig } from "@/rest.api.config";
-import { totalStore, successAlert } from "@/components/actions";
+import { totalStore } from "@/components/actions";
+import { successAlert } from "@/components/alerts";
 
 export default {
   data: () => ({

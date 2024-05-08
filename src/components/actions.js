@@ -1,5 +1,6 @@
 import { reactive } from 'vue'
 import { restApiConfig } from "@/rest.api.config"
+import { exceptionAlert } from "@/components/alerts"
 import router from "@/router/index";
 import axios from 'axios';
 
@@ -28,32 +29,6 @@ export const totalStore = reactive({
   }
 })
 
-export const successAlert = reactive({
-  isActivated: false,
-  message: '',
-
-  activateAlert(message) {
-    this.message = message
-    this.isActivated = true;
-    setTimeout(() => {
-      this.isActivated = false;
-    }, 7000);
-  }
-})
-
-export const exceptionAlert = reactive({
-  isActivated: false,
-  message: '',
-
-  activateAlert(message) {
-    this.message = message
-    this.isActivated = true;
-    setTimeout(() => {
-      this.isActivated = false;
-    }, 5000);
-  }
-})
-
 export const confirmRedirect = (email, password) => {
   authenticate({ email, password })
     .then(user => {
@@ -65,7 +40,7 @@ export const confirmRedirect = (email, password) => {
         router.push({ name: "admin-module", params: { role: "admin" } });
       }
     })
-    .catch((error) => alert(error.response.data.message))
+    .catch((error) => exceptionAlert.activateAlert(error.response.data.message))
 }
 
 const authenticate = async (authenticationRequest) => {

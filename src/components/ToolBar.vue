@@ -65,7 +65,8 @@
  </template>
 
 <script>
-import { totalStore, successAlert, exceptionAlert} from "@/components/actions"
+import { totalStore } from "@/components/actions"
+import { successAlert, exceptionAlert } from "@/components/alerts"
 
 export default {
   data: () => ({
