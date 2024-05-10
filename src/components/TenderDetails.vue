@@ -262,6 +262,7 @@
 <script>
 import { restApiConfig } from "@/rest.api.config"
 import { getOriginalFileName } from "@/components/actions";
+import { exceptionAlert } from "@/components/alerts";
 import axios from "axios";
 
 export default {
@@ -282,7 +283,8 @@ export default {
     isOffers: false,
     role: '',
     tenderId: 0,
-    getOriginalFileName
+    getOriginalFileName,
+    exceptionAlert
   }),
 
   methods: {
@@ -297,7 +299,8 @@ export default {
         });
         this.tender = response;
       } catch (error) {
-        alert("There was an error when fetching the tender " + error.response.data.message)
+        exceptionAlert.activateAlert("There was an error when fetching the tender details")
+        console.log(error.response.data.message)
       }
     },
 
