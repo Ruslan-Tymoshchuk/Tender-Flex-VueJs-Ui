@@ -297,7 +297,7 @@ export default {
             'Accept': 'application/json',
           }
         });
-        this.tender = response;
+        this.tender = response.data;
       } catch (error) {
         exceptionAlert.activateAlert("There was an error when fetching the tender details")
         console.log(error.response.data.message)
