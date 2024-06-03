@@ -31,11 +31,11 @@
              <div class="cpv-code" @click="getTenderById(tender.tenderId)">{{ tender.cpvCode }}</div>
              <strong>{{ tender.cpvDescription }}</strong>
             </td>
-            <td class="v-col-2 text-left">{{ tender.organizationName }}</td>
+            <td class="v-col-2 text-left">{{ tender.officialName }}</td>
             <td class="v-col-2 text-left">{{ tender.status }}</td>
             <td class="v-col-2 text-left">{{ tender.deadline }}</td>
             <td class="v-col-2 text-right">
-              <div v-if="tender.status === 'Tender in progress'">{{ tender.offersAmount }}</div>
+              <div v-if="tender.status === 'TENDER_IN_PROGRESS'">{{ tender.offersAmount }}</div>
             </td>
           </tr>
         </tbody>
@@ -58,7 +58,7 @@
              <div class="cpv-code" @click="getTenderById(tender.tenderId)">{{ tender.cpvCode }}</div>
              <strong>{{ tender.cpvDescription }}</strong>
            </td>
-            <td class="v-col-2 text-left">{{ tender.organizationName }}</td>
+            <td class="v-col-2 text-left">{{ tender.officialName }}</td>
             <td class="v-col-2 text-left">{{ tender.tenderStatus }}</td>
             <td class="v-col-2 text-left">{{ tender.deadline }}</td>
             <td class="v-col-2 text-left"> {{ tender.offerStatus }} </td>
