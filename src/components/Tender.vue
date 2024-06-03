@@ -18,7 +18,7 @@
               title="Oficial name"
               tooltip="Enter the name of the buyer (e.g. Aeroporto Friuli Venezia Giulia S.p.A.)"
               fieldLabel="Name of Organization"
-              fieldName="organizationName"
+              fieldName="officialName"
               :counter="50"
               @updateValue="updatedValueInParent"
             ></InputField>
@@ -27,7 +27,7 @@
               title="National Registration Number"
               tooltip="Enter the national registration number of the buyer (e.g.ULG BE 0325 777 171)"
               fieldLabel="National Registration Number"
-              fieldName="nationalRegistrationNumber"
+              fieldName="registrationNumber"
               :counter="10"
               @updateValue="updatedValueInParent"
             ></InputField>
@@ -80,9 +80,8 @@
               title="Phone number"
               tooltip="Enter the phone number of the contact person"
               fieldLabel="Phone"
-              fieldName="phone"
+              fieldName="phoneNumber"
               :counter="8"
-              inputFieldType="number"
               @updateValue="updatedValueInParent"
             ></InputField>
           </v-row>
@@ -179,7 +178,7 @@
               title="Deadline for Signing"
               tooltip="Choose the deadline date for signed contract submission"
               fieldLabel="DeadLine for Signed Contract Submission"
-              fieldName="deadlineForSignedContract"
+              fieldName="signedContractDeadline"
               inputFieldType="date"
               :startDate="minDeadline"
               @updateValue="updatedValueInParent"
