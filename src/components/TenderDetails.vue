@@ -60,8 +60,8 @@
                 <div class="ma-2 details-title">National Registration Number: </div>
               </v-col>
               <v-col class="text-left">
-                <div class="ma-2">{{ tender.organizationName }}</div>
-                <div class="ma-2">{{ tender.nationalRegistrationNumber }}</div>
+                <div class="ma-2">{{ tender.companyName }}</div>
+                <div class="ma-2">{{ tender.registrationNumber }}</div>
               </v-col>
               <v-col class="text-left">
                 <div class="ma-2 details-title">Country:</div>
@@ -164,14 +164,14 @@
             <div class="mt-3 details-title">Deadline for Signed Contract Submission:</div>
           </v-col>
           <v-col class="text-left mx-2">
-            <div>{{ tender.tenderPublicationDate }}</div>
-            <div class="mt-3">{{ tender.deadlineForSignedContractSubmission }}</div>
+            <div>{{ tender.publicationDate }}</div>
+            <div class="mt-3">{{ tender.signedContractSubmissionDeadline }}</div>
           </v-col>
           <v-col class="text-left mx-2">
             <div class="details-title">Deadline for Offer Submission:</div>
           </v-col>
           <v-col class="text-left mx-2">
-            <div>{{ tender.deadlineForOfferSubmission }}</div>
+            <div>{{ tender.offerSubmissionDeadline }}</div>
           </v-col>
         </v-row>
       </v-container>
