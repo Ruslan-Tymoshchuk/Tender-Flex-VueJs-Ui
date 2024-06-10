@@ -234,7 +234,7 @@
           </v-row>
         </div>
         </v-item-group>
-        <div v-if="role ==='bidder' && tender.offerStatus === 'Offer has not sent'">
+        <div v-if="role ==='bidder' && this.$route.query.offer_status === 'OFFER_HAS_NOT_SENT'">
         <v-row class="d-flex justify-end mt-5 mb-10 mr-2">
             <v-col md="3">
              <v-btn type="submit" block variant="flat" color="blue" @click="createOffer(tenderId)">
@@ -283,6 +283,7 @@ export default {
     isOffers: false,
     role: '',
     tenderId: 0,
+    offValue: '',
     getOriginalFileName,
     exceptionAlert
   }),
@@ -363,6 +364,7 @@ export default {
   mounted() {
     this.role = this.$route.params.role
     this.tenderId = this.$route.params.id
+    this.offValue = this.$route.params.value
     this.getTenderById();
     if (this.role === 'contractor') {
       this.getOffersByTender();

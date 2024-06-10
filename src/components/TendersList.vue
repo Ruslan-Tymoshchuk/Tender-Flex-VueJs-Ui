@@ -28,7 +28,7 @@
         <tbody>
           <tr class="table" v-for="tender in tenders" :key="tender.tenderId" >
             <td class="v-col-5 text-left">
-             <div class="cpv-code" @click="getTenderById(tender.tenderId)">{{ tender.cpvCode }}</div>
+             <div class="cpv-code" @click="getTenderById(tender.tenderId, 'received_offers', tender.offValue)">{{ tender.cpvCode }}</div>
              <strong>{{ tender.cpvDescription }}</strong>
             </td>
             <td class="v-col-2 text-left">{{ tender.officialName }}</td>
@@ -55,7 +55,7 @@
         <tbody>
           <tr class="table" v-for="tender in tenders" :key="tender.tenderId">
             <td class="v-col-4 text-left">
-             <div class="cpv-code" @click="getTenderById(tender.tenderId)">{{ tender.cpvCode }}</div>
+             <div class="cpv-code" @click="getTenderById(tender.tenderId, 'offer_status', tender.offValue)">{{ tender.cpvCode }}</div>
              <strong>{{ tender.cpvDescription }}</strong>
            </td>
             <td class="v-col-2 text-left">{{ tender.officialName }}</td>
@@ -122,8 +122,8 @@ export default {
       }
     },
 
-    getTenderById(id) {
-        this.$router.push({ name: "tender-details", params: { id: id } });
+    getTenderById(id, parametr, value) {
+      this.$router.push({ name: "tender-details", params: { id: id }, query: { [parametr]: value } });
     }
   },
 

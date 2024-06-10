@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LogIn from '@/components/LogIn.vue'
-import ToolBar from '@/components/Toolbar.vue'
+import ToolBar from '@/components/ToolBar.vue'
 import TendersList from '@/components/TendersList.vue'
 import Tender from '@/components/Tender.vue'
 import TenderDetails from '@/components/TenderDetails.vue'
