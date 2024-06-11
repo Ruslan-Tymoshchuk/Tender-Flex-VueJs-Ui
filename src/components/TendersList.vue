@@ -32,7 +32,7 @@
              <strong>{{ tender.cpvDescription }}</strong>
             </td>
             <td class="v-col-2 text-left">{{ tender.officialName }}</td>
-            <td class="v-col-2 text-left">{{ tender.tenderStatus }}</td>
+            <td class="v-col-2 text-left">{{ tenderStatus[tender.tenderStatus] }}</td>
             <td class="v-col-2 text-left">{{ tender.deadline }}</td>
             <td class="v-col-2 text-right">
               <div v-if="tender.tenderStatus === 'TENDER_IN_PROGRESS'">{{ tender.offValue }}</div>
@@ -59,9 +59,9 @@
              <strong>{{ tender.cpvDescription }}</strong>
            </td>
             <td class="v-col-2 text-left">{{ tender.officialName }}</td>
-            <td class="v-col-2 text-left">{{ tender.tenderStatus }}</td>
+            <td class="v-col-2 text-left">{{ tenderStatus[tender.tenderStatus] }}</td>
             <td class="v-col-2 text-left">{{ tender.deadline }}</td>
-            <td class="v-col-2 text-left"> {{ tender.offValue }} </td>
+            <td class="v-col-2 text-left"> {{ offerStatus[tender.offValue] }} </td>
           </tr>
         </tbody>
       </v-table>
@@ -73,6 +73,7 @@
 
 <script>
 import { restApiConfig } from "@/rest.api.config"
+import { tenderStatus, offerStatus } from "@/components/constants"
 
 export default {
   data: () => ({
@@ -88,6 +89,8 @@ export default {
     isHasNoTenders: false,
     noTendersMessage: '',
     title: '',
+    tenderStatus,
+    offerStatus
   }),
 
   methods: {
