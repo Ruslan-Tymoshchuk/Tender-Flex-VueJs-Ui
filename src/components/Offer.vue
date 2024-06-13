@@ -28,7 +28,7 @@
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
               </v-btn>
             </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="offer.organizationName" :counter="50"
+            <v-text-field single-line color="blue" variant="outlined" v-model="offer.company" :counter="50"
               label="Name of Organization" required density="compact">
             </v-text-field>
           </v-col>
@@ -42,7 +42,7 @@
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
               </v-btn>
             </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="offer.nationalRegistrationNumber"
+            <v-text-field single-line color="blue" variant="outlined" v-model="offer.registrationNumber"
               :counter="10" label="National Registration Number" required density="compact">
             </v-text-field>
           </v-col>
@@ -113,7 +113,7 @@
                 <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
               </v-btn>
             </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="offer.phone" :counter="8" type="number"
+            <v-text-field single-line color="blue" variant="outlined" v-model="offer.phoneNumber" :counter="8" type="number"
               label="Phone" required density="compact">
             </v-text-field>
           </v-col>
@@ -271,13 +271,13 @@ export default {
     isDisabled: true,
     offer: {
       tenderId: '',
-      organizationName: '',
-      nationalRegistrationNumber: '',
+      company: '',
+      registrationNumber: '',
       countryId: '',
       city: '',
       firstName: '',
       lastName: '',
-      phone: '',
+      phoneNumber: '',
       bidPrice: 0,
       currencyId: '',
       documentName: '',
