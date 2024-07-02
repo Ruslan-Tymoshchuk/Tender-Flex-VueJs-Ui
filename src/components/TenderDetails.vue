@@ -26,22 +26,22 @@
             <v-col class="v-col-2 ml-2 mr-4">Received Date</v-col>
             <v-col class="v-col-2 ml-15">Status</v-col>
         </v-toolbar>
-          <v-container id="scroll-target" style="max-height: 25rem" class="overflow-y-auto" v-scroll:#scroll-target="onScroll">
+          <v-container id="scroll-target" style="max-height: 25rem" class="overflow-y-auto">
             <v-table>
               <tbody>
                   <tr class="table" v-for="offer in offersByTender" :key="offer.offerId">
                     <td class="v-col-2 text-left cpv">
                    <div>
                     <label class="cpv-code" @click="getOfferById(offer.offerId)">
-                      <strong>{{ offer.organizationNameByBidder }}</strong>
+                      <strong>{{ offer.bidderOficialName }}</strong>
                     </label>
                    </div>
                    </td>
                     <td class="v-col-3 text-left">{{ offer.fieldOfTheTender }}</td>
-                    <td class="v-col-1 text-left">{{ offer.price }}</td>
+                    <td class="v-col-1 text-left">{{ `${offer.currency}.${offer.price}` }}</td>
                     <td class="v-col-1 text-left">{{ offer.country }}</td>
                     <td class="v-col-2 text-left">{{ offer.date }}</td>
-                    <td class="v-col-2 text-right"> {{ offer.contractorSt }} </td>
+                    <td class="v-col-2 text-right"> {{ offerStatus[offer.status] }} </td>
                   </tr>
                 </tbody>
             </v-table>
@@ -263,6 +263,7 @@
 import { restApiConfig } from "@/rest.api.config"
 import { getOriginalFileName } from "@/components/actions";
 import { exceptionAlert } from "@/components/alerts";
+import { offerStatus } from "@/components/constants"
 import axios from "axios";
 
 export default {
@@ -285,7 +286,8 @@ export default {
     tenderId: 0,
     offValue: '',
     getOriginalFileName,
-    exceptionAlert
+    exceptionAlert,
+    offerStatus
   }),
 
   methods: {
@@ -299,45 +301,20 @@ export default {
           }
         });
         this.tender = response.data;
+        this.offersByTender = response.data.offers
+        if (this.offersByTender.length > 0) {
+          this.isOffers = true
+        }
       } catch (error) {
         exceptionAlert.activateAlert("There was an error when fetching the tender details")
         console.log(error.response.data.message)
       }
     },
 
-    getOffersByTender() {
-      this.loading = true
-      fetch(`${restApiConfig.host}${restApiConfig.offersList}/${this.$route.params.id}` +
-            `?currentPage=${this.plannedPage}&totalOffers=${this.offersPerPage}`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Accept': 'application/json',
-        }
-      })
-        .then(response => response.json())
-        .then(responseData => {
-          this.totalPages = responseData.totalPages
-          responseData.content.forEach(offer => this.offersByTender.push(offer))
-          this.plannedPage++;
-          if (this.offersByTender.length > 0) {
-            this.isOffers = true;
-          }
-          this.loading = false
-        }).catch(error => console.log('There was an error', error));
-    },
-
     getOfferById(id){
       this.$router.push({ name: "offer-details",
                           params: { id: id, award: this.tender.awardDecisionFileName,
                                     reject: this.tender.rejectDecisionFileName } });
-    },
-
-    onScroll(e) {
-      const currentPage = Math.ceil(e.target.scrollTop / 290);
-      if (currentPage === this.plannedPage && !this.loading && this.plannedPage <= this.totalPages) {
-        this.getOffersByTender()
-      }
     },
 
     openDialog(documentName) {
@@ -366,9 +343,6 @@ export default {
     this.tenderId = this.$route.params.id
     this.offValue = this.$route.params.value
     this.getTenderById();
-    if (this.role === 'contractor') {
-      this.getOffersByTender();
-    }
   }
 }
 </script>
