@@ -54,7 +54,7 @@
       <v-table>
         <tbody>
           <tr class="table" v-for="tender in tenders" :key="tender.tenderId">
-            <td class="v-col-4 text-left">
+            <td class="v-col-4 text-left" :class="{ 'table-row-disabled': tender.offValue === 'OFFER_SENT_TO_CONTRACTOR' }" >
              <div class="cpv-code" @click="getTenderById(tender.tenderId, 'offer_status', tender.offValue)">{{ tender.cpvCode }}</div>
              <strong>{{ tender.cpvDescription }}</strong>
            </td>
@@ -90,7 +90,7 @@ export default {
     noTendersMessage: '',
     title: '',
     tenderStatus,
-    offerStatus
+    offerStatus,
   }),
 
   methods: {

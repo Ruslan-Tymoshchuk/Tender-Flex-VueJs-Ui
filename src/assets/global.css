@@ -73,3 +73,9 @@ html {
   background-color: #e0e0e0;
   overflow-y: auto;
 }
+
+.table-row-disabled {
+  pointer-events: none;
+  color: #c3c9c9;
+  cursor: not-allowed;
+}
