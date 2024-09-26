@@ -18,11 +18,11 @@ const routes = [
     }
   },
   {
-    path: '/module/:role',
+    path: '/users/:id/:role/',
     name: 'contractor-module',
     component: ToolBar,
       children: [
-        { path: 'new-tender', component: Tender },
+        { name: 'new-tender', path: 'new-tender', component: Tender },
         { path: 'tenders', name: 'tenders', component: TendersList },
         { path: 'offers', component: OffersList },
         { path: 'tenders/details/:id', name: "tender-details", component: TenderDetails },
