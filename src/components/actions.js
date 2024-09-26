@@ -33,9 +33,9 @@ export const confirmRedirect = (email, password) => {
   authenticate({ email, password })
     .then(user => {
       if (user.role === "CONTRACTOR") {
-        router.push({ name: "contractor-module", params: { role: "contractor" } });
+        router.push({ name: "contractor-module", params: { id: user.userId, role: "contractor" } });
       } else if (user.role === "BIDDER") {
-        router.push({ name: "bidder-module", params: { role: "bidder" } });
+        router.push({ name: "bidder-module", params: { id: user.userId, role: "bidder" } });
       } else if (user.role === "ADMIN") {
         router.push({ name: "admin-module", params: { role: "admin" } });
       }

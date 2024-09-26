@@ -40,8 +40,8 @@
         {{ exceptionAlert.message }}
       </v-chip>
       <v-chip
-        v-if="checkIsNewTender"
-        router-link to="/module/contractor/new-tender"
+        v-if="!isNewTenderRoute"
+        router-link :to="{ name: 'new-tender' }"
         variant="flat"
         color="indigo-darken-4"
         class="my-2 mr-6"
@@ -83,9 +83,8 @@ export default {
   },
 
   computed: {
-
-    checkIsNewTender() {
-      if (this.$route.path !== '/module/contractor/new-tender' &&
+    isNewTenderRoute() {
+      if (this.$route.name === 'new-tender' &&
           this.role === 'contractor') {
         return true;
       } else {
