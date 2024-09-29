@@ -5,7 +5,7 @@ export const restApiConfig = {
   cpvs: 'api/v1/cpv/list',
   typesOfTender: 'api/v1/type_of_tender/list',
   currencies: 'api/v1/currency/list',
-  newTender: 'api/v1/tenders',
+  newTender: 'api/v1/tenders/create',
   newOffer: 'api/v1/offers',
   uploadFile: 'api/v1/files/upload',
   presignedUrl: 'api/v1/document/location',
