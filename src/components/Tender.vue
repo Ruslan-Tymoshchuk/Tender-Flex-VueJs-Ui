@@ -116,7 +116,7 @@
               title="Description"
               tooltip="Enter detailed information about the Tender"
               fieldLabel="Description"
-              fieldName="details"
+              fieldName="description"
               :counter="250"
               @updateValue="updatedValueInParent"
             ></InputField>
@@ -168,7 +168,7 @@
               title="Deadline for Offer Submission"
               tooltip="Choose the deadline date for Offer submission"
               fieldLabel="Deadline for Offer Submission"
-              fieldName="deadline"
+              fieldName="offerSubmissionDeadline"
               inputFieldType="date"
               :startDate="minDeadline"
               @updateValue="updatedValueInParent"
@@ -201,7 +201,7 @@
             <InputFileField
               instance="attachment"
               label="* Award decision"
-              fileType="awardDecision"
+              fileType="award"
               labelId="award-decision-input"
               @updateValue="updatedValueInParent"
               @openDocument="openDocumentInParent"
@@ -209,7 +209,7 @@
             <InputFileField
               instance="attachment"
               label="* Reject decision"
-              fileType="rejectDecision"
+              fileType="reject"
               labelId="reject-decision-input"
               @updateValue="updatedValueInParent"
               @openDocument="openDocumentInParent"
@@ -292,14 +292,14 @@ export default {
     },
 
     async createTender() {
-      this.$router.push("/module/contractor/tenders")
+      this.$router.push({ name: 'tenders' })
       try {
+        const tenderId = await this.saveTender();
         await Promise.all([
-          this.uploadDocument(this.attachment.contract, 'contractFileName'),
-          this.uploadDocument(this.attachment.awardDecision, 'awardDecisionFileName'),
-          this.uploadDocument(this.attachment.rejectDecision, 'rejectDecisionFileName'),
+          this.uploadFile(this.attachment.contract, { bidId: tenderId, fileType: 'CONTRACT', fileCategory: 'TENDER_FILE' }),
+          this.uploadFile(this.attachment.award, { bidId: tenderId, fileType: 'AWARD_DECISION', fileCategory: 'TENDER_FILE' }),
+          this.uploadFile(this.attachment.reject, { bidId: tenderId, fileType: 'REJECT_DECISION', fileCategory: 'TENDER_FILE' }),
         ]);
-        await this.saveTender();
         this.totalStore.getTotalByModule(this.$route.params.role);
         this.successAlert.activateAlert("Tender was successfully created");
       } catch (error) {
@@ -312,26 +312,28 @@ export default {
     },
 
     async saveTender() {
+      this.tender.userId = this.$route.params.id
       this.tender.publication = this.currentDate;
-      await axios.post(`${restApiConfig.host}${restApiConfig.newTender}`, this.tender, {
+      const response = await axios.post(`${restApiConfig.host}${restApiConfig.newTender}`, this.tender, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json"
         }
       });
+      return response.data;
     },
 
-    async uploadDocument(document, fileName) {
+    async uploadFile(file, fileMetadata) {
       const formData = new FormData();
-      formData.append("document", document);
-      const response = await axios.post(`${restApiConfig.host}${restApiConfig.uploadFile}`, formData, {
+      formData.append('file', file);
+      formData.append('fileMetadata', new Blob([JSON.stringify(fileMetadata)], { type: 'application/json' }));
+      await axios.post(`${restApiConfig.host}${restApiConfig.uploadFile}`, formData, {
         withCredentials: true,
         headers: {
           "Accept": "*/*",
           "Content-Type": "multipart/form-data"
         }
       });
-      this.tender[fileName] = response.data.fileName;
     },
 
     updatedValueInParent(instance, fieldName, value) {
