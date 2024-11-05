@@ -102,13 +102,13 @@
               @updateValue="updatedValueInParent">
             </SelectOption>
             <SelectOption
-              instance="tender"
+              instance="contract"
               title="Tipe of Tender"
               btnTooltip="Choose the type of contract"
               label="Type"
               itemTitle="title"
-              :items="typesOfTender"
-              fieldName="typeOfTenderId"
+              :items="contractTypes"
+              fieldName="contractTypeId"
               @updateValue="updatedValueInParent">
             </SelectOption>
             <InputField
@@ -121,7 +121,7 @@
               @updateValue="updatedValueInParent"
             ></InputField>
             <InputField
-              instance="tender"
+              instance="contract"
               title="Maximum Tender Value"
               tooltip="Enter maximum price of the Tender contract"
               fieldLabel="Maximum tender value"
@@ -130,7 +130,7 @@
               @updateValue="updatedValueInParent"
             ></InputField>
             <InputField
-              instance="tender"
+              instance="contract"
               title="Minimum Tender Value"
               tooltip="Enter minimum price of the Tender contract"
               fieldLabel="Minimum tender value"
@@ -139,7 +139,7 @@
               @updateValue="updatedValueInParent"
             ></InputField>
             <SelectOption
-              instance="tender"
+              instance="contract"
               title="Currency"
               btnTooltip="Choose the currency"
               label="Currency"
@@ -174,11 +174,11 @@
               @updateValue="updatedValueInParent"
             ></InputField>
             <InputField
-              instance="tender"
+              instance="contract"
               title="Deadline for Signing"
               tooltip="Choose the deadline date for signed contract submission"
               fieldLabel="DeadLine for Signed Contract Submission"
-              fieldName="signedContractDeadline"
+              fieldName="signedDeadline"
               inputFieldType="date"
               :startDate="minDeadline"
               @updateValue="updatedValueInParent"
@@ -235,7 +235,7 @@
 </template>
 
 <script>
-import { restApiConfig } from "@/rest.api.config"
+import { restApiEndpoints } from "@/rest.api.endpoints"
 import { format } from 'date-fns'
 import { totalStore,  } from "@/components/actions"
 import { successAlert, exceptionAlert } from "@/components/alerts"
@@ -260,13 +260,16 @@ export default {
   },
   data: () => ({
     countries: [],
-    typesOfTender: [],
+    contractTypes: [],
     cpvs: [],
     currencies: [],
     minDeadline: null,
     isDisabled: true,
     currentDate: null,
     tender: {},
+    contract: {},
+    award: {},
+    reject: {},
     valid: false,
     isDialog: false,
     attachment: {},
@@ -279,7 +282,7 @@ export default {
   methods: {
     async getListOf(listName) {
       try {
-        const response = await axios.get(`${restApiConfig.host}${restApiConfig[listName]}`, {
+        const response = await axios.get(`${restApiEndpoints.host}${restApiEndpoints[listName]}`, {
           withCredentials: true,
           headers: {
             'Accept': 'application/json',
@@ -292,13 +295,27 @@ export default {
     },
 
     async createTender() {
-      this.$router.push({ name: 'tenders' })
       try {
-        const tenderId = await this.saveTender();
+        await this.$router.push({ name: 'tenders' })
+        this.tender.userId = this.$route.params.id
+        this.tender.publication = this.currentDate;
+        const tenderId = (await this.createDocumentRecord(this.tender, restApiEndpoints.tenders)).data.id;
+        const { contract, award, reject } = this.attachment;
+        const [contactFileMetadata, awardFileMetadata, rejectFileMetadata] = await Promise.all([
+          this.uploadFile(contract),
+          this.uploadFile(award),
+          this.uploadFile(reject),
+        ]);
+        this.contract.tenderId = tenderId;
+        this.contract.contractFileId = contactFileMetadata.data.id;
+        this.award.tenderId = tenderId;
+        this.award.awardFileId = awardFileMetadata.data.id;
+        this.reject.tenderId = tenderId;
+        this.reject.rejectFileId = rejectFileMetadata.data.id;
         await Promise.all([
-          this.uploadFile(this.attachment.contract, { bidId: tenderId, fileType: 'CONTRACT', fileCategory: 'TENDER_FILE' }),
-          this.uploadFile(this.attachment.award, { bidId: tenderId, fileType: 'AWARD_DECISION', fileCategory: 'TENDER_FILE' }),
-          this.uploadFile(this.attachment.reject, { bidId: tenderId, fileType: 'REJECT_DECISION', fileCategory: 'TENDER_FILE' }),
+          this.createDocumentRecord(this.contract, restApiEndpoints.contracts),
+          this.createDocumentRecord(this.award, restApiEndpoints.awards),
+          this.createDocumentRecord(this.reject, restApiEndpoints.rejects),
         ]);
         this.totalStore.getTotalByModule(this.$route.params.role);
         this.successAlert.activateAlert("Tender was successfully created");
@@ -311,23 +328,19 @@ export default {
       }
     },
 
-    async saveTender() {
-      this.tender.userId = this.$route.params.id
-      this.tender.publication = this.currentDate;
-      const response = await axios.post(`${restApiConfig.host}${restApiConfig.newTender}`, this.tender, {
+    createDocumentRecord(document, endpointKey) {
+      return axios.post(`${restApiEndpoints.host}${endpointKey}`, document, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json"
         }
       });
-      return response.data;
     },
 
-    async uploadFile(file, fileMetadata) {
+    uploadFile(file) {
       const formData = new FormData();
       formData.append('file', file);
-      formData.append('fileMetadata', new Blob([JSON.stringify(fileMetadata)], { type: 'application/json' }));
-      await axios.post(`${restApiConfig.host}${restApiConfig.uploadFile}`, formData, {
+      return axios.post(`${restApiEndpoints.host}${restApiEndpoints.files}`, formData, {
         withCredentials: true,
         headers: {
           "Accept": "*/*",
@@ -353,7 +366,7 @@ export default {
   mounted() {
     this.getListOf('countries');
     this.getListOf('cpvs');
-    this.getListOf('typesOfTender');
+    this.getListOf('contractTypes');
     this.getListOf('currencies');
     this.currentDate = format(new Date(), 'yyyy-MM-dd');
     this.minDeadline = format(new Date().getTime() + 86400000, 'yyyy-MM-dd');

@@ -1,5 +1,5 @@
 import { reactive } from 'vue'
-import { restApiConfig } from "@/rest.api.config"
+import { restApiEndpoints } from "@/rest.api.endpoints"
 import { exceptionAlert } from "@/components/alerts"
 import router from "@/router/index";
 import axios from 'axios';
@@ -13,7 +13,7 @@ export const totalStore = reactive({
   offers: 0,
 
   getTotalByModule(role) {
-    fetch(`${restApiConfig.host}${restApiConfig.total}/${role}`, {
+    fetch(`${restApiEndpoints.host}${restApiEndpoints.total}/${role}`, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -44,7 +44,7 @@ export const confirmRedirect = (email, password) => {
 }
 
 const authenticate = async (authenticationRequest) => {
-  const response = await axios.post(`${restApiConfig.host}${restApiConfig.logIn}`, authenticationRequest, {
+  const response = await axios.post(`${restApiEndpoints.host}${restApiEndpoints.logIn}`, authenticationRequest, {
     withCredentials: true,
     headers: {
       'Content-Type': 'application/json'
