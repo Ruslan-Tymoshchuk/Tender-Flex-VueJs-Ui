@@ -33,11 +33,11 @@ export const confirmRedirect = (email, password) => {
   authenticate({ email, password })
     .then(user => {
       if (user.role === "CONTRACTOR") {
-        router.push({ name: "contractor-module", params: { id: user.userId, role: "contractor" } });
+        router.push({ name: "contractor-module", params: { userId: user.userId, role: "contractor" } });
       } else if (user.role === "BIDDER") {
-        router.push({ name: "bidder-module", params: { id: user.userId, role: "bidder" } });
+        router.push({ name: "bidder-module", params: { userId: user.userId, role: "bidder" } });
       } else if (user.role === "ADMIN") {
-        router.push({ name: "admin-module", params: { role: "admin" } });
+        router.push({ name: "admin-module", params: { userId: user.userId, role: "admin" } });
       }
     })
     .catch((error) => exceptionAlert.activateAlert(error.response.data.message))

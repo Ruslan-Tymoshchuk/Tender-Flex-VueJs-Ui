@@ -8,7 +8,7 @@
         color="blue-darken-3"
         text-color="white"
         prepend-icon="mdi-pulse"
-        router-link :to="`/module/${role}/tenders`">
+        router-link :to="{ name: 'tenders' }">
         Tenders {{ totalStore.tenders }}
       </v-chip>
       <v-chip
@@ -17,7 +17,7 @@
         color="blue-darken-3"
         text-color="white"
         prepend-icon="mdi-message-processing-outline"
-        router-link :to="`/module/${role}/offers`">
+        router-link :to="{ name: 'offers' }">
         Offers {{ totalStore.offers }}
       </v-chip>
       <v-spacer></v-spacer>

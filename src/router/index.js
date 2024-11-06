@@ -18,31 +18,31 @@ const routes = [
     }
   },
   {
-    path: '/users/:id/:role/',
     name: 'contractor-module',
+    path: '/users/:userId/:role/',
     component: ToolBar,
       children: [
         { name: 'new-tender', path: 'new-tender', component: Tender },
         { name: 'tenders', path: 'tenders', component: TendersList },
-        { path: 'offers', component: OffersList },
-        { name: "tender-details", path: 'tenders/details/:id', component: TenderDetails },
-        { path: 'offers/details/:id/award/:award/reject/:reject', name: "offer-details", component: OfferDetails },
+        { name: 'offers', path: 'offers', component: OffersList },
+        { name: "offer-details", path: 'offers/details/:offerId', component: OfferDetails },
+        { name: "tender-details", path: 'tenders/details/:tenderId', component: TenderDetails },
       ],
   },
   {
-    path: '/module/:role',
     name: 'bidder-module',
+    path: '/users/:userId/:role/',
     component: ToolBar,
       children: [
-        { path: 'tenders', component: TendersList },
-        { path: 'new-offer/:tender_id', name: 'new-offer', component: Offer },
-        { path: 'offers', name: "offers-list", component: OffersList },
-        { path: 'tenders/details/:id', name: "tender-details", component: TenderDetails },
-        { path: 'offers/details/:id', name: "myoffer-details", component: MyOfferDetails },
+        { name: 'new-offer', path: 'new-offer/:tender_id', component: Offer },
+        { name: 'tenders', path: 'tenders', component: TendersList },
+        { name: "offers-list", path: 'offers',  component: OffersList },
+        { name: "tender-details", path: 'tenders/details/:id',  component: TenderDetails },
+        { name: "myoffer-details", path: 'offers/details/:id',  component: MyOfferDetails },
       ],
   },
   {
-    path: '/module/:role',
+    path: '/users/:userId/:role/',
     name: 'admin-module',
   },
 ]
