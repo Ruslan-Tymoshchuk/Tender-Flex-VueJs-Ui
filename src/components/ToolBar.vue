@@ -79,7 +79,7 @@ export default {
 
   mounted() {
     this.role = this.$route.params.role;
-    this.totalStore.getTotalByModule(this.role)
+    this.totalStore.refreshTotalCounts(this.$route.params.userId)
   },
 
   computed: {

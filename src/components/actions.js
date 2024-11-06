@@ -12,20 +12,22 @@ export const totalStore = reactive({
   tenders: 0,
   offers: 0,
 
-  getTotalByModule(role) {
-    fetch(`${restApiEndpoints.host}${restApiEndpoints.total}/${role}`, {
-      method: 'GET',
-      credentials: 'include',
+  async refreshTotalCounts(userId) {
+    const [tendersCount, offersCount] = await Promise.all([
+      this.getBidsCountByUser(restApiEndpoints.tendersCount, userId),
+      this.getBidsCountByUser(restApiEndpoints.offersCount, userId),
+    ]);
+    this.tenders = tendersCount.data.bidCount;
+    this.offers = offersCount.data.bidCount;
+  },
+
+  getBidsCountByUser(endpointKey, userId) {
+    return axios.get(`${restApiEndpoints.host}${endpointKey}/${userId}`, {
+      withCredentials: true,
       headers: {
-        'Accept': 'application/json',
+        "Content-Type": "application/json"
       }
-    })
-      .then(response => response.json())
-      .then(response => {
-        this.tenders = response.tenders;
-        this.offers = response.offers;
-      })
-      .catch(error => console.log('There was an error', error));
+    });
   }
 })
 
