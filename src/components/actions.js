@@ -14,18 +14,18 @@ export const totalStore = reactive({
 
   async refreshTotalCounts(userId) {
     const [tendersCount, offersCount] = await Promise.all([
-      this.getBidsCountByUser(restApiEndpoints.tendersCount, userId),
-      this.getBidsCountByUser(restApiEndpoints.offersCount, userId),
+      this.fetchBidCount(restApiEndpoints.tendersCount, userId),
+      this.fetchBidCount(restApiEndpoints.offersCount, userId),
     ]);
     this.tenders = tendersCount.data.bidCount;
     this.offers = offersCount.data.bidCount;
   },
 
-  getBidsCountByUser(endpointKey, userId) {
+  fetchBidCount(endpointKey, userId) {
     return axios.get(`${restApiEndpoints.host}${endpointKey}/${userId}`, {
       withCredentials: true,
       headers: {
-        "Content-Type": "application/json"
+        'Accept': 'application/json',
       }
     });
   }
@@ -53,4 +53,35 @@ const authenticate = async (authenticationRequest) => {
     }
   });
   return response.data;
-};
+}
+
+export const fetchFromEndpoint = (endpointKey) => {
+  return axios.get(`${restApiEndpoints.host}${endpointKey}`, {
+    withCredentials: true,
+    headers: {
+      'Accept': 'application/json',
+    }
+  });
+}
+
+export const uploadFile = (file) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  return axios.post(`${restApiEndpoints.host}${restApiEndpoints.files}`, formData, {
+    withCredentials: true,
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'multipart/form-data'
+    }
+  });
+}
+
+export const createDocumentRecord = (document, endpointKey) => {
+  return axios.post(`${restApiEndpoints.host}${endpointKey}`, document, {
+    withCredentials: true,
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  });
+}

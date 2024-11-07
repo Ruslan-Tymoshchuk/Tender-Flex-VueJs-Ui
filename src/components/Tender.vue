@@ -237,7 +237,7 @@
 <script>
 import { restApiEndpoints } from "@/rest.api.endpoints"
 import { format } from 'date-fns'
-import { totalStore,  } from "@/components/actions"
+import { totalStore, fetchFromEndpoint, uploadFile, createDocumentRecord } from "@/components/actions"
 import { successAlert, exceptionAlert } from "@/components/alerts"
 import InputField from "@/components/childs/InputField.vue"
 import ToolBarTitle from "@/components/childs/ToolBarTitle.vue"
@@ -246,7 +246,6 @@ import SelectOption from "@/components/childs/SelectOption.vue"
 import InputFileField from "@/components/childs/InputFileField.vue"
 import ModalFileRenderer from "@/components/childs/ModalFileRenderer.vue"
 import ConfirmationMenu from "@/components/childs/ConfirmationMenu.vue"
-import axios from "axios"
 
 export default {
   components:{
@@ -259,6 +258,9 @@ export default {
     ConfirmationMenu
   },
   data: () => ({
+    fetchFromEndpoint,
+    uploadFile,
+    createDocumentRecord,
     countries: [],
     contractTypes: [],
     cpvs: [],
@@ -280,15 +282,6 @@ export default {
   }),
 
   methods: {
-    fetchFromEndpoint(endpointKey) {
-      return axios.get(`${restApiEndpoints.host}${endpointKey}`, {
-        withCredentials: true,
-        headers: {
-          'Accept': 'application/json',
-        }
-      });
-    },
-
     async createTender() {
       try {
         await this.$router.push({ name: 'tenders' });
@@ -321,27 +314,6 @@ export default {
           this.exceptionAlert.activateAlert(error);
         }
       }
-    },
-
-    createDocumentRecord(document, endpointKey) {
-      return axios.post(`${restApiEndpoints.host}${endpointKey}`, document, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-    },
-
-    uploadFile(file) {
-      const formData = new FormData();
-      formData.append('file', file);
-      return axios.post(`${restApiEndpoints.host}${restApiEndpoints.files}`, formData, {
-        withCredentials: true,
-        headers: {
-          "Accept": "*/*",
-          "Content-Type": "multipart/form-data"
-        }
-      });
     },
 
     updatedValueInParent(instance, fieldName, value) {
