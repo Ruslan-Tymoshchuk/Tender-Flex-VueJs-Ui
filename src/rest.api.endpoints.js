@@ -4,7 +4,7 @@ export const restApiEndpoints = {
   countries: 'api/v1/countries',
   cpvs: 'api/v1/cpvs',
   contractTypes: 'api/v1/contract-types',
-  currencies: 'api/v1/currency/list',
+  currencies: 'api/v1/currencies',
   tenders: 'api/v1/tenders',
   tendersCount: 'api/v1/tenders/count',
   contracts: 'api/v1/contracts',

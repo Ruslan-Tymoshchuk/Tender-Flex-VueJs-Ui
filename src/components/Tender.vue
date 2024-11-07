@@ -280,24 +280,19 @@ export default {
   }),
 
   methods: {
-    async getListOf(listName) {
-      try {
-        const response = await axios.get(`${restApiEndpoints.host}${restApiEndpoints[listName]}`, {
-          withCredentials: true,
-          headers: {
-            'Accept': 'application/json',
-          }
-        });
-        this[listName] = response.data;
-      } catch (error) {
-        this.exceptionAlert.activateAlert("Error occurred when fetching the data: " + error)
-      }
+    fetchFromEndpoint(endpointKey) {
+      return axios.get(`${restApiEndpoints.host}${endpointKey}`, {
+        withCredentials: true,
+        headers: {
+          'Accept': 'application/json',
+        }
+      });
     },
 
     async createTender() {
       try {
-        await this.$router.push({ name: 'tenders' })
-        this.tender.userId = this.$route.params.id
+        await this.$router.push({ name: 'tenders' });
+        this.tender.contractorId = this.$route.params.userId
         this.tender.publication = this.currentDate;
         const tenderId = (await this.createDocumentRecord(this.tender, restApiEndpoints.tenders)).data.id;
         const { contract, award, reject } = this.attachment;
@@ -317,8 +312,8 @@ export default {
           this.createDocumentRecord(this.award, restApiEndpoints.awards),
           this.createDocumentRecord(this.reject, restApiEndpoints.rejects),
         ]);
-        this.totalStore.getTotalByModule(this.$route.params.role);
-        this.successAlert.activateAlert("Tender was successfully created");
+         this.successAlert.activateAlert("Tender was successfully created");
+         this.totalStore.refreshTotalCounts(this.$route.params.userId);
       } catch (error) {
         if (error.response && error.response.status === 400) {
           this.exceptionAlert.activateAlert(error.response.data.message);
@@ -363,11 +358,21 @@ export default {
     }
   },
 
-  mounted() {
-    this.getListOf('countries');
-    this.getListOf('cpvs');
-    this.getListOf('contractTypes');
-    this.getListOf('currencies');
+  async mounted() {
+    try {
+      const [countries, cpvs, contractTypes, currencies] = await Promise.all([
+        this.fetchFromEndpoint(restApiEndpoints.countries),
+        this.fetchFromEndpoint(restApiEndpoints.cpvs),
+        this.fetchFromEndpoint(restApiEndpoints.contractTypes),
+        this.fetchFromEndpoint(restApiEndpoints.currencies),
+      ]);
+      this.countries = countries.data;
+      this.cpvs = cpvs.data;
+      this.contractTypes = contractTypes.data;
+      this.currencies = currencies.data;
+    } catch (error) {
+      this.exceptionAlert.activateAlert("Error occurred when fetching the data: " + error)
+    }
     this.currentDate = format(new Date(), 'yyyy-MM-dd');
     this.minDeadline = format(new Date().getTime() + 86400000, 'yyyy-MM-dd');
   }
