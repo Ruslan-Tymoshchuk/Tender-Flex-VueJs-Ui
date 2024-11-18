@@ -26,9 +26,9 @@
     <v-container id="scroll-target" style="max-height: 25rem" class="overflow-y-auto" v-scroll:#scroll-target="onScroll">
       <v-table>
         <tbody>
-          <tr class="table" v-for="tender in tenders" :key="tender.tenderId" >
+          <tr class="table" v-for="tender in tenders" :key="tender.id" >
             <td class="v-col-5 text-left">
-             <div class="cpv-code" @click="getTenderById(tender.tenderId, 'received_offers', tender.offValue)">{{ tender.cpvCode }}</div>
+             <div class="cpv-code" @click="getTenderById(tender.id, 'received_offers', tender.offValue)">{{ tender.cpvCode }}</div>
              <strong>{{ tender.cpvDescription }}</strong>
             </td>
             <td class="v-col-2 text-left">{{ tender.officialName }}</td>
@@ -53,9 +53,9 @@
     <v-container id="scroll-target" style="max-height: 25rem" class="overflow-y-auto" v-scroll:#scroll-target="onScroll">
       <v-table>
         <tbody>
-          <tr class="table" v-for="tender in tenders" :key="tender.tenderId">
+          <tr class="table" v-for="tender in tenders" :key="tender.id">
             <td class="v-col-4 text-left" :class="{ 'table-row-disabled': tender.offValue === 'OFFER_SENT_TO_CONTRACTOR' }" >
-             <div class="cpv-code" @click="getTenderById(tender.tenderId, 'offer_status', tender.offValue)">{{ tender.cpvCode }}</div>
+             <div class="cpv-code" @click="getTenderById(tender.id, 'offer_status', tender.offValue)">{{ tender.cpvCode }}</div>
              <strong>{{ tender.cpvDescription }}</strong>
            </td>
             <td class="v-col-2 text-left">{{ tender.officialName }}</td>
@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { restApiConfig } from "@/rest.api.config"
+import { restApiEndpoints } from "@/rest.api.endpoints"
 import { tenderStatus, offerStatus } from "@/components/constants"
 
 export default {
@@ -96,7 +96,7 @@ export default {
   methods: {
     getTenders() {
       this.loading = true
-      fetch(`${restApiConfig.host}${restApiConfig.tendersList}/${this.$route.params.role}` +
+      fetch(`${restApiEndpoints.host}${restApiEndpoints.tendersList}/${this.$route.params.role}` +
             `?currentPage=${this.plannedPage}&totalTenders=${this.tendersPerPage}`, {
         method: 'GET',
         credentials: 'include',

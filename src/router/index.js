@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LogIn from '@/components/LogIn.vue'
 import ToolBar from '@/components/ToolBar.vue'
-import TendersList from '@/components/TendersList.vue'
+import TendersList from '@/components/TenderList.vue'
 import Tender from '@/components/Tender.vue'
 import TenderDetails from '@/components/TenderDetails.vue'
 import OfferDetails from '@/components/OfferDetails.vue'

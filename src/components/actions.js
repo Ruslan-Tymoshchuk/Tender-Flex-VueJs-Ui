@@ -14,15 +14,15 @@ export const totalStore = reactive({
 
   async refreshTotalCounts(userId) {
     const [tendersCount, offersCount] = await Promise.all([
-      this.fetchBidCount(restApiEndpoints.tendersCount, userId),
-      this.fetchBidCount(restApiEndpoints.offersCount, userId),
+      this.fetchBidCount(restApiEndpoints.tendersCount),
+      this.fetchBidCount(restApiEndpoints.offersCount),
     ]);
     this.tenders = tendersCount.data.bidCount;
     this.offers = offersCount.data.bidCount;
   },
 
-  fetchBidCount(endpointKey, userId) {
-    return axios.get(`${restApiEndpoints.host}${endpointKey}/${userId}`, {
+  fetchBidCount(endpointKey) {
+    return axios.get(`${restApiEndpoints.host}${endpointKey}`, {
       withCredentials: true,
       headers: {
         'Accept': 'application/json',
