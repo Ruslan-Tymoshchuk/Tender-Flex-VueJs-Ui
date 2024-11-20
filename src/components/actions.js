@@ -12,24 +12,24 @@ export const totalStore = reactive({
   tenders: 0,
   offers: 0,
 
-  async refreshTotalCounts(userId) {
+  async refreshTotalCounts() {
     const [tendersCount, offersCount] = await Promise.all([
-      this.fetchBidCount(restApiEndpoints.tendersCount),
-      this.fetchBidCount(restApiEndpoints.offersCount),
+      fetchFromEndpoint(restApiEndpoints.tendersCount),
+      fetchFromEndpoint(restApiEndpoints.offersCount),
     ]);
     this.tenders = tendersCount.data.bidCount;
     this.offers = offersCount.data.bidCount;
-  },
-
-  fetchBidCount(endpointKey) {
-    return axios.get(`${restApiEndpoints.host}${endpointKey}`, {
-      withCredentials: true,
-      headers: {
-        'Accept': 'application/json',
-      }
-    });
   }
-})
+});
+
+export const fetchFromEndpoint = async (endpointKey) => {
+  return await axios.get(`${restApiEndpoints.host}${endpointKey}`, {
+    withCredentials: true,
+    headers: {
+      'Accept': 'application/json',
+    }
+  });
+}
 
 export const confirmRedirect = (email, password) => {
   authenticate({ email, password })
@@ -53,15 +53,6 @@ const authenticate = async (authenticationRequest) => {
     }
   });
   return response.data;
-}
-
-export const fetchFromEndpoint = (endpointKey) => {
-  return axios.get(`${restApiEndpoints.host}${endpointKey}`, {
-    withCredentials: true,
-    headers: {
-      'Accept': 'application/json',
-    }
-  });
 }
 
 export const uploadFile = (file) => {

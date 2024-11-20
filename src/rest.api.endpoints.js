@@ -13,7 +13,6 @@ export const restApiEndpoints = {
   newOffer: 'api/v1/offers',
   files: 'api/v1/files',
   presignedUrl: 'api/v1/document/location',
-  tendersList: 'api/v1/tender/list',
   tenderDetails: 'api/v1/tender/details',
   offerDetails: 'api/v1/offers/details',
   offersList: 'api/v1/offers/list',

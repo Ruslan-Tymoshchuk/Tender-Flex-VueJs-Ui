@@ -32,10 +32,10 @@
              <strong>{{ tender.cpvDescription }}</strong>
             </td>
             <td class="v-col-2 text-left">{{ tender.officialName }}</td>
-            <td class="v-col-2 text-left">{{ tenderStatus[tender.tenderStatus] }}</td>
+            <td class="v-col-2 text-left">{{ tenderStatus[tender.status] }}</td>
             <td class="v-col-2 text-left">{{ tender.deadline }}</td>
             <td class="v-col-2 text-right">
-              <div v-if="tender.tenderStatus === 'TENDER_IN_PROGRESS'">{{ tender.offValue }}</div>
+              <div v-if="tender.status === 'TENDER_IN_PROGRESS'">{{ tender.offersCount }}</div>
             </td>
           </tr>
         </tbody>
@@ -59,7 +59,7 @@
              <strong>{{ tender.cpvDescription }}</strong>
            </td>
             <td class="v-col-2 text-left">{{ tender.officialName }}</td>
-            <td class="v-col-2 text-left">{{ tenderStatus[tender.tenderStatus] }}</td>
+            <td class="v-col-2 text-left">{{ tenderStatus[tender.status] }}</td>
             <td class="v-col-2 text-left">{{ tender.deadline }}</td>
             <td class="v-col-2 text-left"> {{ offerStatus[tender.offValue] }} </td>
           </tr>
@@ -74,6 +74,8 @@
 <script>
 import { restApiEndpoints } from "@/rest.api.endpoints"
 import { tenderStatus, offerStatus } from "@/components/constants"
+import { fetchFromEndpoint, totalStore } from "@/components/actions"
+import axios from "axios";
 
 export default {
   data: () => ({
@@ -91,31 +93,38 @@ export default {
     title: '',
     tenderStatus,
     offerStatus,
+    restApiEndpoints,
+    fetchFromEndpoint,
+    totalStore
   }),
 
   methods: {
-    getTenders() {
-      this.loading = true
-      fetch(`${restApiEndpoints.host}${restApiEndpoints.tendersList}/${this.$route.params.role}` +
-            `?currentPage=${this.plannedPage}&totalTenders=${this.tendersPerPage}`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Accept': 'application/json',
-        }
-      })
-        .then(response => response.json())
-        .then(responseData => {
-          this.totalPages = responseData.totalPages
-          responseData.content.forEach(tender => this.tenders.push(tender))
-          if (this.tenders.length > 0) {
-            this.isTenders = true;
-          } else {
-            this.isHasNoTenders = true;
+    async getTenders() {
+      try {
+        this.loading = true
+        const response = await axios.get(`${restApiEndpoints.host}${restApiEndpoints.tenders}` +
+          `?currentPage=${this.plannedPage}&totalTenders=${this.tendersPerPage}`, {
+          withCredentials: true,
+          headers: {
+            'Accept': 'application/json',
           }
-          this.plannedPage++;
-          this.loading = false
-        }).catch(error => console.log('There was an error', error));
+        });
+        this.totalPages = response.totalPages
+        for (const tender of response.data.content) {
+          const response = await fetchFromEndpoint(`${restApiEndpoints.offersCount}`);
+          tender.offersCount = response.data.bidCount;
+          this.tenders.push(tender);
+        };
+        if (this.tenders.length > 0) {
+          this.isTenders = true;
+        } else {
+          this.isHasNoTenders = true;
+        }
+        this.plannedPage++;
+        this.loading = false
+      } catch (error) {
+        console.log('There was an error', error);
+      }
     },
 
     onScroll(e) {
