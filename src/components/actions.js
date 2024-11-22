@@ -17,8 +17,8 @@ export const totalStore = reactive({
       fetchFromEndpoint(restApiEndpoints.tendersCount),
       fetchFromEndpoint(restApiEndpoints.offersCount),
     ]);
-    this.tenders = tendersCount.data.bidCount;
-    this.offers = offersCount.data.bidCount;
+    this.tenders = tendersCount.data.tenderCount;
+    this.offers = offersCount.data.offerCount;
   }
 });
 

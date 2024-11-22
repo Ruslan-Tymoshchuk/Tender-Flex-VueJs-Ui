@@ -17,6 +17,7 @@ export const restApiEndpoints = {
   offerDetails: 'api/v1/offers/details',
   offersList: 'api/v1/offers/list',
   offersCount: 'api/v1/offers/count',
+  offerStatus: 'api/v1/offers/status',
   awardDecision: 'api/v1/offers/decision/award',
   rejectDecision: 'api/v1/offers/decision/reject',
   decision: 'api/v1/offers/decision',
