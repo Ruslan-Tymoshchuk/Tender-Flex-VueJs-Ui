@@ -13,12 +13,12 @@ export const totalStore = reactive({
   offers: 0,
 
   async refreshTotalCounts() {
-    const [tendersCount, offersCount] = await Promise.all([
-      fetchFromEndpoint(restApiEndpoints.tendersCount),
-      fetchFromEndpoint(restApiEndpoints.offersCount),
+    const [tenderCountResponse, offerCountResponse] = await Promise.all([
+      fetchFromEndpoint(restApiEndpoints.tenderCount),
+      fetchFromEndpoint(restApiEndpoints.offerCount),
     ]);
-    this.tenders = tendersCount.data.tenderCount;
-    this.offers = offersCount.data.offerCount;
+    this.tenders = tenderCountResponse.data.tenderCount;
+    this.offers = offerCountResponse.data.offerCount;
   }
 });
 

@@ -28,14 +28,14 @@
         <tbody>
           <tr class="table" v-for="tender in tenders" :key="tender.id" >
             <td class="v-col-5 text-left">
-             <div class="cpv-code" @click="getTenderById(tender.id, 'received_offers', tender.offValue)">{{ tender.cpvCode }}</div>
-             <strong>{{ tender.cpvDescription }}</strong>
+             <div class="cpv-code" @click="getTenderById(tender.id, 'received_offers', tender.offValue)">{{ tender.cpv.code }}</div>
+             <strong>{{ tender.cpv.description }}</strong>
             </td>
             <td class="v-col-2 text-left">{{ tender.officialName }}</td>
             <td class="v-col-2 text-left">{{ tenderStatus[tender.status] }}</td>
             <td class="v-col-2 text-left">{{ tender.deadline }}</td>
             <td class="v-col-2 text-right">
-              <div v-if="tender.status === 'TENDER_IN_PROGRESS'">{{ tender.offersCount }}</div>
+              <div v-if="tender.status === 'TENDER_IN_PROGRESS'">{{ tender.offerCount.count }}</div>
             </td>
           </tr>
         </tbody>
@@ -54,14 +54,14 @@
       <v-table>
         <tbody>
           <tr class="table" v-for="tender in tenders" :key="tender.id">
-            <td class="v-col-4 text-left" :class="{ 'table-row-disabled': tender.offValue === 'OFFER_SENT_TO_CONTRACTOR' }" >
-             <div class="cpv-code" @click="getTenderById(tender.id, 'offer_status', tender.offValue)">{{ tender.cpvCode }}</div>
-             <strong>{{ tender.cpvDescription }}</strong>
+            <td class="v-col-4 text-left" :class="{ 'table-row-disabled': tender.offerStatus === 'OFFER_SENT_TO_CONTRACTOR' }" >
+             <div class="cpv-code" @click="getTenderById(tender.id, 'offer_status', tender.offValue)">{{ tender.cpv.code }}</div>
+             <strong>{{ tender.cpv.description }}</strong>
            </td>
             <td class="v-col-2 text-left">{{ tender.officialName }}</td>
             <td class="v-col-2 text-left">{{ tenderStatus[tender.status] }}</td>
             <td class="v-col-2 text-left">{{ tender.deadline }}</td>
-            <td class="v-col-2 text-left"> {{ offerStatus[tender.offValue] }} </td>
+            <td class="v-col-2 text-left"> {{ offerStatus[tender.offerStatus] }} </td>
           </tr>
         </tbody>
       </v-table>
@@ -110,11 +110,18 @@ export default {
           }
         });
         this.totalPages = response.totalPages
-        for (const tender of response.data.content) {
-          const response = await fetchFromEndpoint(`${restApiEndpoints.offersCount}`);
-          tender.offersCount = response.data.bidCount;
-          this.tenders.push(tender);
-        };
+          for (const tender of response.data.content) {
+            const cpvResponse = await fetchFromEndpoint(`${restApiEndpoints.cpvs}/${tender.cpvId}`);
+            tender.cpv = cpvResponse.data;
+            if (this.$route.params.role === "contractor") {
+            const offerCountResponse = await fetchFromEndpoint(`${restApiEndpoints.offerCount}/${tender.id}`);
+            tender.offerCount = offerCountResponse.data;
+            } else if (this.$route.params.role === "bidder") {
+              const response = await fetchFromEndpoint(`${restApiEndpoints.offerStatus}/${tender.id}`);
+              tender.offerStatus = response.data.offerStatus;
+            }
+            this.tenders.push(tender);
+          };
         if (this.tenders.length > 0) {
           this.isTenders = true;
         } else {
