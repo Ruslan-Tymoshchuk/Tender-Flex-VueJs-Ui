@@ -26,7 +26,7 @@ const routes = [
         { name: 'tenders', path: 'tenders', component: TendersList },
         { name: 'offers', path: 'offers', component: OffersList },
         { name: "offer-details", path: 'offers/details/:offerId', component: OfferDetails },
-        { name: "tender-details", path: 'tenders/details/:tenderId', component: TenderDetails },
+        { name: "tender-details", path: 'tenders/:tenderId', component: TenderDetails },
       ],
   },
   {
@@ -37,7 +37,7 @@ const routes = [
         { name: 'new-offer', path: 'new-offer/:tender_id', component: Offer },
         { name: 'tenders', path: 'tenders', component: TendersList },
         { name: "offers-list", path: 'offers',  component: OffersList },
-        { name: "tender-details", path: 'tenders/details/:id',  component: TenderDetails },
+        { name: "tender-details", path: 'tenders/:tenderId',  component: TenderDetails },
         { name: "myoffer-details", path: 'offers/details/:id',  component: MyOfferDetails },
       ],
   },

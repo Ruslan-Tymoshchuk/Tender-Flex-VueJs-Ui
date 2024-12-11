@@ -14,16 +14,16 @@ export const totalStore = reactive({
 
   async refreshTotalCounts() {
     const [tenderCountResponse, offerCountResponse] = await Promise.all([
-      fetchFromEndpoint(restApiEndpoints.tenderCount),
-      fetchFromEndpoint(restApiEndpoints.offerCount),
+      fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.tenderCount}`),
+      fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.offerCount}`),
     ]);
-    this.tenders = tenderCountResponse.data.tenderCount;
-    this.offers = offerCountResponse.data.offerCount;
+    this.tenders = tenderCountResponse.data.count;
+    this.offers = offerCountResponse.data.count;
   }
 });
 
 export const fetchFromEndpoint = async (endpointKey) => {
-  return await axios.get(`${restApiEndpoints.host}${endpointKey}`, {
+  return await axios.get(endpointKey, {
     withCredentials: true,
     headers: {
       'Accept': 'application/json',
@@ -46,7 +46,7 @@ export const confirmRedirect = (email, password) => {
 }
 
 const authenticate = async (authenticationRequest) => {
-  const response = await axios.post(`${restApiEndpoints.host}${restApiEndpoints.logIn}`, authenticationRequest, {
+  const response = await axios.post(`${restApiEndpoints.host}/${restApiEndpoints.logIn}`, authenticationRequest, {
     withCredentials: true,
     headers: {
       'Content-Type': 'application/json'
@@ -58,7 +58,7 @@ const authenticate = async (authenticationRequest) => {
 export const uploadFile = (file) => {
   const formData = new FormData();
   formData.append('file', file);
-  return axios.post(`${restApiEndpoints.host}${restApiEndpoints.files}`, formData, {
+  return axios.post(`${restApiEndpoints.host}/${restApiEndpoints.files}`, formData, {
     withCredentials: true,
     headers: {
       'Accept': 'application/json',
@@ -68,7 +68,7 @@ export const uploadFile = (file) => {
 }
 
 export const createDocumentRecord = (document, endpointKey) => {
-  return axios.post(`${restApiEndpoints.host}${endpointKey}`, document, {
+  return axios.post(`${restApiEndpoints.host}/${endpointKey}`, document, {
     withCredentials: true,
     headers: {
       'Accept': 'application/json',

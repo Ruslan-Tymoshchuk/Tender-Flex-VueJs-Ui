@@ -1,5 +1,5 @@
 export const restApiEndpoints = {
-  host: 'http://localhost:8080/',
+  host: 'http://localhost:8080',
   logIn: 'api/v1/auth/login',
   countries: 'api/v1/countries',
   cpvs: 'api/v1/cpvs',
@@ -13,7 +13,6 @@ export const restApiEndpoints = {
   newOffer: 'api/v1/offers',
   files: 'api/v1/files',
   presignedUrl: 'api/v1/document/location',
-  tenderDetails: 'api/v1/tender/details',
   offerDetails: 'api/v1/offers/details',
   offersList: 'api/v1/offers/list',
   offerCount: 'api/v1/offers/count',

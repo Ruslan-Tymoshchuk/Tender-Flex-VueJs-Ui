@@ -37,7 +37,7 @@
     ><label
       class="file-label"
       :for="labelId"
-    >Upload</label
+    >Select</label
     ></v-btn>
   </v-item>
 </v-row>

@@ -14,7 +14,7 @@
 
           <v-row class="mt-5 mx-8">
             <InputField
-              instance="tender"
+              instance="companyProfile"
               title="Oficial name"
               tooltip="Enter the name of the buyer (e.g. Aeroporto Friuli Venezia Giulia S.p.A.)"
               fieldLabel="Name of Organization"
@@ -23,7 +23,7 @@
               @updateValue="updatedValueInParent"
             ></InputField>
             <InputField
-              instance="tender"
+              instance="companyProfile"
               title="National Registration Number"
               tooltip="Enter the national registration number of the buyer (e.g.ULG BE 0325 777 171)"
               fieldLabel="National Registration Number"
@@ -32,7 +32,7 @@
               @updateValue="updatedValueInParent"
             ></InputField>
             <SelectOption
-              instance="tender"
+              instance="companyProfile"
               title="Country"
               btnTooltip="Choose the country of the buyer"
               label="Choose the country"
@@ -42,7 +42,7 @@
               @updateValue="updatedValueInParent">
             </SelectOption>
             <InputField
-              instance="tender"
+              instance="companyProfile"
               title="City / Town"
               tooltip="Enter the city of the buyer"
               fieldLabel="City"
@@ -58,7 +58,7 @@
 
           <v-row class="mt-5 mx-8">
             <InputField
-              instance="tender"
+              instance="companyProfile"
               title="First Name"
               tooltip="Enter the name of contact person"
               fieldLabel="Name"
@@ -67,7 +67,7 @@
               @updateValue="updatedValueInParent"
             ></InputField>
             <InputField
-              instance="tender"
+              instance="companyProfile"
               title="Last Name"
               tooltip="Enter the surname of contact person"
               fieldLabel="Surname"
@@ -76,7 +76,7 @@
               @updateValue="updatedValueInParent"
             ></InputField>
             <InputField
-              instance="tender"
+              instance="companyProfile"
               title="Phone number"
               tooltip="Enter the phone number of the contact person"
               fieldLabel="Phone"
@@ -143,7 +143,7 @@
               title="Currency"
               btnTooltip="Choose the currency"
               label="Currency"
-              itemTitle="currencyType"
+              itemTitle="type"
               :items="currencies"
               fieldName="currencyId"
               @updateValue="updatedValueInParent">
@@ -269,6 +269,7 @@ export default {
     isDisabled: true,
     currentDate: null,
     tender: {},
+    companyProfile: {},
     contract: {},
     award: {},
     reject: {},
@@ -285,8 +286,9 @@ export default {
     async createTender() {
       try {
         await this.$router.push({ name: 'tenders' });
-        this.tender.contractorId = this.$route.params.userId
+        this.tender.contractorId = this.$route.params.userId;
         this.tender.publication = this.currentDate;
+        this.tender.companyProfile = this.companyProfile;
         const tenderId = (await this.createDocumentRecord(this.tender, restApiEndpoints.tenders)).data.id;
         const { contract, award, reject } = this.attachment;
         const [contactFileMetadata, awardFileMetadata, rejectFileMetadata] = await Promise.all([
@@ -295,7 +297,7 @@ export default {
           this.uploadFile(reject),
         ]);
         this.contract.tenderId = tenderId;
-        this.contract.contractFileId = contactFileMetadata.data.id;
+        this.contract.fileId = contactFileMetadata.data.id;
         this.award.tenderId = tenderId;
         this.award.awardFileId = awardFileMetadata.data.id;
         this.reject.tenderId = tenderId;
@@ -333,10 +335,10 @@ export default {
   async mounted() {
     try {
       const [countries, cpvs, contractTypes, currencies] = await Promise.all([
-        this.fetchFromEndpoint(restApiEndpoints.countries),
-        this.fetchFromEndpoint(restApiEndpoints.cpvs),
-        this.fetchFromEndpoint(restApiEndpoints.contractTypes),
-        this.fetchFromEndpoint(restApiEndpoints.currencies),
+        this.fetchFromEndpoint( `${restApiEndpoints.host}/${restApiEndpoints.countries}`),
+        this.fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.cpvs}`),
+        this.fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.contractTypes}`),
+        this.fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.currencies}`),
       ]);
       this.countries = countries.data;
       this.cpvs = cpvs.data;
