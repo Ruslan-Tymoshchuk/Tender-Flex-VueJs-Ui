@@ -1,83 +1,76 @@
 <template>
-  <v-toolbar color="blue" extended extension-height="100">
-    <template v-slot:extension>
-      <v-container class="px-15">
-        <v-toolbar-title class="ml-10 mb-15" style="font-size: 2rem">{{ title }}</v-toolbar-title>
-      </v-container>
-    </template>
-  </v-toolbar>
+  <ToolBarTitle
+    v-if="`${this.$route.params.role}` === 'contractor'"
+    title="My Tenders">
+  </ToolBarTitle>
+
+  <ToolBarTitle
+    v-else
+    title="Tenders">
+  </ToolBarTitle>
 
   <v-card class="mt-n7 mx-auto" elevation="8" max-width="1000">
-  <div v-if="isHasNoTenders">
-      <v-toolbar color="white" height="200">
-        <v-toolbar-title class="text-center" style="font-size: 2rem">{{ noTendersMessage }}</v-toolbar-title>
-      </v-toolbar>
+    <div v-if="isNoTenders">
+      <EmptyTableTitle v-if="`${this.$route.params.role}` === 'contractor'"
+        message="“There are no published Tenders. Create a Tender.”">
+      </EmptyTableTitle>
+      <EmptyTableTitle
+        v-else
+        message="“There are no available Tenders.”">
+      </EmptyTableTitle>
     </div>
 
-  <div v-if="isTenders">
-    <div v-if="`${this.$route.params.role}` === 'contractor'">
-    <v-toolbar color="primary" height="28" class="text-left">
-      <v-col class="v-col-5">Field</v-col>
-      <v-col class="v-col-2">Oficial Name</v-col>
-      <v-col class="v-col-2">Status</v-col>
-      <v-col class="v-col-2">Deadline</v-col>
-      <v-col class="v-col-2">Offers</v-col>
-    </v-toolbar>
-    <v-container id="scroll-target" style="max-height: 25rem" class="overflow-y-auto" v-scroll:#scroll-target="onScroll">
-      <v-table>
-        <tbody>
-          <tr class="table" v-for="tender in tenders" :key="tender.id" >
-            <td class="v-col-5 text-left">
-             <div class="cpv-code" @click="getTenderById(tender.id, 'received_offers', tender.offValue)">{{ tender.cpv.code }}</div>
-             <strong>{{ tender.cpv.description }}</strong>
-            </td>
-            <td class="v-col-2 text-left">{{ tender.officialName }}</td>
-            <td class="v-col-2 text-left">{{ tenderStatus[tender.status] }}</td>
-            <td class="v-col-2 text-left">{{ tender.deadline }}</td>
-            <td class="v-col-2 text-right">
-              <div v-if="tender.status === 'TENDER_IN_PROGRESS'">{{ tender.offerCount.count }}</div>
-            </td>
-          </tr>
-        </tbody>
-      </v-table>
-    </v-container>
-  </div>
-  <div v-if="`${this.$route.params.role}` === 'bidder'">
-    <v-toolbar color="primary" height="28" class="text-left">
-      <v-col class="v-col-4">Field</v-col>
-      <v-col class="v-col-2">Contractor Name</v-col>
-      <v-col class="v-col-2">Tender Status</v-col>
-      <v-col class="v-col-2">Deadline</v-col>
-      <v-col class="v-col-2">Offer Status</v-col>
-    </v-toolbar>
-    <v-container id="scroll-target" style="max-height: 25rem" class="overflow-y-auto" v-scroll:#scroll-target="onScroll">
-      <v-table>
-        <tbody>
-          <tr class="table" v-for="tender in tenders" :key="tender.id">
-            <td class="v-col-4 text-left" :class="{ 'table-row-disabled': tender.offerStatus === 'OFFER_SENT_TO_CONTRACTOR' }" >
-             <div class="cpv-code" @click="getTenderById(tender.id, 'offer_status', tender.offValue)">{{ tender.cpv.code }}</div>
-             <strong>{{ tender.cpv.description }}</strong>
-           </td>
-            <td class="v-col-2 text-left">{{ tender.officialName }}</td>
-            <td class="v-col-2 text-left">{{ tenderStatus[tender.status] }}</td>
-            <td class="v-col-2 text-left">{{ tender.deadline }}</td>
-            <td class="v-col-2 text-left"> {{ offerStatus[tender.offerStatus] }} </td>
-          </tr>
-        </tbody>
-      </v-table>
-    </v-container>
-  </div>
-  </div>
-</v-card>
+    <div v-else>
+      <div v-if="`${this.$route.params.role}` === 'contractor'">
+        <TableHeader
+          field="Field"
+          companyName="Oficial Name"
+          tenderStatus="Status"
+          deadline="Deadline"
+          offerData="Offers"
+        >
+        </TableHeader>
+      </div>
+      <div v-else-if="`${this.$route.params.role}` === 'bidder'">
+        <TableHeader
+          field="Field"
+          companyName="Contractor Name"
+          tenderStatus="Tender Status"
+          deadline="Deadline"
+          offerData="Offer Status"
+        >
+        </TableHeader>
+      </div>
+        <v-container id="scroll-target" style="max-height: 25rem" class="overflow-y-auto"
+          v-scroll:#scroll-target="onScroll">
+          <TableBody
+            :tenders=tenders
+            @getById="getTenderById"
+          >
+          </TableBody>
+        </v-container>
+    </div>
+  </v-card>
 </template>
 
 <script>
 import { restApiEndpoints } from "@/rest.api.endpoints"
 import { tenderStatus, offerStatus } from "@/components/constants"
 import { fetchFromEndpoint, totalStore } from "@/components/actions"
+import ToolBarTitle from "@/components/childs/ToolBarTitle.vue"
+import EmptyTableTitle from "@/components/childs/EmptyTableTitle.vue"
+import TableHeader from "@/components/childs/TableHeader.vue"
+import TableBody from "@/components/childs/TableBody.vue"
 import axios from "axios";
 
 export default {
+  components:{
+    ToolBarTitle,
+    EmptyTableTitle,
+    TableHeader,
+    TableBody
+  },
+
   data: () => ({
     loading: false,
     bottom: 232,
@@ -87,10 +80,9 @@ export default {
     tenders: 0,
     offers: 0,
     tenders: [],
+    isNoTenders: false,
     isTenders: false,
-    isHasNoTenders: false,
     noTendersMessage: '',
-    title: '',
     tenderStatus,
     offerStatus,
     restApiEndpoints,
@@ -102,7 +94,7 @@ export default {
     async getTenders() {
       try {
         this.loading = true
-        const response = await axios.get(`${restApiEndpoints.host}${restApiEndpoints.tenders}` +
+        const response = await axios.get(`${restApiEndpoints.host}/${restApiEndpoints.tenders}` +
           `?currentPage=${this.plannedPage}&totalTenders=${this.tendersPerPage}`, {
           withCredentials: true,
           headers: {
@@ -111,21 +103,19 @@ export default {
         });
         this.totalPages = response.totalPages
           for (const tender of response.data.content) {
-            const cpvResponse = await fetchFromEndpoint(`${restApiEndpoints.cpvs}/${tender.cpvId}`);
-            tender.cpv = cpvResponse.data;
+            const companyProfileResponse = await fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.companyProfiles}/${tender.companyProfileId}`);
+            tender.companyProfile = companyProfileResponse.data
             if (this.$route.params.role === "contractor") {
-            const offerCountResponse = await fetchFromEndpoint(`${restApiEndpoints.offerCount}/${tender.id}`);
-            tender.offerCount = offerCountResponse.data;
+            const offerCountResponse = await fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.offerCount}/${tender.id}`);
+            tender.offerData = offerCountResponse.data.count;
             } else if (this.$route.params.role === "bidder") {
-              const response = await fetchFromEndpoint(`${restApiEndpoints.offerStatus}/${tender.id}`);
-              tender.offerStatus = response.data.offerStatus;
+              const response = await fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.offerStatus}/${tender.id}`);
+              tender.offerData = response.data.offerStatus;
             }
             this.tenders.push(tender);
           };
-        if (this.tenders.length > 0) {
-          this.isTenders = true;
-        } else {
-          this.isHasNoTenders = true;
+        if (this.tenders.length == 0) {
+          this.isNoTenders = true;
         }
         this.plannedPage++;
         this.loading = false
@@ -141,20 +131,13 @@ export default {
       }
     },
 
-    getTenderById(id, parametr, value) {
-      this.$router.push({ name: "tender-details", params: { id: id }, query: { [parametr]: value } });
+    getTenderById(id) {
+      this.$router.push({ name: "tender-details", params: { tenderId: id } });
     }
   },
 
   mounted() {
     this.getTenders();
-    if (this.$route.params.role === "contractor") {
-        this.noTendersMessage = "“There are no published Tenders. Create a Tender.”"
-        this.title = "My Tenders"
-    } else if (this.$route.params.role === "bidder"){
-        this.noTendersMessage = "“There are no available Tenders.”"
-        this.title = "Tenders"
-    }
   }
 }
 </script>
