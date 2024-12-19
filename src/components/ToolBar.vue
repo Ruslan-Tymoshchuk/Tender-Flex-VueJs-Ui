@@ -40,7 +40,7 @@
         {{ exceptionAlert.message }}
       </v-chip>
       <v-chip
-        v-if="!isNewTenderRoute"
+        v-if="isContractorTenderList"
         router-link :to="{ name: 'new-tender' }"
         variant="flat"
         color="indigo-darken-4"
@@ -71,7 +71,6 @@ import { successAlert, exceptionAlert } from "@/components/alerts"
 export default {
   data: () => ({
     role: '',
-    route: '/',
     totalStore,
     successAlert,
     exceptionAlert
@@ -83,13 +82,8 @@ export default {
   },
 
   computed: {
-    isNewTenderRoute() {
-      if (this.$route.name === 'new-tender' &&
-          this.role === 'contractor') {
-        return true;
-      } else {
-        return false;
-      }
+    isContractorTenderList() {
+      return this.$route.name === 'tenders' && this.role === 'contractor';
     }
   }
 }
