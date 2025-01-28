@@ -36,7 +36,7 @@
               title="Country"
               btnTooltip="Choose the country of the buyer"
               label="Choose the country"
-              itemTitle="countryName"
+              itemTitle="name"
               :items="countries"
               fieldName="countryId"
               @updateValue="updatedValueInParent">
@@ -92,23 +92,23 @@
 
           <v-row class="mt-5 mx-8">
             <SelectOption
-              instance="tender"
+              instance="cpv"
               title="CPV code"
               btnTooltip="Choose CPV code with corresponded to this code description"
               label="CPV Code"
               itemTitle="code"
               :items="cpvs"
-              fieldName="cpvId"
+              fieldName="id"
               @updateValue="updatedValueInParent">
             </SelectOption>
             <SelectOption
-              instance="contract"
+              instance="contractType"
               title="Tipe of Tender"
               btnTooltip="Choose the type of contract"
               label="Type"
               itemTitle="title"
               :items="contractTypes"
-              fieldName="contractTypeId"
+              fieldName="id"
               @updateValue="updatedValueInParent">
             </SelectOption>
             <InputField
@@ -139,13 +139,13 @@
               @updateValue="updatedValueInParent"
             ></InputField>
             <SelectOption
-              instance="contract"
+              instance="currency"
               title="Currency"
               btnTooltip="Choose the currency"
               label="Currency"
               itemTitle="type"
               :items="currencies"
-              fieldName="currencyId"
+              fieldName="id"
               @updateValue="updatedValueInParent">
             </SelectOption>
           </v-row>
@@ -265,14 +265,23 @@ export default {
     contractTypes: [],
     cpvs: [],
     currencies: [],
+    currency: {},
     minDeadline: null,
     isDisabled: true,
     currentDate: null,
     tender: {},
     companyProfile: {},
-    contract: {},
-    award: {},
-    reject: {},
+    cpv: {},
+    contractType: {},
+    contract: {
+      fileMetadata: {}
+    },
+    award: {
+      fileMetadata: {}
+    },
+    reject: {
+      fileMetadata: {}
+    },
     valid: false,
     isDialog: false,
     attachment: {},
@@ -286,29 +295,27 @@ export default {
     async createTender() {
       try {
         await this.$router.push({ name: 'tenders' });
-        this.tender.contractorId = this.$route.params.userId;
-        this.tender.publication = this.currentDate;
-        this.tender.companyProfile = this.companyProfile;
-        const tenderId = (await this.createDocumentRecord(this.tender, restApiEndpoints.tenders)).data.id;
         const { contract, award, reject } = this.attachment;
         const [contactFileMetadata, awardFileMetadata, rejectFileMetadata] = await Promise.all([
           this.uploadFile(contract),
           this.uploadFile(award),
           this.uploadFile(reject),
         ]);
-        this.contract.tenderId = tenderId;
-        this.contract.fileId = contactFileMetadata.data.id;
-        this.award.tenderId = tenderId;
-        this.award.awardFileId = awardFileMetadata.data.id;
-        this.reject.tenderId = tenderId;
-        this.reject.rejectFileId = rejectFileMetadata.data.id;
-        await Promise.all([
-          this.createDocumentRecord(this.contract, restApiEndpoints.contracts),
-          this.createDocumentRecord(this.award, restApiEndpoints.awards),
-          this.createDocumentRecord(this.reject, restApiEndpoints.rejects),
-        ]);
-         this.successAlert.activateAlert("Tender was successfully created");
-         this.totalStore.refreshTotalCounts(this.$route.params.userId);
+        this.tender.contractorId = this.$route.params.userId;
+        this.tender.publication = this.currentDate;
+        this.tender.companyProfile = this.companyProfile;
+        this.tender.cpv = this.cpv;
+        this.contract.contractType = this.contractType;
+        this.contract.currency = this.currency;
+        this.contract.fileMetadata.id = contactFileMetadata.data.id;
+        this.tender.contract = this.contract;
+        this.award.fileMetadata.id = awardFileMetadata.data.id;
+        this.tender.award = this.award;
+        this.reject.fileMetadata.id = rejectFileMetadata.data.id;
+        this.tender.reject = this.reject;
+        await this.createDocumentRecord(this.tender, restApiEndpoints.tenders);
+        this.successAlert.activateAlert("Tender was successfully created");
+        this.totalStore.refreshTotalCounts(this.$route.params.userId);
       } catch (error) {
         if (error.response && error.response.status === 400) {
           this.exceptionAlert.activateAlert(error.response.data.message);
@@ -335,10 +342,10 @@ export default {
   async mounted() {
     try {
       const [countries, cpvs, contractTypes, currencies] = await Promise.all([
-        this.fetchFromEndpoint( `${restApiEndpoints.host}/${restApiEndpoints.countries}`),
-        this.fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.cpvs}`),
-        this.fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.contractTypes}`),
-        this.fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.currencies}`),
+        this.fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.countriesAll}`),
+        this.fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.cpvsAll}`),
+        this.fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.contractTypesAll}`),
+        this.fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.currenciesAll}`),
       ]);
       this.countries = countries.data;
       this.cpvs = cpvs.data;
