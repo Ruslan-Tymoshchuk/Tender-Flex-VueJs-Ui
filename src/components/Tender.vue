@@ -32,13 +32,13 @@
               @updateValue="updatedValueInParent"
             ></InputField>
             <SelectOption
-              instance="companyProfile"
+              instance="country"
               title="Country"
               btnTooltip="Choose the country of the buyer"
               label="Choose the country"
               itemTitle="name"
               :items="countries"
-              fieldName="countryId"
+              fieldName="id"
               @updateValue="updatedValueInParent">
             </SelectOption>
             <InputField
@@ -58,7 +58,7 @@
 
           <v-row class="mt-5 mx-8">
             <InputField
-              instance="companyProfile"
+              instance="contactPerson"
               title="First Name"
               tooltip="Enter the name of contact person"
               fieldLabel="Name"
@@ -67,7 +67,7 @@
               @updateValue="updatedValueInParent"
             ></InputField>
             <InputField
-              instance="companyProfile"
+              instance="contactPerson"
               title="Last Name"
               tooltip="Enter the surname of contact person"
               fieldLabel="Surname"
@@ -76,7 +76,7 @@
               @updateValue="updatedValueInParent"
             ></InputField>
             <InputField
-              instance="companyProfile"
+              instance="contactPerson"
               title="Phone number"
               tooltip="Enter the phone number of the contact person"
               fieldLabel="Phone"
@@ -143,7 +143,7 @@
               title="Currency"
               btnTooltip="Choose the currency"
               label="Currency"
-              itemTitle="type"
+              itemTitle="code"
               :items="currencies"
               fieldName="id"
               @updateValue="updatedValueInParent">
@@ -262,6 +262,7 @@ export default {
     uploadFile,
     createDocumentRecord,
     countries: [],
+    country: {},
     contractTypes: [],
     cpvs: [],
     currencies: [],
@@ -271,15 +272,16 @@ export default {
     currentDate: null,
     tender: {},
     companyProfile: {},
+    contactPerson: {},
     cpv: {},
     contractType: {},
     contract: {
       fileMetadata: {}
     },
-    award: {
+    awardDecision: {
       fileMetadata: {}
     },
-    reject: {
+    rejectDecision: {
       fileMetadata: {}
     },
     valid: false,
@@ -303,16 +305,18 @@ export default {
         ]);
         this.tender.contractorId = this.$route.params.userId;
         this.tender.publication = this.currentDate;
+        this.companyProfile.contactPerson = this.contactPerson;
+        this.companyProfile.country = this.country;
         this.tender.companyProfile = this.companyProfile;
         this.tender.cpv = this.cpv;
         this.contract.contractType = this.contractType;
         this.contract.currency = this.currency;
         this.contract.fileMetadata.id = contactFileMetadata.data.id;
         this.tender.contract = this.contract;
-        this.award.fileMetadata.id = awardFileMetadata.data.id;
-        this.tender.award = this.award;
-        this.reject.fileMetadata.id = rejectFileMetadata.data.id;
-        this.tender.reject = this.reject;
+        this.awardDecision.fileMetadata.id = awardFileMetadata.data.id;
+        this.tender.awardDecision = this.awardDecision;
+        this.rejectDecision.fileMetadata.id = rejectFileMetadata.data.id;
+        this.tender.rejectDecision = this.rejectDecision;
         await this.createDocumentRecord(this.tender, restApiEndpoints.tenders);
         this.successAlert.activateAlert("Tender was successfully created");
         this.totalStore.refreshTotalCounts(this.$route.params.userId);
