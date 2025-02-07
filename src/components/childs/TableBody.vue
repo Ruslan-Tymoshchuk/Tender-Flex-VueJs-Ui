@@ -2,15 +2,22 @@
   <v-table>
     <tbody>
       <tr class="table" v-for="tender in tenders" :key="tender.id">
-        <td class="v-col-5 text-left">
+        <td class="v-col-4 text-left">
           <div class="cpv-code" @click="getById(tender.id)">{{ tender.cpv.code }}</div>
           <strong>{{ tender.cpv.description }}</strong>
         </td>
         <td class="v-col-2 text-left">{{ tender.companyProfile.officialName }}</td>
-        <td class="v-col-2 text-left">{{ tender.status }}</td>
+        <td class="v-col-2 text-left">{{ TENDER_STATUS[tender.status] }}</td>
         <td class="v-col-2 text-left">{{ tender.offerSubmissionDeadline }}</td>
-        <td class="v-col-2 text-right">
-          <div v-if="tender.status === 'TENDER_IN_PROGRESS'">{{ tender.offerData }}</div>
+        <td class="v-col-2">
+          <div v-if="TENDER_STATUS[tender.status] === TENDER_STATUS.TENDER_IN_PROGRESS">
+            <div v-if="this.$route.params.role === USER_ROLE.CONTRACTOR" class="text-center">
+              {{ tender.offersCount }}
+            </div>
+            <div v-else-if="this.$route.params.role === USER_ROLE.BIDDER" class="text-left">
+              {{ OFFER_STATUS[tender.offerStatus] }}
+            </div>
+          </div>
         </td>
       </tr>
     </tbody>
@@ -18,7 +25,14 @@
 </template>
 
 <script>
+import { USER_ROLE, TENDER_STATUS, OFFER_STATUS } from "@/components/constants";
 export default {
+  data: () => ({
+    USER_ROLE,
+    TENDER_STATUS,
+    OFFER_STATUS
+  }),
+
   props: {
     tenders: null
   },

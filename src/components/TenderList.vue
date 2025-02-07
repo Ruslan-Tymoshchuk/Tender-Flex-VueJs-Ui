@@ -9,7 +9,8 @@
     title="Tenders">
   </ToolBarTitle>
 
-  <v-card class="mt-n7 mx-auto" elevation="8" max-width="1000">
+  <v-container fluid class="d-flex align-center justify-center mt-n12">
+  <v-card elevation="8" width="1000">
     <div v-if="isNoTenders">
       <EmptyTableTitle v-if="`${this.$route.params.role}` === 'contractor'"
         message="“There are no published Tenders. Create a Tender.”">
@@ -51,11 +52,12 @@
         </v-container>
     </div>
   </v-card>
+</v-container>
 </template>
 
 <script>
 import { restApiEndpoints } from "@/rest.api.endpoints"
-import { tenderStatus, offerStatus } from "@/components/constants"
+import { TENDER_STATUS, OFFER_STATUS } from "@/components/constants"
 import { fetchFromEndpoint, totalStore } from "@/components/actions"
 import ToolBarTitle from "@/components/childs/ToolBarTitle.vue"
 import EmptyTableTitle from "@/components/childs/EmptyTableTitle.vue"
@@ -73,7 +75,7 @@ export default {
 
   data: () => ({
     loading: false,
-    bottom: 232,
+    bottom: 285,
     plannedPage: 1,
     tendersPerPage: 10,
     totalPages: 1,
@@ -83,8 +85,8 @@ export default {
     isNoTenders: false,
     isTenders: false,
     noTendersMessage: '',
-    tenderStatus,
-    offerStatus,
+    tenderStatus: TENDER_STATUS,
+    offerStatus: OFFER_STATUS,
     restApiEndpoints,
     fetchFromEndpoint,
     totalStore
@@ -94,23 +96,21 @@ export default {
     async getTenders() {
       try {
         this.loading = true
-        const response = await axios.get(`${restApiEndpoints.host}/${restApiEndpoints.tenders}` +
+        const tendersPageResponse = await axios.get(`${restApiEndpoints.host}/${restApiEndpoints.tendersAll}` +
           `?currentPage=${this.plannedPage}&totalTenders=${this.tendersPerPage}`, {
           withCredentials: true,
           headers: {
             'Accept': 'application/json',
           }
         });
-        this.totalPages = response.totalPages
-          for (const tender of response.data.content) {
-            const companyProfileResponse = await fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.companyProfiles}/${tender.companyProfileId}`);
-            tender.companyProfile = companyProfileResponse.data
+        this.totalPages = tendersPageResponse.totalPages
+          for (const tender of tendersPageResponse.data.content) {
             if (this.$route.params.role === "contractor") {
             const offerCountResponse = await fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.offerCount}/${tender.id}`);
-            tender.offerData = offerCountResponse.data.count;
+            tender.offersCount = offerCountResponse.data.count;
             } else if (this.$route.params.role === "bidder") {
-              const response = await fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.offerStatus}/${tender.id}`);
-              tender.offerData = response.data.offerStatus;
+              const offerStatusResponse = await fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.offerStatus}/${tender.id}`);
+              tender.offerStatus = offerStatusResponse.data.offerStatus;
             }
             this.tenders.push(tender);
           };
@@ -125,7 +125,7 @@ export default {
     },
 
     onScroll(e) {
-      const currentPage = Math.ceil(e.target.scrollTop / 285);
+      const currentPage = Math.ceil(e.target.scrollTop / this.bottom);
       if (currentPage === this.plannedPage && !this.loading && this.plannedPage <= this.totalPages) {
         this.getTenders()
       }
