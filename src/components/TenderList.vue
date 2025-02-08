@@ -1,6 +1,6 @@
 <template>
   <ToolBarTitle
-    v-if="`${this.$route.params.role}` === 'contractor'"
+    v-if="this.$route.params.role === USER_ROLE.CONTRACTOR"
     title="My Tenders">
   </ToolBarTitle>
 
@@ -12,7 +12,7 @@
   <v-container fluid class="d-flex align-center justify-center mt-n12">
   <v-card elevation="8" width="1000">
     <div v-if="isNoTenders">
-      <EmptyTableTitle v-if="`${this.$route.params.role}` === 'contractor'"
+      <EmptyTableTitle v-if="this.$route.params.role === USER_ROLE.CONTRACTOR"
         message="“There are no published Tenders. Create a Tender.”">
       </EmptyTableTitle>
       <EmptyTableTitle
@@ -22,7 +22,7 @@
     </div>
 
     <div v-else>
-      <div v-if="`${this.$route.params.role}` === 'contractor'">
+      <div v-if="this.$route.params.role === USER_ROLE.CONTRACTOR">
         <TableHeader
           field="Field"
           companyName="Oficial Name"
@@ -32,7 +32,7 @@
         >
         </TableHeader>
       </div>
-      <div v-else-if="`${this.$route.params.role}` === 'bidder'">
+      <div v-else-if="this.$route.params.role === USER_ROLE.BIDDER">
         <TableHeader
           field="Field"
           companyName="Contractor Name"
@@ -57,7 +57,7 @@
 
 <script>
 import { restApiEndpoints } from "@/rest.api.endpoints"
-import { TENDER_STATUS, OFFER_STATUS } from "@/components/constants"
+import { USER_ROLE, TENDER_STATUS, OFFER_STATUS } from "@/components/constants"
 import { fetchFromEndpoint, totalStore } from "@/components/actions"
 import ToolBarTitle from "@/components/childs/ToolBarTitle.vue"
 import EmptyTableTitle from "@/components/childs/EmptyTableTitle.vue"
@@ -85,6 +85,7 @@ export default {
     isNoTenders: false,
     isTenders: false,
     noTendersMessage: '',
+    USER_ROLE,
     tenderStatus: TENDER_STATUS,
     offerStatus: OFFER_STATUS,
     restApiEndpoints,
