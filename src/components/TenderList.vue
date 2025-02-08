@@ -106,10 +106,10 @@ export default {
         });
         this.totalPages = tendersPageResponse.totalPages
           for (const tender of tendersPageResponse.data.content) {
-            if (this.$route.params.role === "contractor") {
+            if (this.$route.params.role === USER_ROLE.CONTRACTOR) {
             const offerCountResponse = await fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.offerCount}/${tender.id}`);
             tender.offersCount = offerCountResponse.data.count;
-            } else if (this.$route.params.role === "bidder") {
+            } else if (this.$route.params.role === USER_ROLE.BIDDER) {
               const offerStatusResponse = await fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.offerStatus}/${tender.id}`);
               tender.offerStatus = offerStatusResponse.data.offerStatus;
             }
