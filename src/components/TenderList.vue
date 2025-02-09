@@ -86,8 +86,6 @@ export default {
     isTenders: false,
     noTendersMessage: '',
     USER_ROLE,
-    tenderStatus: TENDER_STATUS,
-    offerStatus: OFFER_STATUS,
     restApiEndpoints,
     fetchFromEndpoint,
     totalStore
