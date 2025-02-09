@@ -28,3 +28,10 @@ export const USER_ROLE = {
   BIDDER: "bidder",
   ADMIN: "admin"
 }
+
+export const CONTRACT_TYPE = {
+  WORKS: "Works",
+  SUPPLIES: "Supplies",
+  SERVICES: "services",
+  COMBINED_CONTRACTS: "Combined contracts"
+}

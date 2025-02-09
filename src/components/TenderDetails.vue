@@ -1,6 +1,6 @@
 <template>
   <v-toolbar color="blue" extended extension-height="100">
-    <v-chip router-link :to="`/module/${role}/tenders`" style="margin-left: 12rem" variant="text" text-color="white"
+    <v-chip router-link :to="{ name: 'tenders' }" style="margin-left: 12rem" variant="text" text-color="white"
       prepend-icon="mdi-keyboard-backspace">Back
     </v-chip>
     <template v-slot:extension>
@@ -29,7 +29,7 @@
           <v-container id="scroll-target" style="max-height: 25rem" class="overflow-y-auto">
             <v-table>
               <tbody>
-                  <tr class="table" v-for="offer in offersByTender" :key="offer.offerId">
+                  <tr class="table" v-for="offer in tender.offers" :key="offer.offerId">
                     <td class="v-col-2 text-left cpv">
                    <div>
                     <label class="cpv-code" @click="getOfferById(offer.offerId)">
@@ -60,16 +60,16 @@
                 <div class="ma-2 details-title">National Registration Number: </div>
               </v-col>
               <v-col class="text-left">
-                <div class="ma-2">{{ tender.companyName }}</div>
-                <div class="ma-2">{{ tender.registrationNumber }}</div>
+                <div class="ma-2">{{ tender.companyProfile.officialName }}</div>
+                <div class="ma-2">{{ tender.companyProfile.registrationNumber }}</div>
               </v-col>
               <v-col class="text-left">
                 <div class="ma-2 details-title">Country:</div>
                 <div class="ma-2 details-title">City / Town:</div>
               </v-col>
               <v-col class="text-left">
-                <div class="ma-2">{{ tender.country }}</div>
-                <div class="ma-2">{{ tender.city }}</div>
+                <div class="ma-2">{{ tender.companyProfile.country.name }}</div>
+                <div class="ma-2">{{ tender.companyProfile.city }}</div>
               </v-col>
             </v-row>
           </v-container>
@@ -88,14 +88,14 @@
             <div class="mt-3 details-title">Surname:</div>
           </v-col>
           <v-col class="text-left mx-2">
-            <div>{{ tender.firstName }}</div>
-            <div class="mt-3">{{ tender.lastName }}</div>
+            <div>{{ tender.companyProfile.contactPerson.firstName }}</div>
+            <div class="mt-3">{{ tender.companyProfile.contactPerson.lastName }}</div>
           </v-col>
           <v-col class="text-left mx-2">
             <div class="details-title">Phone number:</div>
           </v-col>
           <v-col class="text-left mx-2">
-            <div>{{ tender.phone }}</div>
+            <div>{{ tender.companyProfile.contactPerson.phoneNumber }}</div>
           </v-col>
         </v-row>
       </v-container>
@@ -111,13 +111,13 @@
             <div class="details-title">Procedure:</div>
           </v-col>
           <v-col class="text-left mx-2">
-            <div>{{ tender.procedure }}</div>
+            <div>{{ PROCEDURE[tender.procedure] }}</div>
           </v-col>
           <v-col class="text-left mx-2">
             <div class="details-title">Language:</div>
           </v-col>
           <v-col class="text-left mx-2">
-            <div>{{ tender.language }}</div>
+            <div>{{ LANGUAGE[tender.language] }}</div>
           </v-col>
         </v-row>
       </v-container>
@@ -135,9 +135,9 @@
             <div class="mt-3 details-title">Currency:</div>
           </v-col>
           <v-col class="text-left mx-2">
-            <div>{{ tender.cpvCode }}</div>
-            <div class="mt-3">{{ tender.minTenderValue }}</div>
-            <div class="mt-3">{{ tender.currency }}</div>
+            <div>{{ tender.cpv.code }}</div>
+            <div class="mt-3">{{ tender.contract.minPrice }}</div>
+            <div class="mt-3">{{ `${tender.contract.currency.code} | ${tender.contract.currency.symbol}` }}</div>
           </v-col>
           <v-col class="text-left mx-2">
             <div class="details-title">Type of Tender:</div>
@@ -145,8 +145,8 @@
             <div class="mt-3 details-title">Description:</div>
           </v-col>
           <v-col class="text-left mx-2">
-            <div>{{ tender.type }}</div>
-            <div class="mt-3">{{ tender.maxTenderValue }}</div>
+            <div>{{ CONTRACT_TYPE[tender.contract.contractType.title] }}</div>
+            <div class="mt-3">{{ tender.contract.maxPrice }}</div>
             <div class="mt-3">{{ tender.description }}</div>
           </v-col>
         </v-row>
@@ -165,7 +165,7 @@
           </v-col>
           <v-col class="text-left mx-2">
             <div>{{ tender.publicationDate }}</div>
-            <div class="mt-3">{{ tender.signedContractSubmissionDeadline }}</div>
+            <div class="mt-3">{{ tender.contract.signedDeadline }}</div>
           </v-col>
           <v-col class="text-left mx-2">
             <div class="details-title">Deadline for Offer Submission:</div>
@@ -191,11 +191,11 @@
                 color="blue"
                 prepend-icon="mdi-file-document-multiple-outline"
                 label
-                @click="openDialog(tender.contractFileName)"
+                @click="openDialog(tender.contract.fileMetadata.name)"
               ><div
                 id="text"
                 style="width: 50rem"
-                > {{ getOriginalFileName(tender.contractFileName) }} </div>
+                > {{ tender.contract.fileMetadata.name }} </div>
               </v-chip
               ></v-item>
            </v-row>
@@ -208,11 +208,11 @@
                 color="blue"
                 prepend-icon="mdi-file-document-multiple-outline"
                 label
-                @click="openDialog(tender.awardDecisionFileName)"
+                @click="openDialog(tender.awardDecision.fileMetadata.name)"
               ><div
                 id="text"
                 style="width: 50rem"
-                > {{ getOriginalFileName(tender.awardDecisionFileName) }} </div>
+                > {{ tender.awardDecision.fileMetadata.name }} </div>
               </v-chip>
             </v-item>
           </v-row>
@@ -224,17 +224,17 @@
                 color="blue"
                 prepend-icon="mdi-file-document-multiple-outline"
                 label
-                @click="openDialog(tender.rejectDecisionFileName)"
+                @click="openDialog(tender.rejectDecision.fileMetadata.name)"
               ><div
                 id="text"
                 style="width: 50rem"
-              > {{ getOriginalFileName(tender.rejectDecisionFileName) }} </div>
+              > {{ tender.rejectDecision.fileMetadata.name  }} </div>
               </v-chip>
             </v-item>
           </v-row>
         </div>
         </v-item-group>
-        <div v-if="role ==='bidder' && this.$route.query.offer_status === 'OFFER_HAS_NOT_SENT'">
+        <div v-if="role ==='bidder'">
         <v-row class="d-flex justify-end mt-5 mb-10 mr-2">
             <v-col md="3">
              <v-btn type="submit" block variant="flat" color="blue" @click="createOffer(tenderId)">
@@ -260,49 +260,60 @@
 </template>
 
 <script>
-import { restApiConfig } from "@/rest.api.config"
-import { getOriginalFileName } from "@/components/actions";
+import { restApiEndpoints } from "@/rest.api.endpoints"
 import { exceptionAlert } from "@/components/alerts";
-import { offerStatus } from "@/components/constants"
+import { PROCEDURE, LANGUAGE, CONTRACT_TYPE } from "@/components/constants"
+import { fetchFromEndpoint } from "@/components/actions";
 import axios from "axios";
 
 export default {
   data: () => ({
+    PROCEDURE,
+    LANGUAGE,
+    CONTRACT_TYPE,
     tender: {
-      contractFileName: '',
-      awardDecisionFileName: '',
-      rejectDecisionFileName: '',
+      companyProfile: {
+        country: {},
+        contactPerson: {}
+      },
+      cpv: {},
+      contract: {
+        currency: {},
+        contractType: {},
+        fileMetadata: {}
+      },
+      awardDecision: {
+        fileMetadata: {}
+      },
+      rejectDecision: {
+        fileMetadata: {}
+      },
     },
     tab: "tenderDescription",
     dialog: false,
     documentUrl: '',
-    offersByTender: [],
     totalPages: 1,
     plannedPage: 1,
     offersPerPage: 10,
     loading: false,
     isOffers: false,
+    offer: [],
     role: '',
-    tenderId: 0,
-    offValue: '',
-    getOriginalFileName,
     exceptionAlert,
-    offerStatus
+    fetchFromEndpoint
   }),
 
   methods: {
-    async getTenderById() {
+    async getTenderById(tenderId) {
       try {
-        const response = await axios.get(`${restApiConfig.host}${restApiConfig.tenderDetails}/` +
-          `${this.$route.params.role}/${this.tenderId}`, {
+        const response = await axios.get(`${restApiEndpoints.host}${restApiEndpoints.tenders}/${tenderId}`, {
           withCredentials: true,
           headers: {
             'Accept': 'application/json',
           }
         });
         this.tender = response.data;
-        this.offersByTender = response.data.offers
-        if (this.offersByTender.length > 0) {
+        if (this.role === 'contractor' && this.tender.offers.length > 0) {
           this.isOffers = true
         }
       } catch (error) {
@@ -318,7 +329,7 @@ export default {
     },
 
     openDialog(documentName) {
-      fetch(`${restApiConfig.host}${restApiConfig.presignedUrl}/${documentName}`, {
+      fetch(`${restApiEndpoints.host}${restApiEndpoints.presignedUrl}/${documentName}`, {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -338,11 +349,10 @@ export default {
     }
   },
 
-  mounted() {
-    this.role = this.$route.params.role
-    this.tenderId = this.$route.params.id
-    this.offValue = this.$route.params.value
-    this.getTenderById();
+ async mounted() {
+    this.role = this.$route.params.role;
+    const tenderResponse = await fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.tenders}/${this.$route.params.tenderId}`);
+    this.tender = tenderResponse.data;
   }
 }
 </script>

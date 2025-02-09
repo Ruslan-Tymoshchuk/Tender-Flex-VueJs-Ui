@@ -57,7 +57,7 @@
 
 <script>
 import { restApiEndpoints } from "@/rest.api.endpoints"
-import { USER_ROLE, TENDER_STATUS, OFFER_STATUS } from "@/components/constants"
+import { USER_ROLE } from "@/components/constants"
 import { fetchFromEndpoint, totalStore } from "@/components/actions"
 import ToolBarTitle from "@/components/childs/ToolBarTitle.vue"
 import EmptyTableTitle from "@/components/childs/EmptyTableTitle.vue"
