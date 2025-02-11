@@ -191,7 +191,7 @@
                 color="blue"
                 prepend-icon="mdi-file-document-multiple-outline"
                 label
-                @click="openDialog(tender.contract.fileMetadata.name)"
+                @click="downloadFile(tender.contract.fileMetadata.awsS3fileKey)"
               ><div
                 id="text"
                 style="width: 50rem"
@@ -208,7 +208,7 @@
                 color="blue"
                 prepend-icon="mdi-file-document-multiple-outline"
                 label
-                @click="openDialog(tender.awardDecision.fileMetadata.name)"
+                @click="downloadFile(tender.awardDecision.fileMetadata.awsS3fileKey)"
               ><div
                 id="text"
                 style="width: 50rem"
@@ -224,11 +224,11 @@
                 color="blue"
                 prepend-icon="mdi-file-document-multiple-outline"
                 label
-                @click="openDialog(tender.rejectDecision.fileMetadata.name)"
+                @click="downloadFile(tender.rejectDecision.fileMetadata.awsS3fileKey)"
               ><div
                 id="text"
                 style="width: 50rem"
-              > {{ tender.rejectDecision.fileMetadata.name  }} </div>
+              > {{ tender.rejectDecision.fileMetadata.name }} </div>
               </v-chip>
             </v-item>
           </v-row>
@@ -246,11 +246,11 @@
       </v-container>
 
         <v-dialog v-model="dialog" width="auto">
-          <v-card>
+          <v-card v-click-outside="closeDialog">
             <iframe :src=documentUrl width="800" height="500">
             </iframe>
             <v-card-actions>
-              <v-btn color="primary" block @click="dialog = false">Close</v-btn>
+              <v-btn color="primary" block @click="closeDialog">Close</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -342,6 +342,27 @@ export default {
           this.dialog = true;
         })
         .catch(error => console.log('There was an error', error));
+    },
+
+    async downloadFile(fileKey) {
+      try {
+        this.dialog = true;
+        const response = await axios.get(`${restApiEndpoints.host}/${restApiEndpoints.files}/${fileKey}`, {
+          withCredentials: true,
+          responseType: 'blob',
+        });
+        this.documentUrl = URL.createObjectURL(response.data);
+      } catch (error) {
+        console.error('Error downloading the file', error);
+      }
+    },
+
+    closeDialog() {
+      if (this.documentUrl) {
+        URL.revokeObjectURL(this.documentUrl);
+        this.documentUrl = null;
+      }
+      this.dialog = false;
     },
 
     createOffer(tenderId){
