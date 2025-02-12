@@ -4,10 +4,6 @@ import { exceptionAlert } from "@/components/alerts"
 import router from "@/router/index";
 import axios from 'axios';
 
-export const getOriginalFileName = (uniqueFileName) => {
-  return uniqueFileName.substring(37);
-}
-
 export const totalStore = reactive({
   tenders: 0,
   offers: 0,
@@ -65,6 +61,17 @@ export const uploadFile = (file) => {
       'Content-Type': 'multipart/form-data'
     }
   });
+}
+
+export const downloadFile = (fileKey) => {
+  try {
+    return axios.get(`${restApiEndpoints.host}/${restApiEndpoints.files}/${fileKey}`, {
+      withCredentials: true,
+      responseType: 'blob',
+    });
+  } catch (error) {
+    exceptionAlert.activateAlert(error.response.data.message);
+  }
 }
 
 export const createDocumentRecord = (document, endpointKey) => {

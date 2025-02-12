@@ -17,37 +17,37 @@
   <v-window v-model="tab" class="mt-n7 pb-10">
 
     <v-window-item value="offers">
-        <v-card class="mx-auto" elevation="8" max-width="1000">
-          <v-toolbar color="primary" height="28" class="text-left">
-            <v-col class="v-col-2 ml-2">Oficial Name</v-col>
-            <v-col class="v-col-2 ml-4 mr-10">Field</v-col>
-            <v-col class="v-col-1 ml-14 mr-0">Price</v-col>
-            <v-col class="v-col-1 ml-1">Country</v-col>
-            <v-col class="v-col-2 ml-2 mr-4">Received Date</v-col>
-            <v-col class="v-col-2 ml-15">Status</v-col>
+      <v-card class="mx-auto" elevation="8" max-width="1000">
+        <v-toolbar color="primary" height="28" class="text-left">
+          <v-col class="v-col-2 ml-2">Oficial Name</v-col>
+          <v-col class="v-col-2 ml-4 mr-10">Field</v-col>
+          <v-col class="v-col-1 ml-14 mr-0">Price</v-col>
+          <v-col class="v-col-1 ml-1">Country</v-col>
+          <v-col class="v-col-2 ml-2 mr-4">Received Date</v-col>
+          <v-col class="v-col-2 ml-15">Status</v-col>
         </v-toolbar>
-          <v-container id="scroll-target" style="max-height: 25rem" class="overflow-y-auto">
-            <v-table>
-              <tbody>
-                  <tr class="table" v-for="offer in tender.offers" :key="offer.offerId">
-                    <td class="v-col-2 text-left cpv">
-                   <div>
+        <v-container id="scroll-target" style="max-height: 25rem" class="overflow-y-auto">
+          <v-table>
+            <tbody>
+              <tr class="table" v-for="offer in tender.offers" :key="offer.offerId">
+                <td class="v-col-2 text-left cpv">
+                  <div>
                     <label class="cpv-code" @click="getOfferById(offer.offerId)">
                       <strong>{{ offer.bidderOficialName }}</strong>
                     </label>
-                   </div>
-                   </td>
-                    <td class="v-col-3 text-left">{{ offer.fieldOfTheTender }}</td>
-                    <td class="v-col-1 text-left">{{ `${offer.currency}.${offer.price}` }}</td>
-                    <td class="v-col-1 text-left">{{ offer.country }}</td>
-                    <td class="v-col-2 text-left">{{ offer.date }}</td>
-                    <td class="v-col-2 text-right"> {{ offerStatus[offer.status] }} </td>
-                  </tr>
-                </tbody>
-            </v-table>
-          </v-container>
-        </v-card>
-      </v-window-item>
+                  </div>
+                </td>
+                <td class="v-col-3 text-left">{{ offer.fieldOfTheTender }}</td>
+                <td class="v-col-1 text-left">{{ `${offer.currency}.${offer.price}` }}</td>
+                <td class="v-col-1 text-left">{{ offer.country }}</td>
+                <td class="v-col-2 text-left">{{ offer.date }}</td>
+                <td class="v-col-2 text-right"> {{ offerStatus[offer.status] }} </td>
+              </tr>
+            </tbody>
+          </v-table>
+        </v-container>
+      </v-card>
+    </v-window-item>
 
     <v-window-item value="tenderDescription">
       <v-card class="mx-auto" elevation="8" max-width="1000">
@@ -182,78 +182,54 @@
       </v-container>
 
       <v-container class="details-container">
-      <v-item-group class="mx-8">
+        <v-item-group class="mx-8">
           <v-row>
             <v-item>
-              <v-chip
-                size="large"
-                class="mb-5"
-                color="blue"
-                prepend-icon="mdi-file-document-multiple-outline"
-                label
-                @click="downloadFile(tender.contract.fileMetadata.awsS3fileKey)"
-              ><div
-                id="text"
-                style="width: 50rem"
-                > {{ tender.contract.fileMetadata.name }} </div>
-              </v-chip
-              ></v-item>
-           </v-row>
+              <v-chip size="large" class="mb-5" color="blue" prepend-icon="mdi-file-document-multiple-outline" label
+                @click="showFile(tender.contract.fileMetadata.awsS3fileKey)">
+                <div id="text" style="width: 50rem"> {{ tender.contract.fileMetadata.name }} </div>
+              </v-chip></v-item>
+          </v-row>
           <div v-if="role === 'contractor'" class="mt-4">
-          <v-row>
-            <v-item>
-              <v-chip
-                size="large"
-                class="mb-6"
-                color="blue"
-                prepend-icon="mdi-file-document-multiple-outline"
-                label
-                @click="downloadFile(tender.awardDecision.fileMetadata.awsS3fileKey)"
-              ><div
-                id="text"
-                style="width: 50rem"
-                > {{ tender.awardDecision.fileMetadata.name }} </div>
-              </v-chip>
-            </v-item>
-          </v-row>
-          <v-row>
-            <v-item>
-              <v-chip
-                size="large"
-                class="mb-6"
-                color="blue"
-                prepend-icon="mdi-file-document-multiple-outline"
-                label
-                @click="downloadFile(tender.rejectDecision.fileMetadata.awsS3fileKey)"
-              ><div
-                id="text"
-                style="width: 50rem"
-              > {{ tender.rejectDecision.fileMetadata.name }} </div>
-              </v-chip>
-            </v-item>
-          </v-row>
-        </div>
+            <v-row>
+              <v-item>
+                <v-chip size="large" class="mb-6" color="blue" prepend-icon="mdi-file-document-multiple-outline" label
+                  @click="showFile(tender.awardDecision.fileMetadata.awsS3fileKey)">
+                  <div id="text" style="width: 50rem"> {{ tender.awardDecision.fileMetadata.name }} </div>
+                </v-chip>
+              </v-item>
+            </v-row>
+            <v-row>
+              <v-item>
+                <v-chip size="large" class="mb-6" color="blue" prepend-icon="mdi-file-document-multiple-outline" label
+                  @click="showFile(tender.rejectDecision.fileMetadata.awsS3fileKey)">
+                  <div id="text" style="width: 50rem"> {{ tender.rejectDecision.fileMetadata.name }} </div>
+                </v-chip>
+              </v-item>
+            </v-row>
+          </div>
         </v-item-group>
         <div v-if="role ==='bidder'">
-        <v-row class="d-flex justify-end mt-5 mb-10 mr-2">
+          <v-row class="d-flex justify-end mt-5 mb-10 mr-2">
             <v-col md="3">
-             <v-btn type="submit" block variant="flat" color="blue" @click="createOffer(tenderId)">
-              + Create Offer
-             </v-btn>
-           </v-col>
-           </v-row>
+              <v-btn type="submit" block variant="flat" color="blue" @click="createOffer(tenderId)">
+                + Create Offer
+              </v-btn>
+            </v-col>
+          </v-row>
         </div>
       </v-container>
 
-        <v-dialog v-model="dialog" width="auto">
-          <v-card v-click-outside="closeDialog">
-            <iframe :src=documentUrl width="800" height="500">
-            </iframe>
-            <v-card-actions>
-              <v-btn color="primary" block @click="closeDialog">Close</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
+      <v-dialog v-model="modalFileWindow" width="auto">
+        <v-card v-click-outside="closeFile">
+          <iframe :src=documentUrl width="800" height="500">
+          </iframe>
+          <v-progress-linear v-if="progress" :height="6" color="indigo" indeterminate></v-progress-linear>
+          <v-card-actions>
+            <v-btn color="primary" block @click="closeFile">Close</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-window-item>
 
   </v-window>
@@ -263,8 +239,7 @@
 import { restApiEndpoints } from "@/rest.api.endpoints"
 import { exceptionAlert } from "@/components/alerts";
 import { PROCEDURE, LANGUAGE, CONTRACT_TYPE } from "@/components/constants"
-import { fetchFromEndpoint } from "@/components/actions";
-import axios from "axios";
+import { fetchFromEndpoint, downloadFile } from "@/components/actions";
 
 export default {
   data: () => ({
@@ -290,7 +265,7 @@ export default {
       },
     },
     tab: "tenderDescription",
-    dialog: false,
+    modalFileWindow: false,
     documentUrl: '',
     totalPages: 1,
     plannedPage: 1,
@@ -300,69 +275,32 @@ export default {
     offer: [],
     role: '',
     exceptionAlert,
-    fetchFromEndpoint
+    fetchFromEndpoint,
+    downloadFile,
+    progress: true
   }),
 
   methods: {
-    async getTenderById(tenderId) {
-      try {
-        const response = await axios.get(`${restApiEndpoints.host}${restApiEndpoints.tenders}/${tenderId}`, {
-          withCredentials: true,
-          headers: {
-            'Accept': 'application/json',
-          }
-        });
-        this.tender = response.data;
-        if (this.role === 'contractor' && this.tender.offers.length > 0) {
-          this.isOffers = true
-        }
-      } catch (error) {
-        exceptionAlert.activateAlert("There was an error when fetching the tender details")
-        console.log(error.response.data.message)
-      }
-    },
-
     getOfferById(id){
       this.$router.push({ name: "offer-details",
                           params: { id: id, award: this.tender.awardDecisionFileName,
                                     reject: this.tender.rejectDecisionFileName } });
     },
 
-    openDialog(documentName) {
-      fetch(`${restApiEndpoints.host}${restApiEndpoints.presignedUrl}/${documentName}`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Accept': 'application/json',
-        }
-      })
-        .then(response => response.json())
-        .then(responseData => {
-          this.documentUrl = responseData.fileUrl
-          this.dialog = true;
-        })
-        .catch(error => console.log('There was an error', error));
+    async showFile(fileKey) {
+      this.modalFileWindow = true;
+      const response = await downloadFile(fileKey);
+      this.documentUrl = URL.createObjectURL(response.data);
+      this.progress = false;
     },
 
-    async downloadFile(fileKey) {
-      try {
-        this.dialog = true;
-        const response = await axios.get(`${restApiEndpoints.host}/${restApiEndpoints.files}/${fileKey}`, {
-          withCredentials: true,
-          responseType: 'blob',
-        });
-        this.documentUrl = URL.createObjectURL(response.data);
-      } catch (error) {
-        console.error('Error downloading the file', error);
-      }
-    },
-
-    closeDialog() {
+    closeFile() {
       if (this.documentUrl) {
         URL.revokeObjectURL(this.documentUrl);
         this.documentUrl = null;
       }
-      this.dialog = false;
+      this.modalFileWindow = false;
+      this.progress = true;
     },
 
     createOffer(tenderId){
