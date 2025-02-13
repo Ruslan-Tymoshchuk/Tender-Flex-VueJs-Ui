@@ -61,12 +61,13 @@
 }
 
 .cpv-code {
+  text-decoration: none;
   color: #1f9dec;
 }
 
 .cpv-code:hover {
+  text-decoration: underline;
   color: #11ad0c;
-  cursor: pointer;
 }
 
 html {

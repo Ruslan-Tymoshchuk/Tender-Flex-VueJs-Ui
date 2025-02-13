@@ -3,7 +3,9 @@
     <tbody>
       <tr class="table" v-for="tender in tenders" :key="tender.id">
         <td class="v-col-3 text-left">
-          <div class="cpv-code" @click="getById(tender.id)">{{ tender.cpv.code }}</div>
+          <router-link :to="{ name: 'tender-details', params: { tenderId: tender.id } }" class="cpv-code" >
+            <div>{{ tender.cpv.code }}</div>
+          </router-link>
           <strong>{{ tender.cpv.summary }}</strong>
         </td>
         <td class="v-col-2 text-center">{{ tender.companyProfile.officialName }}</td>
@@ -37,10 +39,5 @@ export default {
     tenders: null
   },
 
-  methods: {
-    getById(id) {
-      this.$emit('getById', id);
-    }
-  }
 }
 </script>

@@ -45,9 +45,7 @@
         <v-container id="scroll-target" style="max-height: 25rem" class="overflow-y-auto"
           v-scroll:#scroll-target="onScroll">
           <TableBody
-            :tenders=tenders
-            @getById="getTenderById"
-          >
+            :tenders=tenders>
           </TableBody>
         </v-container>
     </div>
@@ -108,7 +106,7 @@ export default {
             const offerCountResponse = await fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.offerCount}/${tender.id}`);
             tender.offersCount = offerCountResponse.data.count;
             } else if (this.$route.params.role === USER_ROLE.BIDDER) {
-              const offerStatusResponse = await fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.offerStatus}/${tender.id}`);
+              const offerStatusResponse = await fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.offerStatus}/${this.$route.params.userId}/${tender.id}`);
               tender.offerStatus = offerStatusResponse.data.offerStatus;
             }
             this.tenders.push(tender);
@@ -128,11 +126,8 @@ export default {
       if (currentPage === this.plannedPage && !this.loading && this.plannedPage <= this.totalPages) {
         this.getTenders()
       }
-    },
-
-    getTenderById(id) {
-      this.$router.push({ name: "tender-details", params: { tenderId: id } });
     }
+
   },
 
   mounted() {
