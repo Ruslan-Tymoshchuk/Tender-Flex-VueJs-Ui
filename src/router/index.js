@@ -5,46 +5,24 @@ import TendersList from '@/components/TenderList.vue'
 import Tender from '@/components/Tender.vue'
 import TenderDetails from '@/components/TenderDetails.vue'
 import OfferDetails from '@/components/OfferDetails.vue'
-import MyOfferDetails from '@/components/MyOfferDetails.vue'
 import Offer from '@/components/Offer.vue'
 import OffersList from '@/components/OffersList.vue'
 
 const routes = [
-  {
-    path: '/',
-    name: 'login',
-    components: {
-      default: LogIn,
-    }
-  },
-  {
-    name: 'contractor-module',
-    path: '/users/:userId/:role/',
-    component: ToolBar,
+
+  { name: 'login', path: '/', component: LogIn },
+
+  { name: 'user-module', path: '/users/:userId/:role/', component: ToolBar,
       children: [
-        { name: 'new-tender', path: 'new-tender', component: Tender },
         { name: 'tenders', path: 'tenders', component: TendersList },
+        { name: 'new-tender', path: 'tenders/create-new-tender', component: Tender },
+        { name: 'tender-details', path: 'tenders/:tenderId', component: TenderDetails },
+        { name: 'new-offer', path: 'tenders/:tenderId/send-new-offer', component: Offer },
         { name: 'offers', path: 'offers', component: OffersList },
-        { name: "offer-details", path: 'offers/details/:offerId', component: OfferDetails },
-        { name: "tender-details", path: 'tenders/:tenderId', component: TenderDetails },
+        { name: "offer-details", path: 'offers/:offerId', component: OfferDetails },
       ],
-  },
-  {
-    name: 'bidder-module',
-    path: '/users/:userId/:role/',
-    component: ToolBar,
-      children: [
-        { name: 'new-offer', path: 'new-offer/:tender_id', component: Offer },
-        { name: 'tenders', path: 'tenders', component: TendersList },
-        { name: "offers-list", path: 'offers',  component: OffersList },
-        { name: "tender-details", path: 'tenders/:tenderId',  component: TenderDetails },
-        { name: "myoffer-details", path: 'offers/details/:id',  component: MyOfferDetails },
-      ],
-  },
-  {
-    path: '/users/:userId/:role/',
-    name: 'admin-module',
-  },
+  }
+
 ]
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),

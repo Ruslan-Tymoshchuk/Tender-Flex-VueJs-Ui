@@ -1,6 +1,7 @@
 import { reactive } from 'vue'
 import { restApiEndpoints } from "@/rest.api.endpoints"
 import { exceptionAlert } from "@/components/alerts"
+import { USER_ROLE } from "@/components/constants"
 import router from "@/router/index";
 import axios from 'axios';
 
@@ -27,28 +28,30 @@ export const fetchFromEndpoint = async (endpointKey) => {
   });
 }
 
-export const confirmRedirect = (email, password) => {
-  authenticate({ email, password })
-    .then(user => {
-      if (user.role === "CONTRACTOR") {
-        router.push({ name: "contractor-module", params: { userId: user.userId, role: "contractor" } });
-      } else if (user.role === "BIDDER") {
-        router.push({ name: "bidder-module", params: { userId: user.userId, role: "bidder" } });
-      } else if (user.role === "ADMIN") {
-        router.push({ name: "admin-module", params: { userId: user.userId, role: "admin" } });
+export const confirmRedirect = async (email, password) => {
+ 
+    const userAuthenticationResponse = await authenticate({ email, password });
+    router.push({
+      name: "user-module",
+      params: {
+        userId: userAuthenticationResponse.data.userId,
+        role: USER_ROLE[userAuthenticationResponse.data.role]
       }
-    })
-    .catch((error) => exceptionAlert.activateAlert(error.response.data.message))
+    });
+ 
 }
 
-const authenticate = async (authenticationRequest) => {
-  const response = await axios.post(`${restApiEndpoints.host}/${restApiEndpoints.logIn}`, authenticationRequest, {
+const authenticate = (authenticationRequest) => {
+  try {
+  return axios.post(`${restApiEndpoints.host}/${restApiEndpoints.logIn}`, authenticationRequest, {
     withCredentials: true,
     headers: {
       'Content-Type': 'application/json'
     }
   });
-  return response.data;
+} catch (error) {
+  exceptionAlert.activateAlert(error.response.data.message)
+}
 }
 
 export const uploadFile = (file) => {
