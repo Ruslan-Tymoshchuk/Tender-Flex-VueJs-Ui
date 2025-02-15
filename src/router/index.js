@@ -7,19 +7,26 @@ import TenderDetails from '@/components/TenderDetails.vue'
 import OfferDetails from '@/components/OfferDetails.vue'
 import Offer from '@/components/Offer.vue'
 import OffersList from '@/components/OffersList.vue'
+import { RouterView } from 'vue-router'
 
 const routes = [
 
-  { name: 'login', path: '/', component: LogIn },
+  { name: 'login', path: '', component: LogIn },
 
-  { name: 'user-module', path: '/users/:userId/:role/', component: ToolBar,
+  { name: 'user-module', path: '/users/:userId/:role', component: ToolBar,
       children: [
-        { name: 'tenders', path: 'tenders', component: TendersList },
-        { name: 'new-tender', path: 'tenders/create-new-tender', component: Tender },
-        { name: 'tender-details', path: 'tenders/:tenderId', component: TenderDetails },
-        { name: 'new-offer', path: 'tenders/:tenderId/send-new-offer', component: Offer },
-        { name: 'offers', path: 'offers', component: OffersList },
-        { name: "offer-details", path: 'offers/:offerId', component: OfferDetails },
+        { path: 'tenders', component: RouterView,
+          children: [ { name: 'new-tender', path: 'create-new-tender', component: Tender },
+                      { name: 'tenders', path: '', component: TendersList },
+                      { name: 'tender-details', path: ':tenderId', component: TenderDetails }
+          ]
+         },
+        { path: 'offers', component: RouterView,
+          children: [ { name: 'new-offer', path: 'send-new-offer', component: Offer },
+                      { name: 'offers', path: '', component: OffersList },
+                      { name: "offer-details", path: ':offerId', component: OfferDetails },
+          ]
+        }
       ],
   }
 
