@@ -1,3 +1,5 @@
+#Stack: Vue3, Vite, Vutify, Vue-Router, Axios
+
 ## Project setup
 
 # npm

@@ -8,7 +8,7 @@
         color="blue-darken-3"
         text-color="white"
         prepend-icon="mdi-pulse"
-        router-link :to="`/module/${role}/tenders`">
+        router-link :to="{ name: 'tenders' }">
         Tenders {{ totalStore.tenders }}
       </v-chip>
       <v-chip
@@ -17,7 +17,7 @@
         color="blue-darken-3"
         text-color="white"
         prepend-icon="mdi-message-processing-outline"
-       router-link :to="`/module/${role}/offers`">
+        router-link :to="{ name: 'offers' }">
         Offers {{ totalStore.offers }}
       </v-chip>
       <v-spacer></v-spacer>
@@ -31,8 +31,17 @@
         {{ successAlert.message }}
       </v-chip>
       <v-chip
-        v-if="checkIsNewTender"
-        router-link to="/module/contractor/new-tender"
+        v-model="exceptionAlert.isActivated"
+        class="my-2 mr-6"
+        closable
+        variant="elevated"
+        type="error"
+        color="red">
+        {{ exceptionAlert.message }}
+      </v-chip>
+      <v-chip
+        v-if="isContractorTenderList"
+        router-link :to="{ name: 'new-tender' }"
         variant="flat"
         color="indigo-darken-4"
         class="my-2 mr-6"
@@ -56,30 +65,25 @@
  </template>
 
 <script>
-import { totalStore, successAlert} from "@/components/actions"
+import { totalStore } from "@/components/actions"
+import { successAlert, exceptionAlert } from "@/components/alerts"
 
 export default {
   data: () => ({
     role: '',
-    route: '/',
     totalStore,
     successAlert,
+    exceptionAlert
   }),
 
   mounted() {
     this.role = this.$route.params.role;
-    this.totalStore.getTotalByModule(this.role)
+    this.totalStore.refreshTotalCounts(this.$route.params.userId)
   },
 
   computed: {
-
-    checkIsNewTender() {
-      if (this.$route.path !== '/module/contractor/new-tender' &&
-          this.role === 'contractor') {
-        return true;
-      } else {
-        return false;
-      }
+    isContractorTenderList() {
+      return this.$route.name === 'tenders' && this.role === 'contractor';
     }
   }
 }

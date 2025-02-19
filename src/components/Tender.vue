@@ -1,663 +1,344 @@
 <template>
-  <v-toolbar color="blue" extended extension-height="100">
-    <template v-slot:extension>
-      <v-container class="px-15">
-        <v-toolbar-title class="ml-10 mb-15" style="font-size: 2rem">Create new Tender</v-toolbar-title>
-      </v-container>
-    </template>
-  </v-toolbar>
+  <ToolBarTitle
+      title="Create new Tender"
+  ></ToolBarTitle>
 
   <v-card class="mt-n7 mx-auto" elevation="8" max-width="1000">
     <v-container class="pa-10">
+
       <v-form v-model="valid" fast-fail @submit.prevent="createTender">
 
         <v-row>
-          <v-container class="d-flex align-center">
-            <p class="chapter-label">Contractor</p>
-            <v-div class="horizontal-divider"></v-div>
-          </v-container>
+          <Chapter title="Contractor"></Chapter>
         </v-row>
-
-        <v-row class="mt-5 mx-8">
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">Oficial name
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">
-                  Enter the name of the buyer (e.g. Aeroporto Friuli Venezia Giulia S.p.A.)
-                </v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.organizationName" :counter="50"
-              label="Name of Organization" required density="compact">
-            </v-text-field>
-          </v-col>
-
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">National Registration Number
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">
-                  Enter the national registration number of the buyer (e.g.ULG BE 0325 777 171)
-                </v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.nationalRegistrationNumber"
-              :counter="10" label="National Registration Number" required density="compact">
-            </v-text-field>
-          </v-col>
-
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">Country
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">Choose the country of the buyer</v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-select single-line color="blue" variant="outlined" v-model="country" label="Choose the country"
-              required density="compact" :items="countries" item-value="id" item-title="countryName" return-object persistent-hint>
-            </v-select>
-          </v-col>
-
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">City / Town
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">Enter the city of the buyer</v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.city" :counter="50" label="City"
-              required density="compact">
-            </v-text-field>
-          </v-col>
-        </v-row>
-
-        <v-row>
-          <v-container class="d-flex align-center">
-            <p class="chapter-label">Contact person</p>
-            <div class="horizontal-divider"></div>
-          </v-container>
-        </v-row>
-
-        <v-row class="mt-5 mx-8">
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">First Name
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">Enter the name of contact person</v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.firstName" :counter="50"
-              label="Name" required density="compact">
-            </v-text-field>
-          </v-col>
-
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">Last Name
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">Enter the surname of contact person</v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.lastName" :counter="50"
-              label="Surname" required density="compact">
-            </v-text-field>
-          </v-col>
-
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">Phone number
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">
-                  Enter the phone number of the contact person
-                </v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.phone" :counter="8" type="number"
-              label="Phone" required density="compact">
-            </v-text-field>
-          </v-col>
-        </v-row>
-
-        <v-row>
-          <v-container class="d-flex align-center">
-            <p class="chapter-label">Subject matter of the procurement</p>
-            <div class="horizontal-divider"></div>
-          </v-container>
-        </v-row>
-
-        <v-row class="mt-5 mx-8">
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">CPV code
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">
-                  Choose CPV code with corresponded to this code description
-                </v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-select single-line color="blue" variant="outlined" v-model="cpv" label="CPV Code"
-              required density="compact" :items="cpvs" item-value="id" item-title="code" return-object persistent-hint>
-            </v-select>
-          </v-col>
-
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">Tipe of Tender
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">Choose the type of contract</v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-select single-line color="blue" variant="outlined" v-model="tender.type" label="Type" required
-              density="compact" :items="tenderTypes">
-            </v-select>
-          </v-col>
-
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">Description
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">Enter detailed information about the Tender</v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.details" label="Description"
-              required :counter="250" density="compact">
-            </v-text-field>
-          </v-col>
-
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">Maximum Tender Value
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">Enter minimum price of the Tender contract</v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.maxPrice"
-              label="Maximum tender value" required density="compact" type="number">
-            </v-text-field>
-          </v-col>
-
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">Minimum Tender Value
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">Enter maximum price of the Tender contract</v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.minPrice"
-              label="Minimum tender value" required density="compact" type="number">
-            </v-text-field>
-          </v-col>
-
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">Currency
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">Choose the currency</v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-select single-line color="blue" variant="outlined" v-model="currency" label="Currency" required
-              density="compact" :items="currencies" item-value="id" item-title="currencyType" return-object persistent-hint>
-            </v-select>
-          </v-col>
-        </v-row>
-
-        <v-row>
-          <v-container class="d-flex align-center">
-            <p class="chapter-label">Date</p>
-            <div class="horizontal-divider"></div>
-          </v-container>
-        </v-row>
-
-        <v-row class="mt-5 mx-8">
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">Publication Date
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">Today date</v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.publication"
-              label="Publication Date" type="date" required density="compact" disabled>
-            </v-text-field>
-          </v-col>
-
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">Deadline for Offer Submission
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">Choose the deadline date for Offer submission</v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.deadline"
-              label="Deadline for Offer Submission" type="date" required density="compact" :min="minDeadline" @change="isDisabled = false">
-            </v-text-field>
-          </v-col>
-
-          <v-col cols="12" md="4">
-            <v-chip class="required" variant="text">Deadline for Signing
-              <v-btn size=auto class="ml-2" icon color="transparent" variant="flat">
-                <v-tooltip activator="parent" location="top">
-                  Choose the deadline date for signed contract submission
-                </v-tooltip>
-                <v-icon icon="mdi-information-outline" class="inf-icon"></v-icon>
-              </v-btn>
-            </v-chip>
-            <v-text-field single-line color="blue" variant="outlined" v-model="tender.deadlineForSignedContract"
-              label="DeadLine for Signed Contract Submission" required density="compact" type="date" :min="minDeadline" :disabled="isDisabled">
-            </v-text-field>
-          </v-col>
-        </v-row>
-
-        <v-row>
-          <v-container class="d-flex align-center">
-            <p class="chapter-label">Documents</p>
-            <div class="horizontal-divider"></div>
-          </v-container>
-        </v-row>
-
-        <v-item-group class="py-5 mx-2">
-          <v-row class="mt-5 mx-8">
-            <v-item v-if="isContract">
-              <v-chip
-                size="large"
-                class="mb-6"
-                closable color="blue"
-                prepend-icon="mdi-file-document-multiple-outline"
-                label
-                @click:close="isContract = false"
-                @click="openDialog(attachment.contract)"
-              ><div
-                id="text"
-                style="width: 50rem"
-              > {{ attachment.contract.name }} </div>
-              </v-chip
-              ></v-item>
-            <v-item v-if="!isContract">
-              <v-text-field
-                single-line
-                label="* Contract"
-                variant="outlined"
-                density="compact"
-              ></v-text-field>
-              <input
-                input
-                id="contract-input"
-                class="d-none"
-                type="file"
-                accept="application/pdf"
-                @change="onFileChangedContract">
-              <v-btn
-                color="primary"
-                rounded="0"
-                height="40"
-                width="150">
-              <label
-                class="file-label"
-                for="contract-input"
-              >Upload</label>
-              </v-btn
-            ></v-item>
-          </v-row>
 
           <v-row class="mt-5 mx-8">
-            <v-item v-if="isAwardDecision">
-              <v-chip
-                size="large"
-                class="mb-6"
-                closable
-                color="blue"
-                prepend-icon="mdi-file-document-multiple-outline"
-                label
-                @click:close="isAwardDecision = false"
-                @click="openDialog(attachment.awardDecision)"
-              ><div
-                id="text"
-                style="width: 50rem"
-              > {{ attachment.awardDecision.name }} </div>
-              </v-chip>
-            </v-item>
-            <v-item v-if="!isAwardDecision">
-              <v-text-field
-                single-line
-                label="* Award decision"
-                variant="outlined"
-                density="compact"
-              ></v-text-field>
-              <input
-                id="award-decision-input"
-                class="d-none"
-                type="file"
-                accept="application/pdf"
-                @change="onFileChangedAwardDecision"
-              ><v-btn
-                color="primary"
-                rounded="0"
-                height="40"
-                width="150"
-              ><label
-                class="file-label"
-                for="award-decision-input"
-              >Upload</label
-              ></v-btn>
-            </v-item>
+            <InputField
+              instance="companyProfile"
+              title="Oficial name"
+              tooltip="Enter the name of the buyer (e.g. Aeroporto Friuli Venezia Giulia S.p.A.)"
+              fieldLabel="Name of Organization"
+              fieldName="officialName"
+              :counter="50"
+              @updateValue="updatedValueInParent"
+            ></InputField>
+            <InputField
+              instance="companyProfile"
+              title="National Registration Number"
+              tooltip="Enter the national registration number of the buyer (e.g.ULG BE 0325 777 171)"
+              fieldLabel="National Registration Number"
+              fieldName="registrationNumber"
+              :counter="10"
+              @updateValue="updatedValueInParent"
+            ></InputField>
+            <SelectOption
+              instance="country"
+              title="Country"
+              btnTooltip="Choose the country of the buyer"
+              label="Choose the country"
+              itemTitle="name"
+              :items="countries"
+              fieldName="id"
+              @updateValue="updatedValueInParent">
+            </SelectOption>
+            <InputField
+              instance="companyProfile"
+              title="City / Town"
+              tooltip="Enter the city of the buyer"
+              fieldLabel="City"
+              fieldName="city"
+              :counter="50"
+              @updateValue="updatedValueInParent"
+            ></InputField>
           </v-row>
-          <v-row class="mt-5 mx-8">
-            <v-item v-if="isRejectedDecision">
-              <v-chip
-                size="large"
-                class="mb-6"
-                closable
-                color="blue"
-                prepend-icon="mdi-file-document-multiple-outline"
-                label
-                @click:close="isRejectedDecision = false"
-                @click="openDialog(attachment.rejectDecision)"
-              ><div
-                id="text"
-                style="width: 50rem"
-              > {{ attachment.rejectDecision.name }} </div>
-              </v-chip>
-            </v-item>
-            <v-item v-if="!isRejectedDecision">
-              <v-text-field
-                single-line
-                label="* Reject decision"
-                variant="outlined"
-                density="compact"
-              ></v-text-field>
-              <input
-                id="reject-decision-input"
-                class="d-none"
-                type="file"
-                accept="application/pdf"
-                @change="onFileChangedRejectDecision"
-              ><v-btn
-                color="primary"
-                rounded="0"
-                height="40"
-                width="150"
-              ><label
-                class="file-label"
-                for="reject-decision-input"
-              >Upload</label
-              ></v-btn>
-            </v-item>
-          </v-row>
-        </v-item-group>
 
-        <v-dialog v-model="dialog" width="auto">
-          <v-card>
-            <iframe :src=documentUrl width="800" height="500">
-            </iframe>
-            <v-card-actions>
-              <v-btn color="primary" block @click="dialog = false">Close</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
+        <v-row>
+          <Chapter title="Contact person"></Chapter>
+        </v-row>
+
+          <v-row class="mt-5 mx-8">
+            <InputField
+              instance="contactPerson"
+              title="First Name"
+              tooltip="Enter the name of contact person"
+              fieldLabel="Name"
+              fieldName="firstName"
+              :counter="50"
+              @updateValue="updatedValueInParent"
+            ></InputField>
+            <InputField
+              instance="contactPerson"
+              title="Last Name"
+              tooltip="Enter the surname of contact person"
+              fieldLabel="Surname"
+              fieldName="lastName"
+              :counter="50"
+              @updateValue="updatedValueInParent"
+            ></InputField>
+            <InputField
+              instance="contactPerson"
+              title="Phone number"
+              tooltip="Enter the phone number of the contact person"
+              fieldLabel="Phone"
+              fieldName="phoneNumber"
+              :counter="8"
+              @updateValue="updatedValueInParent"
+            ></InputField>
+          </v-row>
+
+        <v-row>
+          <Chapter title="Subject matter of the procurement"></Chapter>
+        </v-row>
+
+          <v-row class="mt-5 mx-8">
+            <SelectOption
+              instance="cpv"
+              title="CPV code"
+              btnTooltip="Choose CPV code with corresponded to this code description"
+              label="CPV Code"
+              itemTitle="code"
+              :items="cpvs"
+              fieldName="id"
+              @updateValue="updatedValueInParent">
+            </SelectOption>
+            <SelectOption
+              instance="contractType"
+              title="Tipe of Tender"
+              btnTooltip="Choose the type of contract"
+              label="Type"
+              itemTitle="title"
+              :items="contractTypes"
+              fieldName="id"
+              @updateValue="updatedValueInParent">
+            </SelectOption>
+            <InputField
+              instance="tender"
+              title="Description"
+              tooltip="Enter detailed information about the Tender"
+              fieldLabel="Description"
+              fieldName="description"
+              :counter="250"
+              @updateValue="updatedValueInParent"
+            ></InputField>
+            <InputField
+              instance="contract"
+              title="Maximum Tender Value"
+              tooltip="Enter maximum price of the Tender contract"
+              fieldLabel="Maximum tender value"
+              fieldName="maxPrice"
+              inputFieldType="number"
+              @updateValue="updatedValueInParent"
+            ></InputField>
+            <InputField
+              instance="contract"
+              title="Minimum Tender Value"
+              tooltip="Enter minimum price of the Tender contract"
+              fieldLabel="Minimum tender value"
+              fieldName="minPrice"
+              inputFieldType="number"
+              @updateValue="updatedValueInParent"
+            ></InputField>
+            <SelectOption
+              instance="currency"
+              title="Currency"
+              btnTooltip="Choose the currency"
+              label="Currency"
+              itemTitle="code"
+              :items="currencies"
+              fieldName="id"
+              @updateValue="updatedValueInParent">
+            </SelectOption>
+          </v-row>
+
+        <v-row>
+          <Chapter title="Date"></Chapter>
+        </v-row>
+
+          <v-row class="mt-5 mx-8">
+            <InputField
+              instance="tender"
+              title="Publication Date"
+              tooltip="Today date"
+              :fieldLabel="currentDate"
+              fieldName="publication"
+              :isDisabled="true"
+            ></InputField>
+            <InputField
+              instance="tender"
+              title="Deadline for Offer Submission"
+              tooltip="Choose the deadline date for Offer submission"
+              fieldLabel="Deadline for Offer Submission"
+              fieldName="offerSubmissionDeadline"
+              inputFieldType="date"
+              :startDate="minDeadline"
+              @updateValue="updatedValueInParent"
+            ></InputField>
+            <InputField
+              instance="contract"
+              title="Deadline for Signing"
+              tooltip="Choose the deadline date for signed contract submission"
+              fieldLabel="DeadLine for Signed Contract Submission"
+              fieldName="signedDeadline"
+              inputFieldType="date"
+              :startDate="minDeadline"
+              @updateValue="updatedValueInParent"
+            ></InputField>
+          </v-row>
+
+        <v-row>
+          <Chapter title="Documents"></Chapter>
+        </v-row>
+
+          <v-item-group class="py-5 mx-2">
+            <FileInput
+            label="* Contract"
+            fileInputId="contract"
+            hint="Choose your contract document"
+            @selectFile="attachment.contract = $event"
+            @showFile="$event"
+          ></FileInput>
+          <FileInput
+            label="* Award Decision"
+            fileInputId="award"
+            hint="Choose award decision document"
+            @selectFile="attachment.awardDecision = $event"
+            @showFile="$event"
+          ></FileInput>
+          <FileInput
+            label="* Reject Decision"
+            fileInputId="reject"
+            hint="Choose reject decision document"
+            @selectFile="attachment.rejectDecision = $event"
+            @showFile="$event"
+          ></FileInput>
+          </v-item-group>
+
       </v-form>
     </v-container>
   </v-card>
 
-  <v-container class="px-10">
-    <v-row class="justify-end pb-15 mr-12 mt-3">
-      <v-col cols="9" md="2">
-        <v-btn type="submit" block class="mt-2" variant="outlined" color="blue"
-          size="large" @click="cancelDialog = true">
-          Cancel
-        </v-btn>
-        </v-col>
-      <v-col cols="9" md="2">
-        <v-btn type="submit" block class="mt-2" variant="flat" color="blue"
-          size="large" @click="createTender">
-          Publish
-        </v-btn>
-      </v-col>
-    </v-row>
-  </v-container>
-
-  <div class="text-center">
-    <v-dialog v-model="cancelDialog" activator="parent" width="500">
-      <v-card>
-        <v-toolbar color="primary" title="Cancellation confirmation" height="50"></v-toolbar>
-          <v-card-text class="text-center">
-            <div>Do you really want to cancel the new Tender creation?</div>
-            <div>All you entered data will be lost</div>
-          </v-card-text>
-          <v-row class="justify-center mb-8 mt-3">
-            <v-btn @click="cancelDialog = false" width="160" class="mx-2">No</v-btn>
-            <v-btn href="/module/contractor/tenders" color="primary" width="160" class="mx-2">Yes</v-btn>
-          </v-row>
-      </v-card>
-    </v-dialog>
-  </div>
-
+  <ConfirmationMenu
+      btnTitle="Publish"
+      firstLineExplanation="Do you really want to cancel the new Tender creation?"
+      secondLineExplanaton="All you entered data will be lost"
+      redirectUrl="/module/contractor/tenders"
+      @saveDocument="createTender"
+  ></ConfirmationMenu>
 </template>
 
 <script>
-import { restApiConfig } from "@/rest.api.config"
+import { restApiEndpoints } from "@/rest.api.endpoints"
 import { format } from 'date-fns'
-import { totalStore, successAlert } from "@/components/actions";
+import { totalStore, fetchFromEndpoint, uploadFile, createDocumentRecord } from "@/components/actions"
+import { successAlert, exceptionAlert } from "@/components/alerts"
+import InputField from "@/components/childs/InputField.vue"
+import ToolBarTitle from "@/components/childs/ToolBarTitle.vue"
+import Chapter from "@/components/childs/Chapter.vue"
+import SelectOption from "@/components/childs/SelectOption.vue"
+import FileInput from "@/components/childs/FileInput.vue"
+import ConfirmationMenu from "@/components/childs/ConfirmationMenu.vue"
 
 export default {
+  components:{
+    InputField,
+    ToolBarTitle,
+    Chapter,
+    SelectOption,
+    FileInput,
+    ConfirmationMenu
+  },
   data: () => ({
+    fetchFromEndpoint,
+    uploadFile,
+    createDocumentRecord,
     countries: [],
-    tenderTypes: [],
+    country: {},
+    contractTypes: [],
     cpvs: [],
     currencies: [],
-    country: null,
-    cpv: null,
-    currency: null,
+    currency: {},
     minDeadline: null,
     isDisabled: true,
-    tender: {
-      organizationName: '',
-      nationalRegistrationNumber: '',
-      countryId: '',
-      city: '',
-      firstName: '',
-      lastName: '',
-      phone: '',
-      cpvId: '',
-      type: null,
-      details: '',
-      maxPrice: 0,
-      minPrice: 0,
-      currencyId: '',
-      publication: null,
-      deadline: null,
-      deadlineForSignedContract: null,
+    currentDate: null,
+    tender: {},
+    companyProfile: {},
+    contactPerson: {},
+    cpv: {},
+    contractType: {},
+    contract: {
+      fileMetadata: {}
+    },
+    awardDecision: {
+      fileMetadata: {}
+    },
+    rejectDecision: {
+      fileMetadata: {}
     },
     valid: false,
-    dialog: false,
-    cancelDialog: false,
-    isContract: false,
-    isAwardDecision: false,
-    isRejectedDecision: false,
-    attachment: {
-      contract: null,
-      awardDecision: null,
-      rejectDecision: null,
-    },
-    documentUrl: '',
+    attachment: {},
     totalStore,
-    successAlert
+    successAlert,
+    exceptionAlert,
   }),
 
   methods: {
-    onFileChangedContract(event) {
-      this.isContract = true;
-      this.attachment.contract = event.target.files[0];
-    },
-
-    onFileChangedAwardDecision(event) {
-      this.isAwardDecision = true;
-      this.attachment.awardDecision = event.target.files[0];
-    },
-
-    onFileChangedRejectDecision(event) {
-      this.isRejectedDecision = true;
-      this.attachment.rejectDecision = event.target.files[0];
-    },
-
-    openDialog(document) {
-      this.documentUrl = URL.createObjectURL(document);
-      this.dialog = true;
-    },
-
-    getCountries() {
-      fetch(`${restApiConfig.host}${restApiConfig.countries}`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Accept': 'application/json',
-        }
-      })
-        .then(response => response.json())
-        .then(dataFromResopnse => this.countries = dataFromResopnse)
-    },
-
-    getCpvs() {
-      fetch(`${restApiConfig.host}${restApiConfig.cpvs}`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Accept': 'application/json',
-        }
-      })
-        .then(response => response.json())
-        .then(dataFromResopnse => this.cpvs = dataFromResopnse)
-    },
-
-    getTenderTypes() {
-      fetch(`${restApiConfig.host}${restApiConfig.tenderTypes}`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Accept': 'application/json',
-        }
-      })
-        .then(response => response.json())
-        .then(dataFromResopnse => this.tenderTypes = dataFromResopnse)
-    },
-
-    getCurrencies() {
-      fetch(`${restApiConfig.host}${restApiConfig.currencies}`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Accept': 'application/json',
-        },
-      })
-        .then(response => response.json())
-        .then(dataFromResopnse => this.currencies = dataFromResopnse);
-    },
-
-    getCurrentdate() {
-      this.tender.publication = format(new Date(), 'yyyy-MM-dd');
-    },
-
-    getDeadlineDate() {
-      this.alert = true;
-      this.minDeadline = format(new Date().getTime() + 86400000, 'yyyy-MM-dd');
-    },
-
     async createTender() {
-      this.$router.push("/module/contractor/tenders")
       try {
-        await Promise.all([
-          this.uploadContract(),
-          this.uploadAwardDecision(),
-          this.uploadRejectDecision(),
+        await this.$router.push({ name: 'tenders' });
+        const { contract, awardDecision, rejectDecision } = this.attachment;
+        const [contactFileMetadata, awardFileMetadata, rejectFileMetadata] = await Promise.all([
+          this.uploadFile(contract),
+          this.uploadFile(awardDecision),
+          this.uploadFile(rejectDecision),
         ]);
-        await this.saveTender();
-        this.totalStore.getTotalByModule(this.$route.params.role);
+        this.tender.contractorId = this.$route.params.userId;
+        this.tender.publication = this.currentDate;
+        this.companyProfile.contactPerson = this.contactPerson;
+        this.companyProfile.country = this.country;
+        this.tender.companyProfile = this.companyProfile;
+        this.tender.cpv = this.cpv;
+        this.contract.contractType = this.contractType;
+        this.contract.currency = this.currency;
+        this.contract.fileMetadata.id = contactFileMetadata.data.id;
+        this.tender.contract = this.contract;
+        this.awardDecision.fileMetadata.id = awardFileMetadata.data.id;
+        this.tender.awardDecision = this.awardDecision;
+        this.rejectDecision.fileMetadata.id = rejectFileMetadata.data.id;
+        this.tender.rejectDecision = this.rejectDecision;
+        await this.createDocumentRecord(this.tender, restApiEndpoints.tenders);
         this.successAlert.activateAlert("Tender was successfully created");
+        this.totalStore.refreshTotalCounts(this.$route.params.userId);
       } catch (error) {
-        alert("Error occured when saving the tender");
+        if (error.response && error.response.status === 400) {
+          this.exceptionAlert.activateAlert(error.response.data.message);
+        } else {
+          this.exceptionAlert.activateAlert(error);
+        }
       }
     },
 
-   async saveTender() {
-      this.tender.countryId = this.country.id;
-      this.tender.cpvId = this.cpv.id;
-      this.tender.currencyId = this.currency.id;
-      await fetch(`${restApiConfig.host}${restApiConfig.newTender}`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(this.tender)
-      }).then(response => {
-        if (response.status !== 200) {
-          alert("There was an error when saving the tender!");
-        }
-      }).catch(error => {
-        alert("There was an error!");
-      });
-    },
-
-    async uploadContract() {
-      const formData = new FormData()
-      formData.append("document", this.attachment.contract)
-      await fetch(`${restApiConfig.host}${restApiConfig.uploadFile}`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          "Accept": "*/*",
-        },
-        body: formData,
-      })
-        .then(response => response.json())
-        .then(dataFromResopnse => {
-          this.tender.contractFileName = dataFromResopnse.fileName;
-        });
-    },
-
-    async uploadAwardDecision() {
-      const formData = new FormData()
-      formData.append("document", this.attachment.awardDecision)
-      await fetch(`${restApiConfig.host}${restApiConfig.uploadFile}`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          "Accept": "*/*",
-        },
-        body: formData,
-      })
-        .then(response => response.json())
-        .then(dataFromResopnse => {
-          this.tender.awardDecisionFileName = dataFromResopnse.fileName;
-        });
-    },
-
-    async uploadRejectDecision() {
-      const formData = new FormData()
-      formData.append("document", this.attachment.rejectDecision)
-      await fetch(`${restApiConfig.host}${restApiConfig.uploadFile}`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          "Accept": "*/*",
-        },
-        body: formData,
-      })
-        .then(response => response.json())
-        .then(dataFromResopnse => {
-          this.tender.rejectDecisionFileName = dataFromResopnse.fileName;
-        });
+    updatedValueInParent(instance, fieldName, value) {
+      this[instance][fieldName] = value
     }
   },
 
-  mounted() {
-    this.getCountries();
-    this.getCpvs();
-    this.getTenderTypes();
-    this.getCurrencies();
-    this.getCurrentdate();
-    this.getDeadlineDate();
+  async mounted() {
+    try {
+      const [countries, cpvs, contractTypes, currencies] = await Promise.all([
+        this.fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.countriesAll}`),
+        this.fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.cpvsAll}`),
+        this.fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.contractTypesAll}`),
+        this.fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.currenciesAll}`),
+      ]);
+      this.countries = countries.data;
+      this.cpvs = cpvs.data;
+      this.contractTypes = contractTypes.data;
+      this.currencies = currencies.data;
+    } catch (error) {
+      this.exceptionAlert.activateAlert("Error occurred when fetching the data: " + error)
+    }
+    this.currentDate = format(new Date(), 'yyyy-MM-dd');
+    this.minDeadline = format(new Date().getTime() + 86400000, 'yyyy-MM-dd');
   }
 }
-
 </script>

@@ -36,7 +36,7 @@
 
 .file-label {
   padding: 0.7rem 2.8rem;
-  cursor: auto;
+  cursor: pointer;
 }
 
 .required:before {
@@ -61,15 +61,22 @@
 }
 
 .cpv-code {
+  text-decoration: none;
   color: #1f9dec;
 }
 
 .cpv-code:hover {
+  text-decoration: underline;
   color: #11ad0c;
-  cursor: pointer;
 }
 
 html {
   background-color: #e0e0e0;
   overflow-y: auto;
+}
+
+.table-row-disabled {
+  pointer-events: none;
+  color: #c3c9c9;
+  cursor: not-allowed;
 }

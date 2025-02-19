@@ -31,18 +31,18 @@
                 <tr class="table" v-for="offer in offers" :key="offer.offerId">
                   <td v-if="this.role === 'bidder'" class="v-col-2 text-left">
                     <div class="cpv-code" @click="getOfferById(offer.offerId)">
-                     <strong>{{ offer.organizationNameByBidder }}</strong>
+                     <strong>{{ offer.bidderOficialName }}</strong>
                     </div>
                   </td>
                   <td v-if="this.role === 'contractor'" class="v-col-2 text-left">
-                    <strong>{{ offer.organizationNameByBidder }}</strong>
+                    <strong>{{ offer.bidderOficialName }}</strong>
                   </td>
                   <td class="v-col-3 text-left">{{ offer.fieldOfTheTender }}</td>
                   <td class="v-col-1 text-left">{{ `${offer.currency}.${offer.price}` }}</td>
                   <td class="v-col-1 text-left">{{ offer.country }}</td>
                   <td class="v-col-2 text-left">{{ offer.date }}</td>
-                  <td v-if="this.role === 'bidder'" class="v-col-2 text-left"> {{ offer.bidderSt }} </td>
-                  <td v-if="this.role === 'contractor'" class="v-col-2 text-left"> {{ offer.contractorSt }} </td>
+                  <td v-if="this.role === 'bidder'" class="v-col-2 text-left"> {{ offerStatus[offer.status] }} </td>
+                  <td v-if="this.role === 'contractor'" class="v-col-2 text-left"> {{ offerStatus[offer.status] }} </td>
                 </tr>
               </tbody>
           </v-table>
@@ -54,6 +54,7 @@
 
 <script>
 import { restApiConfig } from "@/rest.api.config"
+import { offerStatus } from "@/components/constants"
 
 export default {
   data: () => ({
@@ -66,6 +67,7 @@ export default {
     isOffers: false,
     isHasNoOffers: false,
     noOffersMessage: '',
+    offerStatus
   }),
 
   methods: {
