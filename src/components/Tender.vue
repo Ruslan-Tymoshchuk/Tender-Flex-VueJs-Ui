@@ -190,35 +190,27 @@
         </v-row>
 
           <v-item-group class="py-5 mx-2">
-            <InputFileField
-              instance="attachment"
-              label="* Contract"
-              fileType="contract"
-              labelId="contract-input"
-              @updateValue="updatedValueInParent"
-              @openDocument="openDocumentInParent"
-            ></InputFileField>
-            <InputFileField
-              instance="attachment"
-              label="* Award decision"
-              fileType="award"
-              labelId="award-decision-input"
-              @updateValue="updatedValueInParent"
-              @openDocument="openDocumentInParent"
-            ></InputFileField>
-            <InputFileField
-              instance="attachment"
-              label="* Reject decision"
-              fileType="reject"
-              labelId="reject-decision-input"
-              @updateValue="updatedValueInParent"
-              @openDocument="openDocumentInParent"
-            ></InputFileField>
-            <ModalFileRenderer
-              v-model="isDialog"
-              :documentUrl="documentUrl"
-              @close="closeDocumentInParent"
-            ></ModalFileRenderer>
+            <FileInput
+            label="* Contract"
+            fileInputId="contract"
+            hint="Choose your contract document"
+            @selectFile="attachment.contract = $event"
+            @showFile="$event"
+          ></FileInput>
+          <FileInput
+            label="* Award Decision"
+            fileInputId="award"
+            hint="Choose award decision document"
+            @selectFile="attachment.awardDecision = $event"
+            @showFile="$event"
+          ></FileInput>
+          <FileInput
+            label="* Reject Decision"
+            fileInputId="reject"
+            hint="Choose reject decision document"
+            @selectFile="attachment.rejectDecision = $event"
+            @showFile="$event"
+          ></FileInput>
           </v-item-group>
 
       </v-form>
@@ -243,8 +235,7 @@ import InputField from "@/components/childs/InputField.vue"
 import ToolBarTitle from "@/components/childs/ToolBarTitle.vue"
 import Chapter from "@/components/childs/Chapter.vue"
 import SelectOption from "@/components/childs/SelectOption.vue"
-import InputFileField from "@/components/childs/InputFileField.vue"
-import ModalFileRenderer from "@/components/childs/ModalFileRenderer.vue"
+import FileInput from "@/components/childs/FileInput.vue"
 import ConfirmationMenu from "@/components/childs/ConfirmationMenu.vue"
 
 export default {
@@ -253,8 +244,7 @@ export default {
     ToolBarTitle,
     Chapter,
     SelectOption,
-    InputFileField,
-    ModalFileRenderer,
+    FileInput,
     ConfirmationMenu
   },
   data: () => ({
@@ -285,9 +275,7 @@ export default {
       fileMetadata: {}
     },
     valid: false,
-    isDialog: false,
     attachment: {},
-    documentUrl: '',
     totalStore,
     successAlert,
     exceptionAlert,
@@ -297,11 +285,11 @@ export default {
     async createTender() {
       try {
         await this.$router.push({ name: 'tenders' });
-        const { contract, award, reject } = this.attachment;
+        const { contract, awardDecision, rejectDecision } = this.attachment;
         const [contactFileMetadata, awardFileMetadata, rejectFileMetadata] = await Promise.all([
           this.uploadFile(contract),
-          this.uploadFile(award),
-          this.uploadFile(reject),
+          this.uploadFile(awardDecision),
+          this.uploadFile(rejectDecision),
         ]);
         this.tender.contractorId = this.$route.params.userId;
         this.tender.publication = this.currentDate;
@@ -331,15 +319,6 @@ export default {
 
     updatedValueInParent(instance, fieldName, value) {
       this[instance][fieldName] = value
-    },
-
-    openDocumentInParent(fileUrl) {
-      this.documentUrl = fileUrl
-      this.isDialog = true
-    },
-
-    closeDocumentInParent() {
-      this.isDialog = false
     }
   },
 
