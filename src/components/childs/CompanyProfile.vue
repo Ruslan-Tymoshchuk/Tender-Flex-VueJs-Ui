@@ -102,6 +102,7 @@ export default {
   },
 
   props: {
+    companyProfile: {},
     companyRole: '',
     oficialNameHint: '',
     registrationNumberHint: '',
@@ -110,7 +111,6 @@ export default {
     firstNameHint: '',
     lastNameHint: '',
     phoneNumberHint: '',
-    companyProfile: {},
     countries: []
   }
 }

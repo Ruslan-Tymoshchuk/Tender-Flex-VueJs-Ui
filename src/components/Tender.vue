@@ -8,83 +8,18 @@
 
       <v-form v-model="valid" fast-fail @submit.prevent="createTender">
 
-        <v-row>
-          <Chapter title="Contractor"></Chapter>
-        </v-row>
-
-          <v-row class="mt-5 mx-8">
-            <InputField
-              instance="companyProfile"
-              title="Oficial name"
-              tooltip="Enter the name of the buyer (e.g. Aeroporto Friuli Venezia Giulia S.p.A.)"
-              fieldLabel="Name of Organization"
-              fieldName="officialName"
-              :counter="50"
-              @updateValue="updatedValueInParent"
-            ></InputField>
-            <InputField
-              instance="companyProfile"
-              title="National Registration Number"
-              tooltip="Enter the national registration number of the buyer (e.g.ULG BE 0325 777 171)"
-              fieldLabel="National Registration Number"
-              fieldName="registrationNumber"
-              :counter="10"
-              @updateValue="updatedValueInParent"
-            ></InputField>
-            <SelectOption
-              instance="country"
-              title="Country"
-              btnTooltip="Choose the country of the buyer"
-              label="Choose the country"
-              itemTitle="name"
-              :items="countries"
-              fieldName="id"
-              @updateValue="updatedValueInParent">
-            </SelectOption>
-            <InputField
-              instance="companyProfile"
-              title="City / Town"
-              tooltip="Enter the city of the buyer"
-              fieldLabel="City"
-              fieldName="city"
-              :counter="50"
-              @updateValue="updatedValueInParent"
-            ></InputField>
-          </v-row>
-
-        <v-row>
-          <Chapter title="Contact person"></Chapter>
-        </v-row>
-
-          <v-row class="mt-5 mx-8">
-            <InputField
-              instance="contactPerson"
-              title="First Name"
-              tooltip="Enter the name of contact person"
-              fieldLabel="Name"
-              fieldName="firstName"
-              :counter="50"
-              @updateValue="updatedValueInParent"
-            ></InputField>
-            <InputField
-              instance="contactPerson"
-              title="Last Name"
-              tooltip="Enter the surname of contact person"
-              fieldLabel="Surname"
-              fieldName="lastName"
-              :counter="50"
-              @updateValue="updatedValueInParent"
-            ></InputField>
-            <InputField
-              instance="contactPerson"
-              title="Phone number"
-              tooltip="Enter the phone number of the contact person"
-              fieldLabel="Phone"
-              fieldName="phoneNumber"
-              :counter="8"
-              @updateValue="updatedValueInParent"
-            ></InputField>
-          </v-row>
+        <CompanyProfile
+          :companyProfile="tender.companyProfile"
+          companyRole="Contractor"
+          oficialNameHint="Enter the name of the buyer (e.g. Aeroporto Friuli Venezia Giulia S.p.A.)"
+          registrationNumberHint="Enter the national registration number of the buyer (e.g.ULG BE 0325 777 171)"
+          countryHint="Choose the country of the buyer"
+          cityHint="Enter the city of the buyer"
+          firstNameHint="Enter the name of contact person"
+          lastNameHint="Enter the surname of contact person"
+          phoneNumberHint="Enter the phone number of the contact person"
+          :countries=countries>
+        </CompanyProfile>
 
         <v-row>
           <Chapter title="Subject matter of the procurement"></Chapter>
@@ -237,9 +172,11 @@ import Chapter from "@/components/childs/Chapter.vue"
 import SelectOption from "@/components/childs/SelectOption.vue"
 import FileInput from "@/components/childs/FileInput.vue"
 import ConfirmationMenu from "@/components/childs/ConfirmationMenu.vue"
+import CompanyProfile from "@/components/childs/CompanyProfile.vue"
 
 export default {
-  components:{
+  components: {
+    CompanyProfile,
     InputField,
     ToolBarTitle,
     Chapter,
@@ -247,12 +184,12 @@ export default {
     FileInput,
     ConfirmationMenu
   },
+
   data: () => ({
     fetchFromEndpoint,
     uploadFile,
     createDocumentRecord,
     countries: [],
-    country: {},
     contractTypes: [],
     cpvs: [],
     currencies: [],
@@ -260,9 +197,12 @@ export default {
     minDeadline: null,
     isDisabled: true,
     currentDate: null,
-    tender: {},
-    companyProfile: {},
-    contactPerson: {},
+    tender: {
+      companyProfile: {
+        country: {},
+        contactPerson: {}
+      },
+    },
     cpv: {},
     contractType: {},
     contract: {
@@ -293,9 +233,6 @@ export default {
         ]);
         this.tender.contractorId = this.$route.params.userId;
         this.tender.publication = this.currentDate;
-        this.companyProfile.contactPerson = this.contactPerson;
-        this.companyProfile.country = this.country;
-        this.tender.companyProfile = this.companyProfile;
         this.tender.cpv = this.cpv;
         this.contract.contractType = this.contractType;
         this.contract.currency = this.currency;
