@@ -2,11 +2,11 @@
   <v-row class="mt-5 mx-8">
     <v-item v-if="!isFile">
       <v-text-field
-      single-line
-      :label="label"
-      variant="outlined"
-      density="compact"
-      readonly
+        single-line
+        :label="label"
+        variant="outlined"
+        density="compact"
+        readonly
       ></v-text-field>
       <input
         :id="fileInputId"
