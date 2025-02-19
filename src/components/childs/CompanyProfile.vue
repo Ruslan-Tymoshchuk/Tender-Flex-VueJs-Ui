@@ -9,7 +9,7 @@
     <v-col cols="12" md="4">
       <TextInput
         title="Oficial name"
-        hint="Enter the name of the buyer (e.g. Aeroporto Friuli Venezia Giulia S.p.A.)"
+        :hint="oficialNameHint"
         @updateValue="companyProfile.officialName = $event"
         :counter="50"
         label="Name of Organization"
@@ -19,7 +19,7 @@
     <v-col cols="12" md="4">
       <TextInput
         title="National Registration Number"
-        hint=" Enter the national registration number of the buyer (e.g.ULG BE 0325 777 171)"
+        :hint="registrationNumberHint"
         @updateValue="companyProfile.registrationNumber = $event"
         :counter="10"
         label="National Registration Number"
@@ -29,7 +29,7 @@
     <v-col cols="12" md="4">
       <SelectOptionInput
         title="Country"
-        hint="Choose the country"
+        :hint="countryHint"
         label="Choose the country"
         itemTitle="name"
         :selectedItem="companyProfile.country"
@@ -40,7 +40,7 @@
     <v-col cols="12" md="4">
       <TextInput
         title="City / Town"
-        hint="Enter the city"
+        :hint="cityHint"
         @updateValue="companyProfile.city = $event"
         :counter="50"
         label="City"
@@ -58,7 +58,7 @@
     <v-col cols="12" md="4">
       <TextInput
         title="First Name"
-        hint="Enter the name of contact person"
+        :hint="firstNameHint"
         @updateValue="companyProfile.contactPerson.firstName = $event"
         :counter="50"
         label="Name"
@@ -68,7 +68,7 @@
     <v-col cols="12" md="4">
       <TextInput
         title="Last Name"
-        hint="Enter the surname of contact person"
+        :hint="lastNameHint"
         @updateValue="companyProfile.contactPerson.lastName = $event"
         :counter="50"
         label="Surname"
@@ -78,9 +78,9 @@
     <v-col cols="12" md="4">
       <NumericInput
         title="Phone number"
-        hint=" Enter the phone number of the contact person"
+        :hint="phoneNumberHint"
         label="Phone"
-        counter="9"
+        :counter="9"
         @updateValue="companyProfile.contactPerson.phoneNumber = $event">
       </NumericInput>
     </v-col>
@@ -102,8 +102,15 @@ export default {
   },
 
   props: {
-    companyProfile: {},
     companyRole: '',
+    oficialNameHint: '',
+    registrationNumberHint: '',
+    countryHint: '',
+    cityHint: '',
+    firstNameHint: '',
+    lastNameHint: '',
+    phoneNumberHint: '',
+    companyProfile: {},
     countries: []
   }
 }
