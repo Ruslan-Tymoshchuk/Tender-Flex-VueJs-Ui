@@ -50,7 +50,7 @@
               <TextInput
                 title="Description"
                 hint="Enter detailed information about the Tender"
-                @update-value="tender.description = $event"
+                @update-value="(value) => tender.description = value"
                 :counter="250"
                 label="Description"
               ></TextInput>
@@ -59,7 +59,7 @@
               <NumericInput
                 title="Maximum Tender Value"
                 hint="Enter maximum price of the Tender contract"
-                @update-value="tender.contract.maxPrice = $event"
+                @update-value="(value) => tender.contract.maxPrice = value"
                 :counter="8"
                 label="Maximum tender value"
               ></NumericInput>
@@ -68,7 +68,7 @@
               <NumericInput
                 title="Minimum Tender Value"
                 hint="Enter minimum price of the Tender contract"
-                @update-value="tender.contract.minPrice = $event"
+                @update-value="value => tender.contract.minPrice = value"
                 :counter="8"
                 label="Minimum tender value"
               ></NumericInput>
@@ -130,22 +130,22 @@
               label="* Contract"
               fileInputId="contract"
               hint="Choose your contract document"
-              @selectFile="attachment.contract = $event"
-              @showFile="$event"
+              @select-file="(value) => attachment.contract = value"
+              @show-file="() => {}"
             ></FileInput>
             <FileInput
               label="* Award Decision"
               fileInputId="award"
               hint="Choose award decision document"
-              @selectFile="attachment.awardDecision = $event"
-              @showFile="$event"
+              @select-file="(value) => attachment.awardDecision = value"
+              @show-file="() => {}"
             ></FileInput>
             <FileInput
               label="* Reject Decision"
               fileInputId="reject"
               hint="Choose reject decision document"
-              @selectFile="attachment.rejectDecision = $event"
-              @showFile="$event"
+              @select-file="(value) => attachment.rejectDecision = value"
+              @show-file="() => {}"
             ></FileInput>
           </v-item-group>
 
@@ -158,7 +158,7 @@
       firstLineExplanation="Do you really want to cancel the new Tender creation?"
       secondLineExplanaton="All you entered data will be lost"
       redirectUrl="/module/contractor/tenders"
-      @saveDocument="createTender"
+      @save-document="createTender"
   ></ConfirmationMenu>
 </template>
 

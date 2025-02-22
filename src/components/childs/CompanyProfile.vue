@@ -10,7 +10,7 @@
       <TextInput
         title="Oficial name"
         :hint="oficialNameHint"
-        @updateValue="companyProfile.officialName = $event"
+        @updateValue="(value) => companyProfile.officialName = value"
         :counter="50"
         label="Name of Organization"
       ></TextInput>
@@ -20,7 +20,7 @@
       <TextInput
         title="National Registration Number"
         :hint="registrationNumberHint"
-        @updateValue="companyProfile.registrationNumber = $event"
+        @updateValue="(value) => companyProfile.registrationNumber = value"
         :counter="10"
         label="National Registration Number"
       ></TextInput>
@@ -41,7 +41,7 @@
       <TextInput
         title="City / Town"
         :hint="cityHint"
-        @updateValue="companyProfile.city = $event"
+        @updateValue="(value) => companyProfile.city = value"
         :counter="50"
         label="City"
       ></TextInput>
@@ -59,7 +59,7 @@
       <TextInput
         title="First Name"
         :hint="firstNameHint"
-        @updateValue="companyProfile.contactPerson.firstName = $event"
+        @updateValue="(value) => companyProfile.contactPerson.firstName = value"
         :counter="50"
         label="Name"
       ></TextInput>
@@ -69,7 +69,7 @@
       <TextInput
         title="Last Name"
         :hint="lastNameHint"
-        @updateValue="companyProfile.contactPerson.lastName = $event"
+        @updateValue="(value) => companyProfile.contactPerson.lastName = value"
         :counter="50"
         label="Surname"
       ></TextInput>
@@ -81,7 +81,7 @@
         :hint="phoneNumberHint"
         label="Phone"
         :counter="9"
-        @updateValue="companyProfile.contactPerson.phoneNumber = $event">
+        @updateValue="(value) => companyProfile.contactPerson.phoneNumber = value">
       </NumericInput>
     </v-col>
   </v-row>
