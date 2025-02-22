@@ -51,6 +51,8 @@
     </div>
   </v-card>
 </v-container>
+
+<router-view />
 </template>
 
 <script>

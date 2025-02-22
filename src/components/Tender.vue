@@ -5,7 +5,6 @@
 
   <v-card class="mt-n7 mx-auto" elevation="8" max-width="1000">
     <v-container class="pa-10">
-
       <v-form v-model="valid" fast-fail @submit.prevent="createTender">
 
         <CompanyProfile
@@ -26,63 +25,64 @@
         </v-row>
 
           <v-row class="mt-5 mx-8">
-            <SelectOption
-              instance="cpv"
-              title="CPV code"
-              btnTooltip="Choose CPV code with corresponded to this code description"
-              label="CPV Code"
-              itemTitle="code"
-              :items="cpvs"
-              fieldName="id"
-              @updateValue="updatedValueInParent">
-            </SelectOption>
-            <SelectOption
-              instance="contractType"
-              title="Tipe of Tender"
-              btnTooltip="Choose the type of contract"
-              label="Type"
-              itemTitle="title"
-              :items="contractTypes"
-              fieldName="id"
-              @updateValue="updatedValueInParent">
-            </SelectOption>
-            <InputField
-              instance="tender"
-              title="Description"
-              tooltip="Enter detailed information about the Tender"
-              fieldLabel="Description"
-              fieldName="description"
-              :counter="250"
-              @updateValue="updatedValueInParent"
-            ></InputField>
-            <InputField
-              instance="contract"
-              title="Maximum Tender Value"
-              tooltip="Enter maximum price of the Tender contract"
-              fieldLabel="Maximum tender value"
-              fieldName="maxPrice"
-              inputFieldType="number"
-              @updateValue="updatedValueInParent"
-            ></InputField>
-            <InputField
-              instance="contract"
-              title="Minimum Tender Value"
-              tooltip="Enter minimum price of the Tender contract"
-              fieldLabel="Minimum tender value"
-              fieldName="minPrice"
-              inputFieldType="number"
-              @updateValue="updatedValueInParent"
-            ></InputField>
-            <SelectOption
-              instance="currency"
-              title="Currency"
-              btnTooltip="Choose the currency"
-              label="Currency"
-              itemTitle="code"
-              :items="currencies"
-              fieldName="id"
-              @updateValue="updatedValueInParent">
-            </SelectOption>
+            <v-col cols="12" md="4">
+              <SelectOptionInput
+                title="CPV code"
+                hint="Choose CPV code with corresponded to this code description"
+                label="CPV Code"
+                itemTitle="code"
+                :selectedItem="tender.cpv"
+                :items="cpvs">
+              </SelectOptionInput>
+            </v-col>
+
+            <v-col cols="12" md="4">
+              <SelectOptionInput
+                title="Type of Tender"
+                hint="Choose the type of contract"
+                label="Type"
+                itemTitle="title"
+                :selectedItem="tender.contract.contractType"
+                :items="contractTypes">
+              </SelectOptionInput>
+            </v-col>
+            <v-col cols="12" md="4">
+              <TextInput
+                title="Description"
+                hint="Enter detailed information about the Tender"
+                @update-value="tender.description = $event"
+                :counter="250"
+                label="Description"
+              ></TextInput>
+            </v-col>
+            <v-col cols="12" md="4">
+              <NumericInput
+                title="Maximum Tender Value"
+                hint="Enter maximum price of the Tender contract"
+                @update-value="tender.contract.maxPrice = $event"
+                :counter="8"
+                label="Maximum tender value"
+              ></NumericInput>
+            </v-col>
+            <v-col cols="12" md="4">
+              <NumericInput
+                title="Minimum Tender Value"
+                hint="Enter minimum price of the Tender contract"
+                @update-value="tender.contract.minPrice = $event"
+                :counter="8"
+                label="Minimum tender value"
+              ></NumericInput>
+            </v-col>
+            <v-col cols="12" md="4">
+              <SelectOptionInput
+                title="Currency"
+                hint="Choose the currency"
+                label="Currency"
+                itemTitle="code"
+                :selectedItem="tender.contract.currency"
+                :items="currencies">
+              </SelectOptionInput>
+            </v-col>
           </v-row>
 
         <v-row>
@@ -94,10 +94,11 @@
               instance="tender"
               title="Publication Date"
               tooltip="Today date"
-              :fieldLabel="currentDate"
+              :fieldLabel="initialDate"
               fieldName="publication"
               :isDisabled="true"
             ></InputField>
+
             <InputField
               instance="tender"
               title="Deadline for Offer Submission"
@@ -105,7 +106,7 @@
               fieldLabel="Deadline for Offer Submission"
               fieldName="offerSubmissionDeadline"
               inputFieldType="date"
-              :startDate="minDeadline"
+              :startDate="earliestDeadline"
               @updateValue="updatedValueInParent"
             ></InputField>
             <InputField
@@ -115,7 +116,7 @@
               fieldLabel="DeadLine for Signed Contract Submission"
               fieldName="signedDeadline"
               inputFieldType="date"
-              :startDate="minDeadline"
+              :startDate="earliestDeadline"
               @updateValue="updatedValueInParent"
             ></InputField>
           </v-row>
@@ -126,26 +127,26 @@
 
           <v-item-group class="py-5 mx-2">
             <FileInput
-            label="* Contract"
-            fileInputId="contract"
-            hint="Choose your contract document"
-            @selectFile="attachment.contract = $event"
-            @showFile="$event"
-          ></FileInput>
-          <FileInput
-            label="* Award Decision"
-            fileInputId="award"
-            hint="Choose award decision document"
-            @selectFile="attachment.awardDecision = $event"
-            @showFile="$event"
-          ></FileInput>
-          <FileInput
-            label="* Reject Decision"
-            fileInputId="reject"
-            hint="Choose reject decision document"
-            @selectFile="attachment.rejectDecision = $event"
-            @showFile="$event"
-          ></FileInput>
+              label="* Contract"
+              fileInputId="contract"
+              hint="Choose your contract document"
+              @selectFile="attachment.contract = $event"
+              @showFile="$event"
+            ></FileInput>
+            <FileInput
+              label="* Award Decision"
+              fileInputId="award"
+              hint="Choose award decision document"
+              @selectFile="attachment.awardDecision = $event"
+              @showFile="$event"
+            ></FileInput>
+            <FileInput
+              label="* Reject Decision"
+              fileInputId="reject"
+              hint="Choose reject decision document"
+              @selectFile="attachment.rejectDecision = $event"
+              @showFile="$event"
+            ></FileInput>
           </v-item-group>
 
       </v-form>
@@ -166,21 +167,25 @@ import { restApiEndpoints } from "@/rest.api.endpoints"
 import { format } from 'date-fns'
 import { totalStore, fetchFromEndpoint, uploadFile, createDocumentRecord } from "@/components/actions"
 import { successAlert, exceptionAlert } from "@/components/alerts"
-import InputField from "@/components/childs/InputField.vue"
+import TextInput from "@/components/childs/TextInput.vue"
+import NumericInput from "@/components/childs/NumericInput.vue"
 import ToolBarTitle from "@/components/childs/ToolBarTitle.vue"
 import Chapter from "@/components/childs/Chapter.vue"
-import SelectOption from "@/components/childs/SelectOption.vue"
+import SelectOptionInput from "@/components/childs/SelectOptionInput.vue"
 import FileInput from "@/components/childs/FileInput.vue"
 import ConfirmationMenu from "@/components/childs/ConfirmationMenu.vue"
 import CompanyProfile from "@/components/childs/CompanyProfile.vue"
+import InputField from "@/components/childs/InputField.vue"
 
 export default {
   components: {
     CompanyProfile,
-    InputField,
+    TextInput,
+    NumericInput,
     ToolBarTitle,
     Chapter,
-    SelectOption,
+    SelectOptionInput,
+    InputField,
     FileInput,
     ConfirmationMenu
   },
@@ -193,20 +198,20 @@ export default {
     contractTypes: [],
     cpvs: [],
     currencies: [],
-    currency: {},
-    minDeadline: null,
+    earliestDeadline: null,
     isDisabled: true,
-    currentDate: null,
+    initialDate: null,
     tender: {
       companyProfile: {
         country: {},
         contactPerson: {}
       },
-    },
-    cpv: {},
-    contractType: {},
-    contract: {
-      fileMetadata: {}
+      cpv: {},
+      contract: {
+        contractType: {},
+        currency: {},
+        fileMetadata: {}
+      },
     },
     awardDecision: {
       fileMetadata: {}
@@ -232,12 +237,8 @@ export default {
           this.uploadFile(rejectDecision),
         ]);
         this.tender.contractorId = this.$route.params.userId;
-        this.tender.publication = this.currentDate;
-        this.tender.cpv = this.cpv;
-        this.contract.contractType = this.contractType;
-        this.contract.currency = this.currency;
-        this.contract.fileMetadata.id = contactFileMetadata.data.id;
-        this.tender.contract = this.contract;
+        this.tender.publication = this.initialDate;
+        this.tender.contract.fileMetadata.id = contactFileMetadata.data.id;
         this.awardDecision.fileMetadata.id = awardFileMetadata.data.id;
         this.tender.awardDecision = this.awardDecision;
         this.rejectDecision.fileMetadata.id = rejectFileMetadata.data.id;
@@ -274,8 +275,8 @@ export default {
     } catch (error) {
       this.exceptionAlert.activateAlert("Error occurred when fetching the data: " + error)
     }
-    this.currentDate = format(new Date(), 'yyyy-MM-dd');
-    this.minDeadline = format(new Date().getTime() + 86400000, 'yyyy-MM-dd');
+    this.initialDate = format(new Date(), 'yyyy-MM-dd');
+    this.earliestDeadline = format(new Date().getTime() + 86400000, 'yyyy-MM-dd');
   }
 }
 </script>
