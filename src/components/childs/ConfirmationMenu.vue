@@ -7,7 +7,7 @@
         </v-btn>
       </v-col>
       <v-col cols="9" md="2">
-        <v-btn type="submit" block class="mt-2" variant="flat" color="blue" size="large" @click="saveDocument">
+        <v-btn type="submit" block class="mt-2" variant="flat" color="blue" size="large" @click="$emit('saveDocument')">
           {{ btnTitle }}
         </v-btn>
       </v-col>
@@ -44,10 +44,7 @@ export default {
     secondLineExplanaton: ''
   },
 
-  methods: {
-    saveDocument() {
-      this.$emit('saveDocument')
-    }
-  }
+  emits: ['saveDocument'],
+
 }
 </script>

@@ -41,7 +41,9 @@ export default {
     hint: '',
     selectedItem: {},
     label:'',
-    items: [],
+    items: {
+      type: Array
+    },
     itemTitle:''
   }
 }

@@ -75,6 +75,8 @@ export default {
     hint: ''
   },
 
+  emits: ['selectFile', 'showFile'],
+
   methods: {
     selectFile(event) {
       this.isFile = true;

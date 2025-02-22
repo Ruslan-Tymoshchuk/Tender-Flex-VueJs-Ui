@@ -111,7 +111,9 @@ export default {
     firstNameHint: '',
     lastNameHint: '',
     phoneNumberHint: '',
-    countries: []
+    countries: {
+      type: Array
+    }
   }
 }
 </script>
