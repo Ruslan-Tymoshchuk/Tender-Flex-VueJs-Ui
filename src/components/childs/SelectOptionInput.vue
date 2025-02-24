@@ -23,7 +23,7 @@
     single-line
     color="blue"
     variant="outlined"
-    v-model="selectedItem.id"
+    v-model="selectedItemId"
     :label="label"
     required
     density="compact"
@@ -31,20 +31,28 @@
     item-value="id"
     :item-title="itemTitle"
     persistent-hint
+    @update:modelValue="$emit('updateValue', selectedItemId)"
   ></v-select>
 </template>
 
 <script>
 export default {
+
+  data: () => ({
+    selectedItemId: null,
+  }),
+
   props: {
     title: '',
     hint: '',
-    selectedItem: {},
     label:'',
     items: {
       type: Array
     },
     itemTitle:''
-  }
+  },
+
+  emits: ['updateValue']
+
 }
 </script>

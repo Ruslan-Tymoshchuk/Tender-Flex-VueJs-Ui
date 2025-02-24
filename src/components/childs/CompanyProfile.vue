@@ -10,7 +10,7 @@
       <TextInput
         title="Oficial name"
         :hint="oficialNameHint"
-        @updateValue="(value) => companyProfile.officialName = value"
+        @updateValue="(value) => $emit('updateOficialName', value)"
         :counter="50"
         label="Name of Organization"
       ></TextInput>
@@ -20,7 +20,7 @@
       <TextInput
         title="National Registration Number"
         :hint="registrationNumberHint"
-        @updateValue="(value) => companyProfile.registrationNumber = value"
+        @updateValue="(value) => $emit('updateRegistrationNumber', value)"
         :counter="10"
         label="National Registration Number"
       ></TextInput>
@@ -32,7 +32,7 @@
         :hint="countryHint"
         label="Choose the country"
         itemTitle="name"
-        :selectedItem="companyProfile.country"
+        @update-value="(value) => $emit('updateCountry', value)"
         :items="countries">
       </SelectOptionInput>
     </v-col>
@@ -41,7 +41,7 @@
       <TextInput
         title="City / Town"
         :hint="cityHint"
-        @updateValue="(value) => companyProfile.city = value"
+        @updateValue="(value) => $emit('updateCity', value)"
         :counter="50"
         label="City"
       ></TextInput>
@@ -59,7 +59,7 @@
       <TextInput
         title="First Name"
         :hint="firstNameHint"
-        @updateValue="(value) => companyProfile.contactPerson.firstName = value"
+        @updateValue="(value) => $emit('updateFirstName', value)"
         :counter="50"
         label="Name"
       ></TextInput>
@@ -69,7 +69,7 @@
       <TextInput
         title="Last Name"
         :hint="lastNameHint"
-        @updateValue="(value) => companyProfile.contactPerson.lastName = value"
+        @updateValue="(value) => $emit('updateLastName', value)"
         :counter="50"
         label="Surname"
       ></TextInput>
@@ -81,7 +81,7 @@
         :hint="phoneNumberHint"
         label="Phone"
         :counter="9"
-        @updateValue="(value) => companyProfile.contactPerson.phoneNumber = value">
+        @updateValue="(value) => $emit('updatePhone', value)">
       </NumericInput>
     </v-col>
   </v-row>
@@ -94,7 +94,9 @@ import SelectOptionInput from '@/components/childs/SelectOptionInput.vue';
 import TextInput from '@/components/childs/TextInput.vue';
 
 export default {
+
   components: {
+    companyProfile: {},
     Chapter,
     TextInput,
     SelectOptionInput,
@@ -102,7 +104,6 @@ export default {
   },
 
   props: {
-    companyProfile: {},
     companyRole: '',
     oficialNameHint: '',
     registrationNumberHint: '',
@@ -114,6 +115,15 @@ export default {
     countries: {
       type: Array
     }
-  }
+  },
+
+  emits: ['updateOficialName',
+          'updateRegistrationNumber',
+          'updateCountry',
+          'updateCity',
+          'updateFirstName',
+          'updateLastName',
+          'updatePhone']
+
 }
 </script>

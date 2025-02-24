@@ -25,7 +25,7 @@
     color="blue"
     variant="outlined"
     v-model="inputValue"
-    @change="$emit('updateValue')"
+    @change="$emit('updateValue', inputValue)"
     :counter="counter"
     :label="label"
     required
