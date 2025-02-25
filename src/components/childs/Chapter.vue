@@ -1,7 +1,7 @@
 <template>
   <v-container class="d-flex align-center">
     <p class="chapter-label">{{ title }}</p>
-    <v-div class="horizontal-divider"></v-div>
+    <v-divider class="horizontal-divider"></v-divider>
   </v-container>
 </template>
 

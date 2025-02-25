@@ -5,149 +5,90 @@
 
   <v-card class="mt-n7 mx-auto" elevation="8" max-width="1000">
     <v-container class="pa-10">
-
       <v-form v-model="valid" fast-fail @submit.prevent="createTender">
 
-        <v-row>
-          <Chapter title="Contractor"></Chapter>
-        </v-row>
-
-          <v-row class="mt-5 mx-8">
-            <InputField
-              instance="companyProfile"
-              title="Oficial name"
-              tooltip="Enter the name of the buyer (e.g. Aeroporto Friuli Venezia Giulia S.p.A.)"
-              fieldLabel="Name of Organization"
-              fieldName="officialName"
-              :counter="50"
-              @updateValue="updatedValueInParent"
-            ></InputField>
-            <InputField
-              instance="companyProfile"
-              title="National Registration Number"
-              tooltip="Enter the national registration number of the buyer (e.g.ULG BE 0325 777 171)"
-              fieldLabel="National Registration Number"
-              fieldName="registrationNumber"
-              :counter="10"
-              @updateValue="updatedValueInParent"
-            ></InputField>
-            <SelectOption
-              instance="country"
-              title="Country"
-              btnTooltip="Choose the country of the buyer"
-              label="Choose the country"
-              itemTitle="name"
-              :items="countries"
-              fieldName="id"
-              @updateValue="updatedValueInParent">
-            </SelectOption>
-            <InputField
-              instance="companyProfile"
-              title="City / Town"
-              tooltip="Enter the city of the buyer"
-              fieldLabel="City"
-              fieldName="city"
-              :counter="50"
-              @updateValue="updatedValueInParent"
-            ></InputField>
-          </v-row>
-
-        <v-row>
-          <Chapter title="Contact person"></Chapter>
-        </v-row>
-
-          <v-row class="mt-5 mx-8">
-            <InputField
-              instance="contactPerson"
-              title="First Name"
-              tooltip="Enter the name of contact person"
-              fieldLabel="Name"
-              fieldName="firstName"
-              :counter="50"
-              @updateValue="updatedValueInParent"
-            ></InputField>
-            <InputField
-              instance="contactPerson"
-              title="Last Name"
-              tooltip="Enter the surname of contact person"
-              fieldLabel="Surname"
-              fieldName="lastName"
-              :counter="50"
-              @updateValue="updatedValueInParent"
-            ></InputField>
-            <InputField
-              instance="contactPerson"
-              title="Phone number"
-              tooltip="Enter the phone number of the contact person"
-              fieldLabel="Phone"
-              fieldName="phoneNumber"
-              :counter="8"
-              @updateValue="updatedValueInParent"
-            ></InputField>
-          </v-row>
+        <CompanyProfile
+          companyRole="Contractor"
+          oficialNameHint="Enter the name of the buyer (e.g. Aeroporto Friuli Venezia Giulia S.p.A.)"
+          @update-oficial-name="(value) => tender.companyProfile.officialName = value"
+          registrationNumberHint="Enter the national registration number of the buyer (e.g.ULG BE 0325 777 171)"
+          @update-registration-number="(value) => tender.companyProfile.registrationNumber = value"
+          countryHint="Choose the country of the buyer"
+          :countries="countries"
+          @update-country="(value) => tender.companyProfile.country.id = value"
+          cityHint="Enter the city of the buyer"
+          @update-city="(value) => tender.companyProfile.city = value"
+          firstNameHint="Enter the name of contact person"
+          @update-first-name="(value) => tender.companyProfile.contactPerson.firstName = value"
+          lastNameHint="Enter the surname of contact person"
+          @update-last-name="(value) => tender.companyProfile.contactPerson.lastName = value"
+          phoneNumberHint="Enter the phone number of the contact person"
+          @update-phone="(value) => tender.companyProfile.contactPerson.phoneNumber = value"
+        ></CompanyProfile>
 
         <v-row>
           <Chapter title="Subject matter of the procurement"></Chapter>
         </v-row>
 
           <v-row class="mt-5 mx-8">
-            <SelectOption
-              instance="cpv"
-              title="CPV code"
-              btnTooltip="Choose CPV code with corresponded to this code description"
-              label="CPV Code"
-              itemTitle="code"
-              :items="cpvs"
-              fieldName="id"
-              @updateValue="updatedValueInParent">
-            </SelectOption>
-            <SelectOption
-              instance="contractType"
-              title="Tipe of Tender"
-              btnTooltip="Choose the type of contract"
-              label="Type"
-              itemTitle="title"
-              :items="contractTypes"
-              fieldName="id"
-              @updateValue="updatedValueInParent">
-            </SelectOption>
-            <InputField
-              instance="tender"
-              title="Description"
-              tooltip="Enter detailed information about the Tender"
-              fieldLabel="Description"
-              fieldName="description"
-              :counter="250"
-              @updateValue="updatedValueInParent"
-            ></InputField>
-            <InputField
-              instance="contract"
-              title="Maximum Tender Value"
-              tooltip="Enter maximum price of the Tender contract"
-              fieldLabel="Maximum tender value"
-              fieldName="maxPrice"
-              inputFieldType="number"
-              @updateValue="updatedValueInParent"
-            ></InputField>
-            <InputField
-              instance="contract"
-              title="Minimum Tender Value"
-              tooltip="Enter minimum price of the Tender contract"
-              fieldLabel="Minimum tender value"
-              fieldName="minPrice"
-              inputFieldType="number"
-              @updateValue="updatedValueInParent"
-            ></InputField>
-            <SelectOption
-              instance="currency"
-              title="Currency"
-              btnTooltip="Choose the currency"
-              label="Currency"
-              itemTitle="code"
-              :items="currencies"
-              fieldName="id"
-              @updateValue="updatedValueInParent">
-            </SelectOption>
+            <v-col cols="12" md="4">
+              <SelectOptionInput
+                title="CPV code"
+                hint="Choose CPV code with corresponded to this code description"
+                label="CPV Code"
+                itemTitle="code"
+                @update-value="(value) => tender.cpv.id = value"
+                :items="cpvs">
+              </SelectOptionInput>
+            </v-col>
+
+            <v-col cols="12" md="4">
+              <SelectOptionInput
+                title="Type of Tender"
+                hint="Choose the type of contract"
+                label="Type"
+                itemTitle="title"
+                @update-value="(value) => tender.contract.contractType.id = value"
+                :items="contractTypes">
+              </SelectOptionInput>
+            </v-col>
+            <v-col cols="12" md="4">
+              <TextInput
+                title="Description"
+                hint="Enter detailed information about the Tender"
+                @update-value="(value) => tender.description = value"
+                :counter="250"
+                label="Description"
+              ></TextInput>
+            </v-col>
+            <v-col cols="12" md="4">
+              <NumericInput
+                title="Maximum Tender Value"
+                hint="Enter maximum price of the Tender contract"
+                @update-value="(value) => tender.contract.maxPrice = value"
+                :counter="8"
+                label="Maximum tender value"
+              ></NumericInput>
+            </v-col>
+            <v-col cols="12" md="4">
+              <NumericInput
+                title="Minimum Tender Value"
+                hint="Enter minimum price of the Tender contract"
+                @update-value="value => tender.contract.minPrice = value"
+                :counter="8"
+                label="Minimum tender value"
+              ></NumericInput>
+            </v-col>
+            <v-col cols="12" md="4">
+              <SelectOptionInput
+                title="Currency"
+                hint="Choose the currency"
+                label="Currency"
+                itemTitle="code"
+                @update-value="(value) => tender.contract.currency.id = value"
+                :items="currencies">
+              </SelectOptionInput>
+            </v-col>
           </v-row>
 
         <v-row>
@@ -155,34 +96,31 @@
         </v-row>
 
           <v-row class="mt-5 mx-8">
-            <InputField
-              instance="tender"
+            <v-col cols="12" md="4">
+              <DateInput
               title="Publication Date"
-              tooltip="Today date"
-              :fieldLabel="currentDate"
-              fieldName="publication"
+              hint="Today date"
+              :label="initialDate"
+              type="text"
               :isDisabled="true"
-            ></InputField>
-            <InputField
-              instance="tender"
+            ></DateInput>
+          </v-col>
+          <v-col cols="12" md="4">
+            <DateInput
               title="Deadline for Offer Submission"
-              tooltip="Choose the deadline date for Offer submission"
-              fieldLabel="Deadline for Offer Submission"
-              fieldName="offerSubmissionDeadline"
-              inputFieldType="date"
-              :startDate="minDeadline"
-              @updateValue="updatedValueInParent"
-            ></InputField>
-            <InputField
-              instance="contract"
+              hint="Choose the deadline date for Offer submission"
+              :earliestDate="earliestDeadline"
+              @update-value="(value) => tender.offerSubmissionDeadline = value"
+            ></DateInput>
+          </v-col>
+          <v-col cols="12" md="4">
+            <DateInput
               title="Deadline for Signing"
-              tooltip="Choose the deadline date for signed contract submission"
-              fieldLabel="DeadLine for Signed Contract Submission"
-              fieldName="signedDeadline"
-              inputFieldType="date"
-              :startDate="minDeadline"
-              @updateValue="updatedValueInParent"
-            ></InputField>
+              hint="Choose the deadline date for signed contract submission"
+              :earliestDate="earliestDeadline"
+               @update-value="(value) => tender.contract.signedDeadline = value"
+            ></DateInput>
+          </v-col>
           </v-row>
 
         <v-row>
@@ -191,26 +129,26 @@
 
           <v-item-group class="py-5 mx-2">
             <FileInput
-            label="* Contract"
-            fileInputId="contract"
-            hint="Choose your contract document"
-            @selectFile="attachment.contract = $event"
-            @showFile="$event"
-          ></FileInput>
-          <FileInput
-            label="* Award Decision"
-            fileInputId="award"
-            hint="Choose award decision document"
-            @selectFile="attachment.awardDecision = $event"
-            @showFile="$event"
-          ></FileInput>
-          <FileInput
-            label="* Reject Decision"
-            fileInputId="reject"
-            hint="Choose reject decision document"
-            @selectFile="attachment.rejectDecision = $event"
-            @showFile="$event"
-          ></FileInput>
+              label="* Contract"
+              fileInputId="contract"
+              hint="Choose your contract document"
+              @select-file="(value) => attachment.contract = value"
+              @show-file="() => {}"
+            ></FileInput>
+            <FileInput
+              label="* Award Decision"
+              fileInputId="award"
+              hint="Choose award decision document"
+              @select-file="(value) => attachment.awardDecision = value"
+              @show-file="() => {}"
+            ></FileInput>
+            <FileInput
+              label="* Reject Decision"
+              fileInputId="reject"
+              hint="Choose reject decision document"
+              @select-file="(value) => attachment.rejectDecision = value"
+              @show-file="() => {}"
+            ></FileInput>
           </v-item-group>
 
       </v-form>
@@ -222,7 +160,7 @@
       firstLineExplanation="Do you really want to cancel the new Tender creation?"
       secondLineExplanaton="All you entered data will be lost"
       redirectUrl="/module/contractor/tenders"
-      @saveDocument="createTender"
+      @save-document="createTender"
   ></ConfirmationMenu>
 </template>
 
@@ -231,42 +169,51 @@ import { restApiEndpoints } from "@/rest.api.endpoints"
 import { format } from 'date-fns'
 import { totalStore, fetchFromEndpoint, uploadFile, createDocumentRecord } from "@/components/actions"
 import { successAlert, exceptionAlert } from "@/components/alerts"
-import InputField from "@/components/childs/InputField.vue"
+import TextInput from "@/components/childs/TextInput.vue"
+import NumericInput from "@/components/childs/NumericInput.vue"
 import ToolBarTitle from "@/components/childs/ToolBarTitle.vue"
 import Chapter from "@/components/childs/Chapter.vue"
-import SelectOption from "@/components/childs/SelectOption.vue"
+import SelectOptionInput from "@/components/childs/SelectOptionInput.vue"
 import FileInput from "@/components/childs/FileInput.vue"
 import ConfirmationMenu from "@/components/childs/ConfirmationMenu.vue"
+import CompanyProfile from "@/components/childs/CompanyProfile.vue"
+import DateInput from "@/components/childs/DateInput.vue"
 
 export default {
-  components:{
-    InputField,
+  components: {
+    CompanyProfile,
+    TextInput,
+    NumericInput,
     ToolBarTitle,
     Chapter,
-    SelectOption,
+    SelectOptionInput,
+    DateInput,
     FileInput,
     ConfirmationMenu
   },
+
   data: () => ({
     fetchFromEndpoint,
     uploadFile,
     createDocumentRecord,
     countries: [],
-    country: {},
     contractTypes: [],
     cpvs: [],
     currencies: [],
-    currency: {},
-    minDeadline: null,
+    earliestDeadline: null,
     isDisabled: true,
-    currentDate: null,
-    tender: {},
-    companyProfile: {},
-    contactPerson: {},
-    cpv: {},
-    contractType: {},
-    contract: {
-      fileMetadata: {}
+    initialDate: null,
+    tender: {
+      companyProfile: {
+        country: {},
+        contactPerson: {}
+      },
+      cpv: {},
+      contract: {
+        contractType: {},
+        currency: {},
+        fileMetadata: {}
+      },
     },
     awardDecision: {
       fileMetadata: {}
@@ -292,15 +239,8 @@ export default {
           this.uploadFile(rejectDecision),
         ]);
         this.tender.contractorId = this.$route.params.userId;
-        this.tender.publication = this.currentDate;
-        this.companyProfile.contactPerson = this.contactPerson;
-        this.companyProfile.country = this.country;
-        this.tender.companyProfile = this.companyProfile;
-        this.tender.cpv = this.cpv;
-        this.contract.contractType = this.contractType;
-        this.contract.currency = this.currency;
-        this.contract.fileMetadata.id = contactFileMetadata.data.id;
-        this.tender.contract = this.contract;
+        this.tender.publication = this.initialDate;
+        this.tender.contract.fileMetadata.id = contactFileMetadata.data.id;
         this.awardDecision.fileMetadata.id = awardFileMetadata.data.id;
         this.tender.awardDecision = this.awardDecision;
         this.rejectDecision.fileMetadata.id = rejectFileMetadata.data.id;
@@ -337,8 +277,8 @@ export default {
     } catch (error) {
       this.exceptionAlert.activateAlert("Error occurred when fetching the data: " + error)
     }
-    this.currentDate = format(new Date(), 'yyyy-MM-dd');
-    this.minDeadline = format(new Date().getTime() + 86400000, 'yyyy-MM-dd');
+    this.initialDate = format(new Date(), 'yyyy-MM-dd');
+    this.earliestDeadline = format(new Date().getTime() + 86400000, 'yyyy-MM-dd');
   }
 }
 </script>

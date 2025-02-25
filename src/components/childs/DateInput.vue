@@ -2,7 +2,7 @@
   <v-chip
     class="required"
     variant="text"
-    >{{ title }}
+  >{{ title }}
   <v-btn
     size=auto
     class="ml-2"
@@ -12,7 +12,7 @@
   ><v-tooltip
     activator="parent"
     location="top"
-    >{{ hint }}
+  >{{ hint }}
   </v-tooltip>
   <v-icon
     icon="mdi-information-outline"
@@ -25,27 +25,29 @@
     color="blue"
     variant="outlined"
     v-model="inputValue"
-    @change="$emit('updateValue', inputValue)"
-    :counter="counter"
     :label="label"
+    @change="$emit('updateValue', inputValue)"
+    :type="type"
     required
     density="compact"
-    type="number">
+    :min="earliestDate"
+    :disabled="isDisabled">
   </v-text-field>
 </template>
 
 <script>
 export default {
-
   data: () => ({
-    inputValue: '',
+    inputValue: null,
   }),
 
   props: {
     title: '',
     hint: '',
-    counter: 0,
-    label: ''
+    label: { type: String, default: ''},
+    earliestDate: null,
+    isDisabled: { type: Boolean, default: false },
+    type: { type: String, default: 'date'}
   },
 
   emits: ['updateValue']

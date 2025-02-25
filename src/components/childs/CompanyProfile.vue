@@ -9,8 +9,8 @@
     <v-col cols="12" md="4">
       <TextInput
         title="Oficial name"
-        hint="Enter the name of the buyer (e.g. Aeroporto Friuli Venezia Giulia S.p.A.)"
-        @updateValue="companyProfile.officialName = $event"
+        :hint="oficialNameHint"
+        @updateValue="(value) => $emit('updateOficialName', value)"
         :counter="50"
         label="Name of Organization"
       ></TextInput>
@@ -19,8 +19,8 @@
     <v-col cols="12" md="4">
       <TextInput
         title="National Registration Number"
-        hint=" Enter the national registration number of the buyer (e.g.ULG BE 0325 777 171)"
-        @updateValue="companyProfile.registrationNumber = $event"
+        :hint="registrationNumberHint"
+        @updateValue="(value) => $emit('updateRegistrationNumber', value)"
         :counter="10"
         label="National Registration Number"
       ></TextInput>
@@ -29,10 +29,10 @@
     <v-col cols="12" md="4">
       <SelectOptionInput
         title="Country"
-        hint="Choose the country"
+        :hint="countryHint"
         label="Choose the country"
         itemTitle="name"
-        :selectedItem="companyProfile.country"
+        @update-value="(value) => $emit('updateCountry', value)"
         :items="countries">
       </SelectOptionInput>
     </v-col>
@@ -40,8 +40,8 @@
     <v-col cols="12" md="4">
       <TextInput
         title="City / Town"
-        hint="Enter the city"
-        @updateValue="companyProfile.city = $event"
+        :hint="cityHint"
+        @updateValue="(value) => $emit('updateCity', value)"
         :counter="50"
         label="City"
       ></TextInput>
@@ -58,8 +58,8 @@
     <v-col cols="12" md="4">
       <TextInput
         title="First Name"
-        hint="Enter the name of contact person"
-        @updateValue="companyProfile.contactPerson.firstName = $event"
+        :hint="firstNameHint"
+        @updateValue="(value) => $emit('updateFirstName', value)"
         :counter="50"
         label="Name"
       ></TextInput>
@@ -68,8 +68,8 @@
     <v-col cols="12" md="4">
       <TextInput
         title="Last Name"
-        hint="Enter the surname of contact person"
-        @updateValue="companyProfile.contactPerson.lastName = $event"
+        :hint="lastNameHint"
+        @updateValue="(value) => $emit('updateLastName', value)"
         :counter="50"
         label="Surname"
       ></TextInput>
@@ -78,10 +78,10 @@
     <v-col cols="12" md="4">
       <NumericInput
         title="Phone number"
-        hint=" Enter the phone number of the contact person"
+        :hint="phoneNumberHint"
         label="Phone"
-        counter="9"
-        @updateValue="companyProfile.contactPerson.phoneNumber = $event">
+        :counter="9"
+        @updateValue="(value) => $emit('updatePhone', value)">
       </NumericInput>
     </v-col>
   </v-row>
@@ -94,7 +94,9 @@ import SelectOptionInput from '@/components/childs/SelectOptionInput.vue';
 import TextInput from '@/components/childs/TextInput.vue';
 
 export default {
+
   components: {
+    companyProfile: {},
     Chapter,
     TextInput,
     SelectOptionInput,
@@ -102,9 +104,26 @@ export default {
   },
 
   props: {
-    companyProfile: {},
     companyRole: '',
-    countries: []
-  }
+    oficialNameHint: '',
+    registrationNumberHint: '',
+    countryHint: '',
+    cityHint: '',
+    firstNameHint: '',
+    lastNameHint: '',
+    phoneNumberHint: '',
+    countries: {
+      type: Array
+    }
+  },
+
+  emits: ['updateOficialName',
+          'updateRegistrationNumber',
+          'updateCountry',
+          'updateCity',
+          'updateFirstName',
+          'updateLastName',
+          'updatePhone']
+
 }
 </script>
