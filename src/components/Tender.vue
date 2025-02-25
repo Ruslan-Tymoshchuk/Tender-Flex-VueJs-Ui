@@ -97,30 +97,29 @@
 
           <v-row class="mt-5 mx-8">
             <v-col cols="12" md="4">
-              <InputField
+              <DateInput
               title="Publication Date"
-              tooltip="Today date"
-              :fieldLabel="initialDate"
-              :startDate="earliestDeadline"
+              hint="Today date"
+              :label="initialDate"
               type="text"
               :isDisabled="true"
-            ></InputField>
+            ></DateInput>
           </v-col>
           <v-col cols="12" md="4">
-            <InputField
+            <DateInput
               title="Deadline for Offer Submission"
-              tooltip="Choose the deadline date for Offer submission"
-              :startDate="earliestDeadline"
+              hint="Choose the deadline date for Offer submission"
+              :earliestDate="earliestDeadline"
               @update-value="(value) => tender.offerSubmissionDeadline = value"
-            ></InputField>
+            ></DateInput>
           </v-col>
           <v-col cols="12" md="4">
-            <InputField
+            <DateInput
               title="Deadline for Signing"
-              tooltip="Choose the deadline date for signed contract submission"
-              :startDate="earliestDeadline"
+              hint="Choose the deadline date for signed contract submission"
+              :earliestDate="earliestDeadline"
                @update-value="(value) => tender.contract.signedDeadline = value"
-            ></InputField>
+            ></DateInput>
           </v-col>
           </v-row>
 
@@ -178,7 +177,7 @@ import SelectOptionInput from "@/components/childs/SelectOptionInput.vue"
 import FileInput from "@/components/childs/FileInput.vue"
 import ConfirmationMenu from "@/components/childs/ConfirmationMenu.vue"
 import CompanyProfile from "@/components/childs/CompanyProfile.vue"
-import InputField from "@/components/childs/InputField.vue"
+import DateInput from "@/components/childs/DateInput.vue"
 
 export default {
   components: {
@@ -188,7 +187,7 @@ export default {
     ToolBarTitle,
     Chapter,
     SelectOptionInput,
-    InputField,
+    DateInput,
     FileInput,
     ConfirmationMenu
   },
