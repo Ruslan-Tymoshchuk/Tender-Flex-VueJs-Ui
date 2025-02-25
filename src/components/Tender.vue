@@ -8,17 +8,23 @@
       <v-form v-model="valid" fast-fail @submit.prevent="createTender">
 
         <CompanyProfile
-          :companyProfile="tender.companyProfile"
           companyRole="Contractor"
           oficialNameHint="Enter the name of the buyer (e.g. Aeroporto Friuli Venezia Giulia S.p.A.)"
+          @update-oficial-name="(value) => tender.companyProfile.officialName = value"
           registrationNumberHint="Enter the national registration number of the buyer (e.g.ULG BE 0325 777 171)"
+          @update-registration-number="(value) => tender.companyProfile.registrationNumber = value"
           countryHint="Choose the country of the buyer"
+          :countries="countries"
+          @update-country="(value) => tender.companyProfile.country.id = value"
           cityHint="Enter the city of the buyer"
+          @update-city="(value) => tender.companyProfile.city = value"
           firstNameHint="Enter the name of contact person"
+          @update-first-name="(value) => tender.companyProfile.contactPerson.firstName = value"
           lastNameHint="Enter the surname of contact person"
+          @update-last-name="(value) => tender.companyProfile.contactPerson.lastName = value"
           phoneNumberHint="Enter the phone number of the contact person"
-          :countries=countries>
-        </CompanyProfile>
+          @update-phone="(value) => tender.companyProfile.contactPerson.phoneNumber = value"
+        ></CompanyProfile>
 
         <v-row>
           <Chapter title="Subject matter of the procurement"></Chapter>
@@ -31,7 +37,7 @@
                 hint="Choose CPV code with corresponded to this code description"
                 label="CPV Code"
                 itemTitle="code"
-                :selectedItem="tender.cpv"
+                @update-value="(value) => tender.cpv.id = value"
                 :items="cpvs">
               </SelectOptionInput>
             </v-col>
@@ -42,7 +48,7 @@
                 hint="Choose the type of contract"
                 label="Type"
                 itemTitle="title"
-                :selectedItem="tender.contract.contractType"
+                @update-value="(value) => tender.contract.contractType.id = value"
                 :items="contractTypes">
               </SelectOptionInput>
             </v-col>
@@ -79,7 +85,7 @@
                 hint="Choose the currency"
                 label="Currency"
                 itemTitle="code"
-                :selectedItem="tender.contract.currency"
+                @update-value="(value) => tender.contract.currency.id = value"
                 :items="currencies">
               </SelectOptionInput>
             </v-col>
@@ -90,35 +96,32 @@
         </v-row>
 
           <v-row class="mt-5 mx-8">
-            <InputField
-              instance="tender"
+            <v-col cols="12" md="4">
+              <InputField
               title="Publication Date"
               tooltip="Today date"
               :fieldLabel="initialDate"
-              fieldName="publication"
+              :startDate="earliestDeadline"
+              type="text"
               :isDisabled="true"
             ></InputField>
-
+          </v-col>
+          <v-col cols="12" md="4">
             <InputField
-              instance="tender"
               title="Deadline for Offer Submission"
               tooltip="Choose the deadline date for Offer submission"
-              fieldLabel="Deadline for Offer Submission"
-              fieldName="offerSubmissionDeadline"
-              inputFieldType="date"
               :startDate="earliestDeadline"
-              @updateValue="updatedValueInParent"
+              @update-value="(value) => tender.offerSubmissionDeadline = value"
             ></InputField>
+          </v-col>
+          <v-col cols="12" md="4">
             <InputField
-              instance="contract"
               title="Deadline for Signing"
               tooltip="Choose the deadline date for signed contract submission"
-              fieldLabel="DeadLine for Signed Contract Submission"
-              fieldName="signedDeadline"
-              inputFieldType="date"
               :startDate="earliestDeadline"
-              @updateValue="updatedValueInParent"
+               @update-value="(value) => tender.contract.signedDeadline = value"
             ></InputField>
+          </v-col>
           </v-row>
 
         <v-row>

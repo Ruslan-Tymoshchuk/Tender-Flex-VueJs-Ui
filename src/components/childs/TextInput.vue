@@ -29,12 +29,13 @@
     :counter="counter"
     :label="label"
     required
-    density="compact">
-  </v-text-field>
+    density="compact"
+  ></v-text-field>
 </template>
 
 <script>
 export default {
+
   data: () => ({
     inputValue: '',
   }),
