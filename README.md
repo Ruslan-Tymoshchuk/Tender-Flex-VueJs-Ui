@@ -1,4 +1,6 @@
-#Stack: Vue3, Vite, Vutify, Vue-Router, Axios
+#Stack: Vue3, JavaScript, Vite, Vutify, Vue-Router, Axios
+
+#The frontend part of tendering platform which gives user the opportunity to take part in procurement process online
 
 ## Project setup
 
