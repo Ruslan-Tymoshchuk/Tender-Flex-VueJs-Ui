@@ -55,6 +55,48 @@
   margin-top: 2rem;
 }
 
+.table-header {
+  white-space: nowrap;
+  color: #ffffff;
+}
+
+.table-header.toolbar {
+  height: 2rem;
+  justify-content: center;
+  background-color: #1e62c4;
+}
+
+.table-header.field {
+  width: 20rem;
+  margin-left: 1rem;
+  text-align: left;
+  background-color: #1e63c400;
+}
+
+.table-header.company-name {
+  width: 10rem;
+  text-align: center;
+  background-color: #1e63c400;
+}
+
+.table-header.tender-status {
+  width: 9rem;
+  text-align: center;
+  background-color: #1e63c400;
+}
+
+.table-header.deadline {
+  width: 11rem;
+  text-align: center;
+  background-color: #1e63c400;
+}
+
+.table-header.offer-data {
+  width: 9rem;
+  text-align: center;
+  background-color: #1e63c400;
+}
+
 .table-row {
   cursor: default;
   display: flex;

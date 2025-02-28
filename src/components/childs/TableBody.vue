@@ -1,5 +1,5 @@
 <template>
-  <v-table>
+  <v-table class="bg-transparent">
     <tbody>
       <tr v-for="tender in tenders" :key="tender.id">
         <div :class="isDisabled(TENDER_STATUS[tender.status])">
@@ -16,7 +16,7 @@
             <div v-if="this.$route.params.role === USER_ROLE.CONTRACTOR" class="text-center">
               {{ tender.offersCount }}
             </div>
-            <div v-else-if="this.$route.params.role === USER_ROLE.BIDDER" class="ml-7 text-left">
+            <div v-else-if="this.$route.params.role === USER_ROLE.BIDDER" class="ml-6 text-left">
               {{ OFFER_STATUS[tender.offerStatus] }}
             </div>
           </td>
@@ -28,6 +28,7 @@
 
 <script>
 import { USER_ROLE, TENDER_STATUS, OFFER_STATUS } from "@/components/constants";
+
 export default {
   data: () => ({
     USER_ROLE,
