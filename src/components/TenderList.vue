@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { REST_URL_APIS } from "@/rest.api.endpoints"
+import { URL_REST_API } from "@/rest.api.endpoints.js"
 import { USER_ROLE } from "@/components/constants"
 import { fetchFromEndpoint, totalStore } from "@/components/actions"
 import ToolBarTitle from "@/components/childs/ToolBarTitle.vue"
@@ -94,7 +94,7 @@ export default {
     async getTendersPage() {
       try {
         this.loading = true
-        const tendersPageResponse = await axios.get(`${REST_URL_APIS.HOST}/${REST_URL_APIS.TENDERS_PAGE}` +
+        const tendersPageResponse = await axios.get(`${URL_REST_API.HOST}/${URL_REST_API.TENDERS_PAGE}` +
           `?currentPage=${this.plannedPage}&totalTenders=${this.tendersPerPage}`, {
           withCredentials: true,
           headers: {
@@ -104,10 +104,10 @@ export default {
         this.totalPages = tendersPageResponse.totalPages
           for (const tender of tendersPageResponse.data.content) {
             if (this.$route.params.role === USER_ROLE.CONTRACTOR) {
-            const offerCountResponse = await fetchFromEndpoint(`${REST_URL_APIS.HOST}/${REST_URL_APIS.OFFERS_COUNT}/${tender.id}`);
+            const offerCountResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.OFFERS_COUNT}/${tender.id}`);
             tender.offersCount = offerCountResponse.data.count;
             } else if (this.$route.params.role === USER_ROLE.BIDDER) {
-              const offerStatusResponse = await fetchFromEndpoint(`${REST_URL_APIS.HOST}/${REST_URL_APIS.OFFERS_STATUS}/${this.$route.params.userId}/${tender.id}`);
+              const offerStatusResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.OFFERS_STATUS}/${this.$route.params.userId}/${tender.id}`);
               tender.offerStatus = offerStatusResponse.data.status;
             }
             this.tenders.push(tender);

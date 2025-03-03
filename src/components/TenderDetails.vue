@@ -237,7 +237,7 @@
 </template>
 
 <script>
-import { REST_URL_APIS } from "@/rest.api.endpoints"
+import { URL_REST_API } from "@/rest.api.endpoints"
 import { exceptionAlert } from "@/components/alerts";
 import { USER_ROLE, PROCEDURE, LANGUAGE, CONTRACT_TYPE } from "@/components/constants"
 import { fetchFromEndpoint, downloadFile } from "@/components/actions";
@@ -306,7 +306,7 @@ export default {
   },
 
  async mounted() {
-    const tenderResponse = await fetchFromEndpoint(`${REST_URL_APIS.HOST}/${REST_URL_APIS.TENDERS}/${this.$route.params.tenderId}`);
+    const tenderResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${REST_URL_APIS.TENDERS}/${this.$route.params.tenderId}`);
     this.tender = tenderResponse.data;
   }
 }

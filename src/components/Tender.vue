@@ -165,7 +165,7 @@
 </template>
 
 <script>
-import { REST_URL_APIS } from "@/rest.api.endpoints"
+import { URL_REST_API } from "@/rest.api.endpoints"
 import { format } from 'date-fns'
 import { totalStore, fetchFromEndpoint, uploadFile, createDocumentRecord } from "@/components/actions"
 import { successAlert, exceptionAlert } from "@/components/alerts"
@@ -245,7 +245,7 @@ export default {
         this.tender.awardDecision = this.awardDecision;
         this.rejectDecision.fileMetadata.id = rejectFileMetadata.data.id;
         this.tender.rejectDecision = this.rejectDecision;
-        await this.createDocumentRecord(this.tender, REST_URL_APIS.TENDERS);
+        await this.createDocumentRecord(this.tender, URL_REST_API.TENDERS);
         this.successAlert.activateAlert("Tender was successfully created");
         this.totalStore.refreshTotalCounts(this.$route.params.userId);
       } catch (error) {
@@ -261,10 +261,10 @@ export default {
   async mounted() {
     try {
       const [countries, cpvs, contractTypes, currencies] = await Promise.all([
-        this.fetchFromEndpoint(`${REST_URL_APIS.HOST}/${REST_URL_APIS.COUNTRIES_ALL}`),
-        this.fetchFromEndpoint(`${REST_URL_APIS.HOST}/${REST_URL_APIS.CPVS_ALL}`),
-        this.fetchFromEndpoint(`${REST_URL_APIS.HOST}/${REST_URL_APIS.CONTRACT_TYPES_ALL}`),
-        this.fetchFromEndpoint(`${REST_URL_APIS.HOST}/${REST_URL_APIS.CURRENCIES_ALL}`),
+        this.fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.COUNTRIES_ALL}`),
+        this.fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.CPVS_ALL}`),
+        this.fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.CONTRACT_TYPES_ALL}`),
+        this.fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.CURRENCIES_ALL}`),
       ]);
       this.countries = countries.data;
       this.cpvs = cpvs.data;

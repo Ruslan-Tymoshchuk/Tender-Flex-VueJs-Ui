@@ -1,5 +1,5 @@
 import { reactive } from 'vue'
-import { REST_URL_APIS } from "@/rest.api.endpoints"
+import { URL_REST_API } from "@/rest.api.endpoints"
 import { exceptionAlert } from "@/components/alerts"
 import { USER_ROLE } from "@/components/constants"
 import router from "@/router/index";
@@ -11,8 +11,8 @@ export const totalStore = reactive({
 
   async refreshTotalCounts() {
     const [tenderCountResponse, offerCountResponse] = await Promise.all([
-      fetchFromEndpoint(`${REST_URL_APIS.HOST}/${REST_URL_APIS.TENDERS_COUNT}`),
-      fetchFromEndpoint(`${REST_URL_APIS.HOST}/${REST_URL_APIS.OFFERS_COUNT}`),
+      fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.TENDERS_COUNT}`),
+      fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.OFFERS_COUNT}`),
     ]);
     this.tenders = tenderCountResponse.data.count;
     this.offers = offerCountResponse.data.count;
@@ -29,7 +29,6 @@ export const fetchFromEndpoint = async (endpointKey) => {
 }
 
 export const confirmRedirect = async (email, password) => {
-
     const userAuthenticationResponse = await authenticate({ email, password });
     router.push({
       name: "user-module",
@@ -38,12 +37,11 @@ export const confirmRedirect = async (email, password) => {
         role: USER_ROLE[userAuthenticationResponse.data.role]
       }
     });
-
 }
 
 const authenticate = (authenticationRequest) => {
   try {
-  return axios.post(`${REST_URL_APIS.HOST}/${REST_URL_APIS.LOGIN}`, authenticationRequest, {
+  return axios.post(`${URL_REST_API.HOST}/${URL_REST_API.LOGIN}`, authenticationRequest, {
     withCredentials: true,
     headers: {
       'Content-Type': 'application/json'
@@ -57,7 +55,7 @@ const authenticate = (authenticationRequest) => {
 export const uploadFile = (file) => {
   const formData = new FormData();
   formData.append('file', file);
-  return axios.post(`${REST_URL_APIS.HOST}/${REST_URL_APIS.FILES}`, formData, {
+  return axios.post(`${URL_REST_API.HOST}/${URL_REST_API.FILES}`, formData, {
     withCredentials: true,
     headers: {
       'Accept': 'application/json',
@@ -68,7 +66,7 @@ export const uploadFile = (file) => {
 
 export const downloadFile = (fileKey) => {
   try {
-    return axios.get(`${REST_URL_APIS.HOST}/${REST_URL_APIS.FILES}/${fileKey}`, {
+    return axios.get(`${REST_API_URL.HOST}/${REST_API_URL.FILES}/${fileKey}`, {
       withCredentials: true,
       responseType: 'blob',
     });
@@ -78,7 +76,7 @@ export const downloadFile = (fileKey) => {
 }
 
 export const createDocumentRecord = (document, endpointKey) => {
-  return axios.post(`${REST_URL_APIS.HOST}/${endpointKey}`, document, {
+  return axios.post(`${REST_API_URL.HOST}/${endpointKey}`, document, {
     withCredentials: true,
     headers: {
       'Accept': 'application/json',
