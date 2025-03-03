@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { restApiEndpoints } from "@/rest.api.endpoints"
+import { REST_URL_APIS } from "@/rest.api.endpoints"
 import { USER_ROLE } from "@/components/constants"
 import { fetchFromEndpoint, totalStore } from "@/components/actions"
 import ToolBarTitle from "@/components/childs/ToolBarTitle.vue"
@@ -86,16 +86,15 @@ export default {
     isTenders: false,
     noTendersMessage: '',
     USER_ROLE,
-    restApiEndpoints,
     fetchFromEndpoint,
     totalStore
   }),
 
   methods: {
-    async getTenders() {
+    async getTendersPage() {
       try {
         this.loading = true
-        const tendersPageResponse = await axios.get(`${restApiEndpoints.host}/${restApiEndpoints.tendersAll}` +
+        const tendersPageResponse = await axios.get(`${REST_URL_APIS.HOST}/${REST_URL_APIS.TENDERS_PAGE}` +
           `?currentPage=${this.plannedPage}&totalTenders=${this.tendersPerPage}`, {
           withCredentials: true,
           headers: {
@@ -105,11 +104,11 @@ export default {
         this.totalPages = tendersPageResponse.totalPages
           for (const tender of tendersPageResponse.data.content) {
             if (this.$route.params.role === USER_ROLE.CONTRACTOR) {
-            const offerCountResponse = await fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.offerCount}/${tender.id}`);
+            const offerCountResponse = await fetchFromEndpoint(`${REST_URL_APIS.HOST}/${REST_URL_APIS.OFFERS_COUNT}/${tender.id}`);
             tender.offersCount = offerCountResponse.data.count;
             } else if (this.$route.params.role === USER_ROLE.BIDDER) {
-              const offerStatusResponse = await fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.offerStatus}/${this.$route.params.userId}/${tender.id}`);
-              tender.offerStatus = offerStatusResponse.data.offerStatus;
+              const offerStatusResponse = await fetchFromEndpoint(`${REST_URL_APIS.HOST}/${REST_URL_APIS.OFFERS_STATUS}/${this.$route.params.userId}/${tender.id}`);
+              tender.offerStatus = offerStatusResponse.data.status;
             }
             this.tenders.push(tender);
           };
@@ -126,14 +125,14 @@ export default {
     onScroll(e) {
       const currentPage = Math.ceil(e.target.scrollTop / this.bottom);
       if (currentPage === this.plannedPage && !this.loading && this.plannedPage <= this.totalPages) {
-        this.getTenders()
+        this.getTendersPage()
       }
     }
 
   },
 
   mounted() {
-    this.getTenders();
+    this.getTendersPage();
   }
 }
 </script>

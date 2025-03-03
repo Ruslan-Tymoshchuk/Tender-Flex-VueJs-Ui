@@ -165,7 +165,7 @@
 </template>
 
 <script>
-import { restApiEndpoints } from "@/rest.api.endpoints"
+import { REST_URL_APIS } from "@/rest.api.endpoints"
 import { format } from 'date-fns'
 import { totalStore, fetchFromEndpoint, uploadFile, createDocumentRecord } from "@/components/actions"
 import { successAlert, exceptionAlert } from "@/components/alerts"
@@ -245,7 +245,7 @@ export default {
         this.tender.awardDecision = this.awardDecision;
         this.rejectDecision.fileMetadata.id = rejectFileMetadata.data.id;
         this.tender.rejectDecision = this.rejectDecision;
-        await this.createDocumentRecord(this.tender, restApiEndpoints.tenders);
+        await this.createDocumentRecord(this.tender, REST_URL_APIS.TENDERS);
         this.successAlert.activateAlert("Tender was successfully created");
         this.totalStore.refreshTotalCounts(this.$route.params.userId);
       } catch (error) {
@@ -255,20 +255,16 @@ export default {
           this.exceptionAlert.activateAlert(error);
         }
       }
-    },
-
-    updatedValueInParent(instance, fieldName, value) {
-      this[instance][fieldName] = value
     }
   },
 
   async mounted() {
     try {
       const [countries, cpvs, contractTypes, currencies] = await Promise.all([
-        this.fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.countriesAll}`),
-        this.fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.cpvsAll}`),
-        this.fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.contractTypesAll}`),
-        this.fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.currenciesAll}`),
+        this.fetchFromEndpoint(`${REST_URL_APIS.HOST}/${REST_URL_APIS.COUNTRIES_ALL}`),
+        this.fetchFromEndpoint(`${REST_URL_APIS.HOST}/${REST_URL_APIS.CPVS_ALL}`),
+        this.fetchFromEndpoint(`${REST_URL_APIS.HOST}/${REST_URL_APIS.CONTRACT_TYPES_ALL}`),
+        this.fetchFromEndpoint(`${REST_URL_APIS.HOST}/${REST_URL_APIS.CURRENCIES_ALL}`),
       ]);
       this.countries = countries.data;
       this.cpvs = cpvs.data;
