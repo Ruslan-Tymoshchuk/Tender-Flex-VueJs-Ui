@@ -66,7 +66,7 @@ export const uploadFile = (file) => {
 
 export const downloadFile = (fileKey) => {
   try {
-    return axios.get(`${REST_API_URL.HOST}/${REST_API_URL.FILES}/${fileKey}`, {
+    return axios.get(`${URL_REST_API.HOST}/${REST_API_URL.FILES}/${fileKey}`, {
       withCredentials: true,
       responseType: 'blob',
     });
@@ -76,7 +76,7 @@ export const downloadFile = (fileKey) => {
 }
 
 export const createDocumentRecord = (document, endpointKey) => {
-  return axios.post(`${REST_API_URL.HOST}/${endpointKey}`, document, {
+  return axios.post(`${URL_REST_API.HOST}/${endpointKey}`, document, {
     withCredentials: true,
     headers: {
       'Accept': 'application/json',

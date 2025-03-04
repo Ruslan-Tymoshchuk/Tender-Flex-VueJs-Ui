@@ -105,8 +105,9 @@
 
 <script>
 import { URL_REST_API } from "@/rest.api.endpoints";
+import { format } from 'date-fns'
 import { totalStore } from "@/components/actions";
-import { successAlert } from "@/components/alerts";
+import { successAlert, exceptionAlert } from "@/components/alerts";
 import { fetchFromEndpoint, uploadFile, createDocumentRecord } from "@/components/actions"
 import ToolBarTitle from "@/components/childs/ToolBarTitle.vue"
 import CompanyProfile from "@/components/childs/CompanyProfile.vue";
@@ -138,13 +139,14 @@ export default {
       },
       tender: {},
       bidPrice: 0,
-      documentName: '',
+      proposition: {},
     },
     dialog: false,
     isDialog: false,
     document: null,
     totalStore,
     successAlert,
+    exceptionAlert,
     proposition: null,
     fetchFromEndpoint,
     uploadFile,
@@ -155,20 +157,22 @@ export default {
     async createOffer() {
       this.$router.push({ name: 'tenders' })
       try {
-        const propositionFileMetadata = await this.uploadFile(proposition);
-        this.offer.proposition = propositionFileMetadata.data;
-        this.offer.bidderId = this.$route.params.userId
-        this.offer.tender.id = this.$route.query.tenderId;
+        const propositionFileMetadata = await this.uploadFile(this.proposition);
+        this.offer.proposition.id = propositionFileMetadata.data.id;
         await this.createDocumentRecord(this.offer, URL_REST_API.OFFERS);
-        this.totalStore.getTotalByModule(this.$route.params.role);
         this.successAlert.activateAlert("Offer was successfully created");
+        this.totalStore.refreshTotalCounts(this.$route.params.userId);
       } catch (error) {
-        alert("Error occured when saving the offer");
+        console.log(error)
+        this.exceptionAlert.activateAlert(error);
       }
     }
   },
 
   async mounted() {
+    this.offer.bidderId = this.$route.params.userId
+    this.offer.tender.id = this.$route.query.tenderId;
+    this.offer.publication = format(new Date(), 'yyyy-MM-dd');
     const [countries, currencies] = await Promise.all([
         this.fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.COUNTRIES_ALL}`),
         this.fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.CURRENCIES_ALL}`),

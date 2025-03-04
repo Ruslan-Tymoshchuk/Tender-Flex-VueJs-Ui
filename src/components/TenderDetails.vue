@@ -306,7 +306,7 @@ export default {
   },
 
  async mounted() {
-    const tenderResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${REST_URL_APIS.TENDERS}/${this.$route.params.tenderId}`);
+    const tenderResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.TENDERS}/${this.$route.params.tenderId}`);
     this.tender = tenderResponse.data;
   }
 }
