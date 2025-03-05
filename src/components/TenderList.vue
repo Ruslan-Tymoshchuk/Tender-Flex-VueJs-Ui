@@ -10,7 +10,7 @@
   </ToolBarTitle>
 
   <v-container fluid class="d-flex align-center justify-center mt-n12">
-  <v-card elevation="8" width="1000">
+  <v-card elevation="8">
     <div v-if="isNoTenders">
       <EmptyTableTitle v-if="this.$route.params.role === USER_ROLE.CONTRACTOR"
         message="“There are no published Tenders. Create a Tender.”">
@@ -45,8 +45,8 @@
         <v-container id="scroll-target" style="max-height: 25rem" class="overflow-y-auto"
           v-scroll:#scroll-target="onScroll">
           <TableBody
-            :tenders=tenders>
-          </TableBody>
+            :tenders="tenders"
+          ></TableBody>
         </v-container>
     </div>
   </v-card>

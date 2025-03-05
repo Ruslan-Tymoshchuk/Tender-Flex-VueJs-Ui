@@ -1,6 +1,6 @@
 export const OFFER_STATUS = {
   OFFER_HAS_NOT_SENT: "Offer hasn't sent",
-  OFFER_SENT_TO_CONTRACTOR: "Offer sent",
+  OFFER_SENT_TO_CONTRACTOR: "Offer sent to contractor",
   OFFER_RECEIVED: "Offer received",
   OFFER_SELECTED: "Offer selected",
   OFFER_REJECTED_BY_CONTRACTOR: "Offer rejected by contractor",

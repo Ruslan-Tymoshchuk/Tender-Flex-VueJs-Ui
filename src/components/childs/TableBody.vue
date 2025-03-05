@@ -1,29 +1,28 @@
 <template>
-  <v-table class="bg-transparent">
-    <tbody>
-      <tr v-for="tender in tenders" :key="tender.id">
-        <div :class="isDisabled(TENDER_STATUS[tender.status])">
-          <td class="v-col-4 text-left cpv-text">
-            <router-link :to="{ name: 'tender-details', params: { tenderId: tender.id } }" class="cpv-code">
-              <div>{{ tender.cpv.code }}</div>
-            </router-link>
-            <strong>{{ tender.cpv.summary }}</strong>
-          </td>
-          <td class="v-col-2 text-center">{{ tender.companyProfile.officialName }}</td>
-          <td class="v-col-2 text-center">{{ TENDER_STATUS[tender.status] }}</td>
-          <td class="v-col-2 text-center">{{ tender.offerSubmissionDeadline }}</td>
-          <td class="v-col-2">
-            <div v-if="this.$route.params.role === USER_ROLE.CONTRACTOR" class="text-center">
-              {{ tender.offersCount }}
-            </div>
-            <div v-else-if="this.$route.params.role === USER_ROLE.BIDDER" class="ml-6 text-left">
-              {{ OFFER_STATUS[tender.offerStatus] }}
-            </div>
-          </td>
+  <v-sheet v-for="tender in tenders" :key="tender.id">
+    <v-sheet :class="{
+      'table-row': TENDER_STATUS[tender.status] === TENDER_STATUS.TENDER_IN_PROGRESS,
+      'table-row disabled': TENDER_STATUS[tender.status] === TENDER_STATUS.TENDER_CLOSED
+    }">
+      <td class="v-col-4 text-left cpv-text">
+        <router-link class="cpv-code" :to="{ name: 'tender-details', params: { tenderId: tender.id } }">
+          <div>{{ tender.cpv.code }}</div>
+        </router-link>
+        <strong>{{ tender.cpv.summary }}</strong>
+      </td>
+      <td class="v-col-2 text-center">{{ tender.companyProfile.officialName }}</td>
+      <td class="v-col-2 text-center">{{ TENDER_STATUS[tender.status] }}</td>
+      <td class="v-col-2 text-center">{{ tender.offerSubmissionDeadline }}</td>
+      <td class="v-col-2">
+        <div class="text-center" v-if="this.$route.params.role === USER_ROLE.CONTRACTOR">
+          {{ tender.offersCount }}
         </div>
-      </tr>
-    </tbody>
-  </v-table>
+        <div class="ml-6 text-left" v-else-if="this.$route.params.role === USER_ROLE.BIDDER">
+          {{ OFFER_STATUS[tender.offerStatus] }}
+        </div>
+      </td>
+    </v-sheet>
+  </v-sheet>
 </template>
 
 <script>
@@ -37,18 +36,7 @@ export default {
   }),
 
   props: {
-    tenders: null
-  },
-
-  methods: {
-    isDisabled(status) {
-      if (status === TENDER_STATUS.TENDER_IN_PROGRESS) {
-        return "table-row";
-      } else {
-        return "table-row disabled";
-      }
-    }
+    tenders: Array
   }
 }
-
 </script>
