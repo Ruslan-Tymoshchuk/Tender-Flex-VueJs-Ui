@@ -5,8 +5,8 @@ import TendersList from '@/components/TenderList.vue'
 import Tender from '@/components/Tender.vue'
 import TenderDetails from '@/components/TenderDetails.vue'
 import OfferDetails from '@/components/OfferDetails.vue'
-import Offer from '@/components/Offer.vue'
-import OffersList from '@/components/OffersList.vue'
+import Offer from '@/components/offer/Offer.vue'
+import OfferList from '@/components/offer/OfferList.vue'
 import { RouterView } from 'vue-router'
 
 const routes = [
@@ -23,7 +23,7 @@ const routes = [
          },
         { path: 'offers', component: RouterView,
           children: [ { name: 'new-offer', path: 'send-new-offer', component: Offer },
-                      { name: 'offers', path: '', component: OffersList },
+                      { name: 'offers', path: '', component: OfferList },
                       { name: "offer-details", path: ':offerId', component: OfferDetails },
           ]
         }
