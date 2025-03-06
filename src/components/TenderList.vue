@@ -10,7 +10,7 @@
   </ToolBarTitle>
 
   <v-container fluid class="d-flex align-center justify-center mt-n12">
-  <v-card elevation="8">
+  <v-card elevation="8" width="1000">
     <div v-if="isNoTenders">
       <EmptyTableTitle v-if="this.$route.params.role === USER_ROLE.CONTRACTOR"
         message="“There are no published Tenders. Create a Tender.”">
@@ -29,8 +29,7 @@
           tenderStatus="Status"
           deadline="Deadline"
           offerData="Offers"
-        >
-        </TableHeader>
+        ></TableHeader>
       </div>
       <div v-else-if="this.$route.params.role === USER_ROLE.BIDDER">
         <TableHeader
@@ -39,8 +38,7 @@
           tenderStatus="Tender Status"
           deadline="Deadline"
           offerData="Offer Status"
-        >
-        </TableHeader>
+        ></TableHeader>
       </div>
         <v-container id="scroll-target" style="max-height: 25rem" class="overflow-y-auto"
           v-scroll:#scroll-target="onScroll">
