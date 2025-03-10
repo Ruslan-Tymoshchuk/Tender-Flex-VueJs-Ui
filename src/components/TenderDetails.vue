@@ -188,7 +188,8 @@
               <v-chip size="large" class="mb-5" color="blue" prepend-icon="mdi-file-document-multiple-outline" label
                 @click="showFile(tender.contract.fileMetadata.awsS3fileKey)">
                 <div id="text" style="width: 50rem"> {{ tender.contract.fileMetadata.name }} </div>
-              </v-chip></v-item>
+              </v-chip>
+            </v-item>
           </v-row>
           <div v-if="this.$route.params.role === USER_ROLE.CONTRACTOR" class="mt-4">
             <v-row>

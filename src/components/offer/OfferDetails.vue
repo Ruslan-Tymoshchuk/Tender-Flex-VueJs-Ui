@@ -1,11 +1,11 @@
 <template>
   <v-toolbar color="blue" extended extension-height="100">
-    <v-chip router-link :to="`/module/${role}/tenders`"
+    <v-chip router-link :to="{name: 'offers'}"
     style="margin-left: 12rem" variant="text" text-color="white" prepend-icon="mdi-keyboard-backspace">Back
     </v-chip>
     <template v-slot:extension>
       <v-container class="px-15">
-        <v-toolbar-title class="ml-14 mb-15" style="font-size: 1.5rem">{{ offer.organizationNameByBidder
+        <v-toolbar-title class="ml-14 mb-15" style="font-size: 1.5rem">{{ offer.companyProfile.officialName
         }}</v-toolbar-title>
       </v-container>
     </template>
@@ -22,16 +22,16 @@
               <div class="ma-2 details-title">National Registration Number: </div>
             </v-col>
             <v-col class="text-left">
-              <div class="ma-2">{{ offer.organizationNameByBidder }}</div>
-              <div class="ma-2">{{ offer.nationalRegistrationNumber }}</div>
+              <div class="ma-2">{{ offer.companyProfile.officialName }}</div>
+              <div class="ma-2">{{ offer.companyProfile.registrationNumber }}</div>
             </v-col>
             <v-col class="text-left">
               <div class="ma-2 details-title">Country:</div>
               <div class="ma-2 details-title">City / Town:</div>
             </v-col>
             <v-col class="text-left">
-              <div class="ma-2">{{ offer.country }}</div>
-              <div class="ma-2">{{ offer.city }}</div>
+              <div class="ma-2">{{ offer.companyProfile.country.name }}</div>
+              <div class="ma-2">{{ offer.companyProfile.city }}</div>
             </v-col>
           </v-row>
         </v-container>
@@ -50,14 +50,14 @@
           <div class="mt-3 details-title">Surname:</div>
         </v-col>
         <v-col class="text-left mx-2">
-          <div>{{ offer.firstName }}</div>
-          <div class="mt-3">{{ offer.lastName }}</div>
+          <div>{{ offer.companyProfile.contactPerson.firstName }}</div>
+          <div class="mt-3">{{ offer.companyProfile.contactPerson.lastName }}</div>
         </v-col>
         <v-col class="text-left mx-2">
           <div class="details-title">Phone number:</div>
         </v-col>
         <v-col class="text-left mx-2">
-          <div>{{ offer.phone }}</div>
+          <div>{{ `${offer.companyProfile.country.phoneCode}${offer.companyProfile.contactPerson.phoneNumber}` }}</div>
         </v-col>
       </v-row>
     </v-container>
@@ -79,7 +79,7 @@
           <div class="details-title">Currency:</div>
         </v-col>
         <v-col class="text-left mx-2">
-          <div>{{ offer.currency }}</div>
+          <div>{{ `${offer.currency.code} | ${offer.currency.symbol}` }}</div>
         </v-col>
       </v-row>
     </v-container>
@@ -87,34 +87,27 @@
     <v-container class="details-container">
       <v-item-group class="mx-8">
         <v-row>
-          <v-item>
-            <v-chip
-             size="large"
-             class="mb-6"
-             color="blue"
-             prepend-icon="mdi-file-document-multiple-outline"
-             label
-             @click="openDialog(offer.documentName)"
-             ><div
-             id="text"
-             style="width: 50rem"
-             > {{ getOriginalFileName(offer.documentName) }} </div>
-            </v-chip></v-item>
-        </v-row>
+            <v-item>
+              <v-chip size="large" class="mb-5" color="blue" prepend-icon="mdi-file-document-multiple-outline" label
+                @click="showFile(offer.proposition.awsS3fileKey)">
+                <div id="text" style="width: 50rem"> {{ offer.proposition.name }} </div>
+              </v-chip>
+            </v-item>
+          </v-row>
       </v-item-group>
     </v-container>
 
-    <v-dialog v-model="dialog" width="auto">
+    <v-dialog v-model="isModalFileWindow" width="auto">
       <v-card>
-        <iframe :src=fileUrl width="800" height="500">
+        <iframe :src=documentUrl width="800" height="500">
         </iframe>
         <v-card-actions>
-          <v-btn color="primary" block @click="dialog = false">Close</v-btn>
+          <v-btn color="primary" block @click="isModalFileWindow = false">Close</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
-    <v-row v-if="checkIsOfferReceived" class="d-flex justify-end mt-2 mb-10 mr-10">
+    <v-row class="d-flex justify-end mt-2 mb-10 mr-10">
       <v-col md="3" class="mr-5">
         <v-btn type="submit" block variant="outlined" color="blue" @click="sendRejectDecision">
           Send Reject Decision
@@ -130,52 +123,45 @@
 </template>
 
 <script>
-import { restApiConfig } from "@/rest.api.config";
-import { getOriginalFileName } from "@/components/actions";
+import { URL_REST_API } from "@/rest.api.endpoints";
+import { fetchFromEndpoint, downloadFile } from "@/components/actions";
 
 export default {
   data: () => ({
+    fetchFromEndpoint,
+    downloadFile,
     role: '',
     offer: {
-      documentName: '',
+      companyProfile: {
+        country: {},
+        contactPerson: {}
+      },
+      currency: {},
+      proposition: {}
     },
-    dialog: false,
-    fileUrl: '',
-    getOriginalFileName
+    isModalFileWindow: false,
+    documentUrl: '',
   }),
 
   methods: {
-    getOfferById() {
-      fetch(`${restApiConfig.host}${restApiConfig.offerDetails}/${this.offerId}`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Accept': 'application/json',
-        }
-      })
-        .then(response => response.json())
-        .then(offerDetailsResponse => this.offer = offerDetailsResponse)
-        .catch(error => console.log('There was an error', error));
+    async showFile(fileKey) {
+      this.isModalFileWindow = true;
+      const response = await downloadFile(fileKey);
+      this.documentUrl = URL.createObjectURL(response.data);
+      this.progress = false;
     },
 
-    openDialog(documentName) {
-      fetch(`${restApiConfig.host}${restApiConfig.presignedUrl}/${documentName}`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Accept': 'application/json',
-        }
-      })
-        .then(response => response.json())
-        .then(responseData => {
-          this.fileUrl = responseData.fileUrl
-          this.dialog = true;
-        })
-        .catch(error => console.log('There was an error', error));
+    closeFile() {
+      if (this.documentUrl) {
+        URL.revokeObjectURL(this.documentUrl);
+        this.documentUrl = null;
+      }
+      this.isModalFileWindow = false;
+      this.progress = true;
     },
 
     sendAwardDecision(){
-      fetch(`${restApiConfig.host}${restApiConfig.awardDecision}`, {
+      fetch(`${URL_REST_API.HOST}${URL_REST_API.awardDecision}`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -191,7 +177,7 @@ export default {
     },
 
     sendRejectDecision(){
-      fetch(`${restApiConfig.host}${restApiConfig.rejectDecision}`, {
+      fetch(`${URL_REST_API.HOST}${URL_REST_API.rejectDecision}`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -207,20 +193,11 @@ export default {
     }
   },
 
-  mounted() {
+  async mounted() {
     this.role = this.$route.params.role
     this.offerId = this.$route.params.id
-    this.getOfferById();
-  },
-
-  computed: {
-    checkIsOfferReceived() {
-      if (this.offer.contractorSt === "Offer received") {
-        return true;
-      } else {
-        return false;
-      }
-    }
+    const offerResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.OFFERS}/${this.$route.params.offerId}`);
+    this.offer = offerResponse.data;
   }
 }
 </script>

@@ -66,7 +66,7 @@ export const uploadFile = (file) => {
 
 export const downloadFile = (fileKey) => {
   try {
-    return axios.get(`${URL_REST_API.HOST}/${REST_API_URL.FILES}/${fileKey}`, {
+    return axios.get(`${URL_REST_API.HOST}/${URL_REST_API.FILES}/${fileKey}`, {
       withCredentials: true,
       responseType: 'blob',
     });
