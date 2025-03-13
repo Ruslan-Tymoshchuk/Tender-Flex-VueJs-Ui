@@ -55,9 +55,90 @@
   margin-top: 2rem;
 }
 
-.table {
-  height: 4rem;
+.table-header {
+  white-space: nowrap;
+  color: #ffffff;
+}
+
+.table-header.toolbar {
+  height: 2rem;
+  justify-content: center;
+  text-align: left;
+  background-color: #1e62c4;
+}
+
+.table-header.field {
+  width: 20rem;
+  margin-left: 1rem;
+  text-align: left;
+  background-color: #1e63c400;
+}
+
+.table-header.company-name {
+  width: 10rem;
+  text-align: center;
+  background-color: #1e63c400;
+}
+
+.table-header.tender-status {
+  width: 9rem;
+  text-align: center;
+  background-color: #1e63c400;
+}
+
+.table-header.deadline {
+  width: 11rem;
+  text-align: center;
+  background-color: #1e63c400;
+}
+
+.table-header.offer-data {
+  width: 9rem;
+  text-align: center;
+  background-color: #1e63c400;
+}
+
+.table-row {
   cursor: default;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0.1rem solid #daefa7;
+  border-radius: 0.4rem;
+  margin-top: 0.3rem;
+  width: 60rem;
+  height: 4.5rem;
+  background-color: #f1f8fe;
+}
+
+.table-row-offer {
+  cursor: default;
+  display: flex;
+  text-align: left;
+  align-items: center;
+  border: 0.1rem solid #daefa7;
+  border-radius: 0.4rem;
+  margin-top: 0.3rem;
+  width: 60rem;
+  height: 4.5rem;
+  background-color: #f1f8fe;
+}
+
+.table-row.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #ddd;
+  border-color: #bbb;
+}
+
+.table-row.disabled * {
+  pointer-events: none;
+}
+
+.cpv-text {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .cpv-code {
@@ -73,10 +154,4 @@
 html {
   background-color: #e0e0e0;
   overflow-y: auto;
-}
-
-.table-row-disabled {
-  pointer-events: none;
-  color: #c3c9c9;
-  cursor: not-allowed;
 }

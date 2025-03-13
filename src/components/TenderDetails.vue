@@ -188,9 +188,10 @@
               <v-chip size="large" class="mb-5" color="blue" prepend-icon="mdi-file-document-multiple-outline" label
                 @click="showFile(tender.contract.fileMetadata.awsS3fileKey)">
                 <div id="text" style="width: 50rem"> {{ tender.contract.fileMetadata.name }} </div>
-              </v-chip></v-item>
+              </v-chip>
+            </v-item>
           </v-row>
-          <div v-if="role === 'contractor'" class="mt-4">
+          <div v-if="this.$route.params.role === USER_ROLE.CONTRACTOR" class="mt-4">
             <v-row>
               <v-item>
                 <v-chip size="large" class="mb-6" color="blue" prepend-icon="mdi-file-document-multiple-outline" label
@@ -209,10 +210,11 @@
             </v-row>
           </div>
         </v-item-group>
-        <div v-if="role ==='bidder'">
+        <div v-if="this.$route.params.role === USER_ROLE.BIDDER">
           <v-row class="d-flex justify-end mt-5 mb-10 mr-2">
             <v-col md="3">
-              <v-btn type="submit" block variant="flat" color="blue" @click="createOffer(tenderId)">
+             <v-btn type="submit" block variant="flat" color="blue"
+              router-link :to="{ name: 'new-offer', query: { tenderId: this.$route.params.tenderId } }">
                 + Create Offer
               </v-btn>
             </v-col>
@@ -220,7 +222,7 @@
         </div>
       </v-container>
 
-      <v-dialog v-model="modalFileWindow" width="auto">
+      <v-dialog v-model="isModalFileWindow" width="auto">
         <v-card v-click-outside="closeFile">
           <iframe :src=documentUrl width="800" height="500">
           </iframe>
@@ -232,17 +234,18 @@
       </v-dialog>
     </v-window-item>
 
-  </v-window>
+  </v-window>s
 </template>
 
 <script>
-import { restApiEndpoints } from "@/rest.api.endpoints"
+import { URL_REST_API } from "@/rest.api.endpoints"
 import { exceptionAlert } from "@/components/alerts";
-import { PROCEDURE, LANGUAGE, CONTRACT_TYPE } from "@/components/constants"
+import { USER_ROLE, PROCEDURE, LANGUAGE, CONTRACT_TYPE } from "@/components/constants"
 import { fetchFromEndpoint, downloadFile } from "@/components/actions";
 
 export default {
   data: () => ({
+    USER_ROLE,
     PROCEDURE,
     LANGUAGE,
     CONTRACT_TYPE,
@@ -265,7 +268,7 @@ export default {
       },
     },
     tab: "tenderDescription",
-    modalFileWindow: false,
+    isModalFileWindow: false,
     documentUrl: '',
     totalPages: 1,
     plannedPage: 1,
@@ -273,7 +276,6 @@ export default {
     loading: false,
     isOffers: false,
     offer: [],
-    role: '',
     exceptionAlert,
     fetchFromEndpoint,
     downloadFile,
@@ -288,7 +290,7 @@ export default {
     },
 
     async showFile(fileKey) {
-      this.modalFileWindow = true;
+      this.isModalFileWindow = true;
       const response = await downloadFile(fileKey);
       this.documentUrl = URL.createObjectURL(response.data);
       this.progress = false;
@@ -299,18 +301,13 @@ export default {
         URL.revokeObjectURL(this.documentUrl);
         this.documentUrl = null;
       }
-      this.modalFileWindow = false;
+      this.isModalFileWindow = false;
       this.progress = true;
-    },
-
-    createOffer(tenderId){
-      this.$router.push({ name: "new-offer", params: { tender_id: tenderId } });
     }
   },
 
  async mounted() {
-    this.role = this.$route.params.role;
-    const tenderResponse = await fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.tenders}/${this.$route.params.tenderId}`);
+    const tenderResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.TENDERS}/${this.$route.params.tenderId}`);
     this.tender = tenderResponse.data;
   }
 }

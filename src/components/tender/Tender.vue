@@ -133,23 +133,29 @@
               fileInputId="contract"
               hint="Choose your contract document"
               @select-file="(value) => attachment.contract = value"
-              @show-file="() => {}"
+              @show-file="showFileInParent"
             ></FileInput>
             <FileInput
               label="* Award Decision"
               fileInputId="award"
               hint="Choose award decision document"
               @select-file="(value) => attachment.awardDecision = value"
-              @show-file="() => {}"
+              @show-file="showFileInParent"
             ></FileInput>
             <FileInput
               label="* Reject Decision"
               fileInputId="reject"
               hint="Choose reject decision document"
               @select-file="(value) => attachment.rejectDecision = value"
-              @show-file="() => {}"
+              @show-file="showFileInParent"
             ></FileInput>
           </v-item-group>
+
+          <FileViewerModal
+            v-model:isOpen="isOpenInParent"
+            @update:isOpen="(value) => isOpenInParent = value"
+            :fileUrl="fileUrl"
+          ></FileViewerModal>
 
       </v-form>
     </v-container>
@@ -165,7 +171,7 @@
 </template>
 
 <script>
-import { restApiEndpoints } from "@/rest.api.endpoints"
+import { URL_REST_API } from "@/rest.api.endpoints"
 import { format } from 'date-fns'
 import { totalStore, fetchFromEndpoint, uploadFile, createDocumentRecord } from "@/components/actions"
 import { successAlert, exceptionAlert } from "@/components/alerts"
@@ -178,6 +184,7 @@ import FileInput from "@/components/childs/FileInput.vue"
 import ConfirmationMenu from "@/components/childs/ConfirmationMenu.vue"
 import CompanyProfile from "@/components/childs/CompanyProfile.vue"
 import DateInput from "@/components/childs/DateInput.vue"
+import FileViewerModal from "@/components/childs/FileViewerModal.vue"
 
 export default {
   components: {
@@ -189,7 +196,8 @@ export default {
     SelectOptionInput,
     DateInput,
     FileInput,
-    ConfirmationMenu
+    ConfirmationMenu,
+    FileViewerModal
   },
 
   data: () => ({
@@ -226,9 +234,16 @@ export default {
     totalStore,
     successAlert,
     exceptionAlert,
+    isOpenInParent: false,
+    fileUrl: ''
   }),
 
   methods: {
+    showFileInParent(isOpen, fileUrl) {
+      this.fileUrl = fileUrl;
+      this.isOpenInParent = isOpen;
+    },
+
     async createTender() {
       try {
         await this.$router.push({ name: 'tenders' });
@@ -245,7 +260,7 @@ export default {
         this.tender.awardDecision = this.awardDecision;
         this.rejectDecision.fileMetadata.id = rejectFileMetadata.data.id;
         this.tender.rejectDecision = this.rejectDecision;
-        await this.createDocumentRecord(this.tender, restApiEndpoints.tenders);
+        await this.createDocumentRecord(this.tender, URL_REST_API.TENDERS);
         this.successAlert.activateAlert("Tender was successfully created");
         this.totalStore.refreshTotalCounts(this.$route.params.userId);
       } catch (error) {
@@ -255,20 +270,16 @@ export default {
           this.exceptionAlert.activateAlert(error);
         }
       }
-    },
-
-    updatedValueInParent(instance, fieldName, value) {
-      this[instance][fieldName] = value
     }
   },
 
   async mounted() {
     try {
       const [countries, cpvs, contractTypes, currencies] = await Promise.all([
-        this.fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.countriesAll}`),
-        this.fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.cpvsAll}`),
-        this.fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.contractTypesAll}`),
-        this.fetchFromEndpoint(`${restApiEndpoints.host}/${restApiEndpoints.currenciesAll}`),
+        this.fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.COUNTRIES_ALL}`),
+        this.fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.CPVS_ALL}`),
+        this.fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.CONTRACT_TYPES_ALL}`),
+        this.fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.CURRENCIES_ALL}`),
       ]);
       this.countries = countries.data;
       this.cpvs = cpvs.data;

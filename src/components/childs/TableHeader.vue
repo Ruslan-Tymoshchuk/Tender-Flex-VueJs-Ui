@@ -1,10 +1,10 @@
 <template>
-  <v-toolbar color="primary" height="32">
-    <v-col class="v-col-3 text-left ml-5">{{ field }}</v-col>
-    <v-col class="v-col-2 text-center ml-4">{{ companyName }}</v-col>
-    <v-col class="v-col-2 text-center ml-2">{{ tenderStatus }}</v-col>
-    <v-col class="v-col-2 text-center ml-2">{{ deadline }}</v-col>
-    <v-col class="v-col-2 text-center ml-2">{{ offerData }}</v-col>
+  <v-toolbar class="table-header toolbar">
+    <v-sheet class="table-header field">{{ field }}</v-sheet>
+    <v-sheet class="table-header company-name">{{ companyName }}</v-sheet>
+    <v-sheet class="table-header tender-status">{{ tenderStatus }}</v-sheet>
+    <v-sheet class="table-header deadline">{{ deadline }}</v-sheet>
+    <v-sheet class="table-header offer-data">{{ offerData }}</v-sheet>
   </v-toolbar>
 </template>
 
