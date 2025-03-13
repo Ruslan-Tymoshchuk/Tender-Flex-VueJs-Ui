@@ -39,7 +39,8 @@
         label
         @click:close="isFile = false"
         @click="showFile"
-      ><div
+      >
+      <div
         id="text"
         style="width: 50rem"
       > {{ file.name }} </div>
@@ -47,26 +48,13 @@
     </v-item>
   </v-row>
 
-  <FileViewerModal
-    :fileViewer="fileViewer">
-  </FileViewerModal>
 </template>
 
 <script>
-import FileViewerModal from "@/components/childs/FileViewerModal.vue";
-
 export default {
-  components: {
-    FileViewerModal
-  },
-
   data: () => ({
     isFile: false,
     file: null,
-    fileViewer: {
-      isDialog: false,
-      documentUrl: '',
-    },
   }),
 
   props: {
@@ -85,10 +73,9 @@ export default {
     },
 
     showFile() {
-      this.fileViewer.documentUrl = URL.createObjectURL(this.file);
-      this.fileViewer.isDialog = true;
-      this.$emit('showFile');
+      const fileUrl = URL.createObjectURL(this.file);
+      this.$emit('showFile', true, fileUrl);
     }
-  },
+  }
 }
 </script>

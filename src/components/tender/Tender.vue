@@ -133,23 +133,29 @@
               fileInputId="contract"
               hint="Choose your contract document"
               @select-file="(value) => attachment.contract = value"
-              @show-file="() => {}"
+              @show-file="showFileInParent"
             ></FileInput>
             <FileInput
               label="* Award Decision"
               fileInputId="award"
               hint="Choose award decision document"
               @select-file="(value) => attachment.awardDecision = value"
-              @show-file="() => {}"
+              @show-file="showFileInParent"
             ></FileInput>
             <FileInput
               label="* Reject Decision"
               fileInputId="reject"
               hint="Choose reject decision document"
               @select-file="(value) => attachment.rejectDecision = value"
-              @show-file="() => {}"
+              @show-file="showFileInParent"
             ></FileInput>
           </v-item-group>
+
+          <FileViewerModal
+            v-model:isOpen="isOpenInParent"
+            @update:isOpen="(value) => isOpenInParent = value"
+            :fileUrl="fileUrl"
+          ></FileViewerModal>
 
       </v-form>
     </v-container>
@@ -178,6 +184,7 @@ import FileInput from "@/components/childs/FileInput.vue"
 import ConfirmationMenu from "@/components/childs/ConfirmationMenu.vue"
 import CompanyProfile from "@/components/childs/CompanyProfile.vue"
 import DateInput from "@/components/childs/DateInput.vue"
+import FileViewerModal from "@/components/childs/FileViewerModal.vue"
 
 export default {
   components: {
@@ -189,7 +196,8 @@ export default {
     SelectOptionInput,
     DateInput,
     FileInput,
-    ConfirmationMenu
+    ConfirmationMenu,
+    FileViewerModal
   },
 
   data: () => ({
@@ -226,9 +234,16 @@ export default {
     totalStore,
     successAlert,
     exceptionAlert,
+    isOpenInParent: false,
+    fileUrl: ''
   }),
 
   methods: {
+    showFileInParent(isOpen, fileUrl) {
+      this.fileUrl = fileUrl;
+      this.isOpenInParent = isOpen;
+    },
+
     async createTender() {
       try {
         await this.$router.push({ name: 'tenders' });
