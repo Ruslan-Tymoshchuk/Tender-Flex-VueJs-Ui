@@ -184,29 +184,26 @@
       <v-container class="details-container">
         <v-item-group class="mx-8">
           <v-row>
-            <v-item>
-              <v-chip size="large" class="mb-5" color="blue" prepend-icon="mdi-file-document-multiple-outline" label
-                @click="showFile(tender.contract.fileMetadata.awsS3fileKey)">
-                <div id="text" style="width: 50rem"> {{ tender.contract.fileMetadata.name }} </div>
-              </v-chip>
-            </v-item>
+            <FileVchip
+              :fileName="tender.contract.fileMetadata.name"
+              :fileKey="tender.contract.fileMetadata.awsS3fileKey"
+              @show-file="showFile"
+          ></FileVchip>
           </v-row>
           <div v-if="this.$route.params.role === USER_ROLE.CONTRACTOR" class="mt-4">
-            <v-row>
-              <v-item>
-                <v-chip size="large" class="mb-6" color="blue" prepend-icon="mdi-file-document-multiple-outline" label
-                  @click="showFile(tender.awardDecision.fileMetadata.awsS3fileKey)">
-                  <div id="text" style="width: 50rem"> {{ tender.awardDecision.fileMetadata.name }} </div>
-                </v-chip>
-              </v-item>
-            </v-row>
-            <v-row>
-              <v-item>
-                <v-chip size="large" class="mb-6" color="blue" prepend-icon="mdi-file-document-multiple-outline" label
-                  @click="showFile(tender.rejectDecision.fileMetadata.awsS3fileKey)">
-                  <div id="text" style="width: 50rem"> {{ tender.rejectDecision.fileMetadata.name }} </div>
-                </v-chip>
-              </v-item>
+          <v-row>
+            <FileVchip
+              :fileName=" tender.awardDecision.fileMetadata.name"
+              :fileKey="tender.awardDecision.fileMetadata.awsS3fileKey"
+              @show-file="showFile"
+          ></FileVchip>
+          </v-row>
+          <v-row>
+            <FileVchip
+              :fileName="tender.rejectDecision.fileMetadata.name"
+              :fileKey="tender.rejectDecision.fileMetadata.awsS3fileKey"
+              @show-file="showFile"
+          ></FileVchip>
             </v-row>
           </div>
         </v-item-group>
@@ -236,10 +233,12 @@ import { URL_REST_API } from "@/rest.api.endpoints"
 import { exceptionAlert } from "@/components/alerts";
 import { USER_ROLE, PROCEDURE, LANGUAGE, CONTRACT_TYPE } from "@/components/constants"
 import { fetchFromEndpoint, downloadFile } from "@/components/actions";
+import FileVchip from "@/components/childs/FileVchip.vue"
 import FileViewerModal from "@/components/childs/FileViewerModal.vue"
 
 export default {
   components: {
+    FileVchip,
     FileViewerModal
   },
 
@@ -288,20 +287,26 @@ export default {
                                     reject: this.tender.rejectDecisionFileName } });
     },
 
-    async showFile(fileKey) {
-      const response = await downloadFile(fileKey);
-      this.fileUrl = URL.createObjectURL(response.data);
-      this.isOpen = true;
+    async showFile(isOpen, fileKey, callback) {
+      try {
+        const response = await downloadFile(fileKey);
+        this.fileUrl = URL.createObjectURL(response.data);
+        this.isOpen = isOpen;
+      } catch (error) {
+        console.error("File download failed:", error);
+      } finally {
+        if (callback) callback();
+      }
     },
 
-    closeFile() {
-      if (this.fileUrl) {
-        URL.revokeObjectURL(this.fileUrl);
-        this.fileUrl = null;
+      closeFile() {
+        if (this.fileUrl) {
+          URL.revokeObjectURL(this.fileUrl);
+          this.fileUrl = null;
+        }
+        this.isOpen = false;
       }
-      this.isOpen = false;
-    }
-  },
+    },
 
  async mounted() {
     const tenderResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.TENDERS}/${this.$route.params.tenderId}`);
