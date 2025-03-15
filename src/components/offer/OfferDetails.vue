@@ -87,25 +87,14 @@
     <v-container class="details-container">
       <v-item-group class="mx-8">
         <v-row>
-            <v-item>
-              <v-chip size="large" class="mb-5" color="blue" prepend-icon="mdi-file-document-multiple-outline" label
-                @click="showFile(offer.proposition.awsS3fileKey)">
-                <div id="text" style="width: 50rem"> {{ offer.proposition.name }} </div>
-              </v-chip>
-            </v-item>
+          <FileVchip
+            :fileName="offer.proposition.name"
+            :fileKey="offer.proposition.awsS3fileKey"
+            @show-file="showFile"
+          ></FileVchip>
           </v-row>
       </v-item-group>
     </v-container>
-
-    <v-dialog v-model="isModalFileWindow" width="auto">
-      <v-card>
-        <iframe :src=documentUrl width="800" height="500">
-        </iframe>
-        <v-card-actions>
-          <v-btn color="primary" block @click="isModalFileWindow = false">Close</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
 
     <v-row class="d-flex justify-end mt-2 mb-10 mr-10">
       <v-col md="3" class="mr-5">
@@ -119,14 +108,27 @@
         </v-btn>
       </v-col>
     </v-row>
+
+    <FileViewerModal
+      v-model:isOpen="isOpen"
+      @update:isOpen="closeFile"
+      :fileUrl="fileUrl"
+   ></FileViewerModal>
   </v-container>
 </template>
 
 <script>
 import { URL_REST_API } from "@/rest.api.endpoints";
 import { fetchFromEndpoint, downloadFile } from "@/components/actions";
+import FileVchip from "@/components/childs/FileVchip.vue"
+import FileViewerModal from "@/components/childs/FileViewerModal.vue"
 
 export default {
+  components: {
+    FileVchip,
+    FileViewerModal
+  },
+
   data: () => ({
     fetchFromEndpoint,
     downloadFile,
@@ -139,25 +141,29 @@ export default {
       currency: {},
       proposition: {}
     },
-    isModalFileWindow: false,
-    documentUrl: '',
+    isOpen: false,
+    fileUrl: '',
   }),
 
   methods: {
-    async showFile(fileKey) {
-      this.isModalFileWindow = true;
-      const response = await downloadFile(fileKey);
-      this.documentUrl = URL.createObjectURL(response.data);
-      this.progress = false;
+    async showFile(isOpen, fileKey, callback) {
+      try {
+        const response = await downloadFile(fileKey);
+        this.fileUrl = URL.createObjectURL(response.data);
+        this.isOpen = isOpen;
+      } catch (error) {
+        console.error("File download failed:", error);
+      } finally {
+        if (callback) callback();
+      }
     },
 
     closeFile() {
-      if (this.documentUrl) {
-        URL.revokeObjectURL(this.documentUrl);
-        this.documentUrl = null;
+      if (this.fileUrl) {
+        URL.revokeObjectURL(this.fileUrl);
+        this.fileUrl = null;
       }
-      this.isModalFileWindow = false;
-      this.progress = true;
+      this.isOpen = false;
     },
 
     sendAwardDecision(){
