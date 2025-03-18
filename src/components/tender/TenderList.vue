@@ -44,6 +44,7 @@
           v-scroll:#scroll-target="onScroll">
           <TableBody
             :tenders="tenders"
+            @select-tender="(tender) => this.$router.push({name: 'tender-details', params: { tenderId: tender.id } })"
           ></TableBody>
         </v-container>
     </div>
@@ -59,8 +60,8 @@ import { USER_ROLE } from "@/components/constants"
 import { fetchFromEndpoint, totalStore } from "@/components/actions"
 import ToolBarTitle from "@/components/childs/ToolBarTitle.vue"
 import EmptyTableTitle from "@/components/childs/EmptyTableTitle.vue"
-import TableHeader from "@/components/childs/TableHeader.vue"
-import TableBody from "@/components/childs/TableBody.vue"
+import TableHeader from "@/components/tender/childs/TableHeader.vue"
+import TableBody from "@/components/tender/childs/TableBody.vue"
 import axios from "axios";
 
 export default {

@@ -4,11 +4,9 @@
       'table-row': TENDER_STATUS[tender.status] === TENDER_STATUS.TENDER_IN_PROGRESS,
       'table-row disabled': TENDER_STATUS[tender.status] === TENDER_STATUS.TENDER_CLOSED
     }">
-      <td class="v-col-4 text-left cpv-text">
-        <router-link class="cpv-code" :to="{ name: 'tender-details', params: { tenderId: tender.id } }">
-          <div>{{ tender.cpv.code }}</div>
-        </router-link>
-        <strong>{{ tender.cpv.summary }}</strong>
+      <td class="v-col-4">
+        <div class="cpv-code"><strong @click="$emit('select-tender', tender)">{{ tender.cpv.code }}</strong></div>
+        <div class="cpv-text"><strong>{{ tender.cpv.summary }}</strong></div>
       </td>
       <td class="v-col-2 text-center">{{ tender.companyProfile.officialName }}</td>
       <td class="v-col-2 text-center">{{ TENDER_STATUS[tender.status] }}</td>
@@ -37,6 +35,8 @@ export default {
 
   props: {
     tenders: Array
-  }
+  },
+
+  emits: ['select-tender']
 }
 </script>
