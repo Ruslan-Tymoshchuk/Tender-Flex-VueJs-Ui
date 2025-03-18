@@ -111,19 +111,6 @@
   background-color: #f1f8fe;
 }
 
-.table-row-offer {
-  cursor: default;
-  display: flex;
-  text-align: left;
-  align-items: center;
-  border: 0.1rem solid #daefa7;
-  border-radius: 0.4rem;
-  margin-top: 0.3rem;
-  width: 60rem;
-  height: 4.5rem;
-  background-color: #f1f8fe;
-}
-
 .table-row.disabled {
   opacity: 0.5;
   cursor: not-allowed;
