@@ -111,13 +111,13 @@
             <div class="details-title">Procedure:</div>
           </v-col>
           <v-col class="text-left mx-2">
-            <div>{{ PROCEDURE[tender.procedure] }}</div>
+            <div>{{ PROCEDURE[tender.procedure.type] }}</div>
           </v-col>
           <v-col class="text-left mx-2">
             <div class="details-title">Language:</div>
           </v-col>
           <v-col class="text-left mx-2">
-            <div>{{ LANGUAGE[tender.language] }}</div>
+            <div>{{ LANGUAGE[tender.procedure.language] }}</div>
           </v-col>
         </v-row>
       </v-container>
@@ -184,29 +184,26 @@
       <v-container class="details-container">
         <v-item-group class="mx-8">
           <v-row>
-            <v-item>
-              <v-chip size="large" class="mb-5" color="blue" prepend-icon="mdi-file-document-multiple-outline" label
-                @click="showFile(tender.contract.fileMetadata.awsS3fileKey)">
-                <div id="text" style="width: 50rem"> {{ tender.contract.fileMetadata.name }} </div>
-              </v-chip>
-            </v-item>
+            <FileVchip
+              :fileName="tender.contract.fileMetadata.name"
+              :fileKey="tender.contract.fileMetadata.awsS3fileKey"
+              @show-file="showFile"
+          ></FileVchip>
           </v-row>
           <div v-if="this.$route.params.role === USER_ROLE.CONTRACTOR" class="mt-4">
-            <v-row>
-              <v-item>
-                <v-chip size="large" class="mb-6" color="blue" prepend-icon="mdi-file-document-multiple-outline" label
-                  @click="showFile(tender.awardDecision.fileMetadata.awsS3fileKey)">
-                  <div id="text" style="width: 50rem"> {{ tender.awardDecision.fileMetadata.name }} </div>
-                </v-chip>
-              </v-item>
-            </v-row>
-            <v-row>
-              <v-item>
-                <v-chip size="large" class="mb-6" color="blue" prepend-icon="mdi-file-document-multiple-outline" label
-                  @click="showFile(tender.rejectDecision.fileMetadata.awsS3fileKey)">
-                  <div id="text" style="width: 50rem"> {{ tender.rejectDecision.fileMetadata.name }} </div>
-                </v-chip>
-              </v-item>
+          <v-row>
+            <FileVchip
+              :fileName=" tender.awardDecision.fileMetadata.name"
+              :fileKey="tender.awardDecision.fileMetadata.awsS3fileKey"
+              @show-file="showFile"
+          ></FileVchip>
+          </v-row>
+          <v-row>
+            <FileVchip
+              :fileName="tender.rejectDecision.fileMetadata.name"
+              :fileKey="tender.rejectDecision.fileMetadata.awsS3fileKey"
+              @show-file="showFile"
+          ></FileVchip>
             </v-row>
           </div>
         </v-item-group>
@@ -221,20 +218,14 @@
           </v-row>
         </div>
       </v-container>
-
-      <v-dialog v-model="isModalFileWindow" width="auto">
-        <v-card v-click-outside="closeFile">
-          <iframe :src=documentUrl width="800" height="500">
-          </iframe>
-          <v-progress-linear v-if="progress" :height="6" color="indigo" indeterminate></v-progress-linear>
-          <v-card-actions>
-            <v-btn color="primary" block @click="closeFile">Close</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
     </v-window-item>
 
-  </v-window>s
+    <FileViewerModal
+      v-model:isOpen="isOpen"
+      @update:isOpen="closeFile"
+      :fileUrl="fileUrl"
+   ></FileViewerModal>
+  </v-window>
 </template>
 
 <script>
@@ -242,8 +233,15 @@ import { URL_REST_API } from "@/rest.api.endpoints"
 import { exceptionAlert } from "@/components/alerts";
 import { USER_ROLE, PROCEDURE, LANGUAGE, CONTRACT_TYPE } from "@/components/constants"
 import { fetchFromEndpoint, downloadFile } from "@/components/actions";
+import FileVchip from "@/components/childs/FileVchip.vue"
+import FileViewerModal from "@/components/childs/FileViewerModal.vue"
 
 export default {
+  components: {
+    FileVchip,
+    FileViewerModal
+  },
+
   data: () => ({
     USER_ROLE,
     PROCEDURE,
@@ -254,6 +252,7 @@ export default {
         country: {},
         contactPerson: {}
       },
+      procedure: {},
       cpv: {},
       contract: {
         currency: {},
@@ -268,8 +267,8 @@ export default {
       },
     },
     tab: "tenderDescription",
-    isModalFileWindow: false,
-    documentUrl: '',
+    isOpen: false,
+    fileUrl: '',
     totalPages: 1,
     plannedPage: 1,
     offersPerPage: 10,
@@ -279,7 +278,6 @@ export default {
     exceptionAlert,
     fetchFromEndpoint,
     downloadFile,
-    progress: true
   }),
 
   methods: {
@@ -289,22 +287,26 @@ export default {
                                     reject: this.tender.rejectDecisionFileName } });
     },
 
-    async showFile(fileKey) {
-      this.isModalFileWindow = true;
-      const response = await downloadFile(fileKey);
-      this.documentUrl = URL.createObjectURL(response.data);
-      this.progress = false;
+    async showFile(isOpen, fileKey, callback) {
+      try {
+        const response = await downloadFile(fileKey);
+        this.fileUrl = URL.createObjectURL(response.data);
+        this.isOpen = isOpen;
+      } catch (error) {
+        console.error("File download failed:", error);
+      } finally {
+        if (callback) callback();
+      }
     },
 
-    closeFile() {
-      if (this.documentUrl) {
-        URL.revokeObjectURL(this.documentUrl);
-        this.documentUrl = null;
+      closeFile() {
+        if (this.fileUrl) {
+          URL.revokeObjectURL(this.fileUrl);
+          this.fileUrl = null;
+        }
+        this.isOpen = false;
       }
-      this.isModalFileWindow = false;
-      this.progress = true;
-    }
-  },
+    },
 
  async mounted() {
     const tenderResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.TENDERS}/${this.$route.params.tenderId}`);
