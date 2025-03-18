@@ -143,7 +143,10 @@
 
 .cpv-code {
   text-decoration: none;
+  width: 14rem;
+  margin-left: 1rem;
   color: #1f9dec;
+  cursor: pointer;
 }
 
 .cpv-code:hover {

@@ -48,6 +48,8 @@
         v-scroll:#scroll-target="onScroll">
       <TableBody
         :offers="offers"
+         @select-offer="(offer) =>
+         this.$router.push({name: 'tender-details', params: { tenderId: offer.tender.id } })"
       ></TableBody>
       </v-container>
     </div>
@@ -116,11 +118,7 @@ export default {
       if (currentPage === this.plannedPage && !this.loading && this.plannedPage <= this.totalPages) {
         this.getOffersList()
       }
-    },
-
-    getOfferById(id){
-      this.$router.push({ name: "myoffer-details", params: { id: id } });
-    },
+    }
   },
 
   mounted() {

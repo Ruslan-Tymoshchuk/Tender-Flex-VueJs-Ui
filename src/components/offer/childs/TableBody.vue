@@ -1,10 +1,7 @@
 <template>
   <v-sheet v-for="offer in offers" :key="offer.id">
     <v-sheet class="table-row-offer">
-      <router-link class="cpv-code" :to="{ name: 'offer-details', params: { offerId: offer.id } }"
-        style="width: 14rem; margin-left: 1rem;">
-        <strong>{{ offer.companyProfile.officialName }}</strong>
-      </router-link>
+      <strong class="cpv-code" @click="$emit('select-offer', offer)">{{ offer.companyProfile.officialName }}</strong>
       <td style="width: 20rem;">{{ offer.tender.cpv.summary }}</td>
       <td style="width: 10rem;">{{ `${offer.currency.code}.${offer.bidPrice}` }}</td>
       <td style="width: 10rem;">{{ offer.companyProfile.country.name }}</td>
