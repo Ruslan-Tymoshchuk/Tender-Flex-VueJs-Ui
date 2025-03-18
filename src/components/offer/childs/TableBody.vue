@@ -23,6 +23,8 @@ export default {
 
   props: {
     offers: Array
-  }
+  },
+
+  emits:['select-offer']
 }
 </script>
