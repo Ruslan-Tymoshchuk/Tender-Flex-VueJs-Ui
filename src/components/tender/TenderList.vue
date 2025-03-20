@@ -44,7 +44,7 @@
           v-scroll:#scroll-target="onScroll">
           <TableBody
             :tenders="tenders"
-            @select-tender="(tender) => this.$router.push({name: 'tender-details', params: { tenderId: tender.id } })"
+            @select-tender= "(tender) => navigateToTenderFromTendersList(tender, this.$route.params.role)"
           ></TableBody>
         </v-container>
     </div>
@@ -57,7 +57,7 @@
 <script>
 import { URL_REST_API } from "@/rest.api.endpoints.js"
 import { USER_ROLE } from "@/components/constants"
-import { fetchFromEndpoint, totalStore } from "@/components/actions"
+import { fetchFromEndpoint, totalStore, navigateToTenderFromTendersList } from "@/components/actions"
 import ToolBarTitle from "@/components/childs/ToolBarTitle.vue"
 import EmptyTableTitle from "@/components/childs/EmptyTableTitle.vue"
 import TableHeader from "@/components/tender/childs/TableHeader.vue"
@@ -86,7 +86,8 @@ export default {
     noTendersMessage: '',
     USER_ROLE,
     fetchFromEndpoint,
-    totalStore
+    totalStore,
+    navigateToTenderFromTendersList
   }),
 
   methods: {
@@ -107,7 +108,7 @@ export default {
             tender.offersCount = offerCountResponse.data.count;
             } else if (this.$route.params.role === USER_ROLE.BIDDER) {
               const offerStatusResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.OFFERS_STATUS}/${this.$route.params.userId}/${tender.id}`);
-              tender.offerStatus = offerStatusResponse.data.status;
+              tender.offer = {id: offerStatusResponse.data.offerId, status: offerStatusResponse.data.status};
             }
             this.tenders.push(tender);
           };
@@ -127,7 +128,6 @@ export default {
         this.getTendersPage()
       }
     }
-
   },
 
   mounted() {

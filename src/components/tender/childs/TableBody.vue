@@ -16,7 +16,7 @@
           {{ tender.offersCount }}
         </div>
         <div class="ml-6 text-left" v-else-if="this.$route.params.role === USER_ROLE.BIDDER">
-          {{ OFFER_STATUS[tender.offerStatus] }}
+          {{ OFFER_STATUS[tender.offer.status] }}
         </div>
       </td>
     </v-sheet>
