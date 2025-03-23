@@ -6,23 +6,23 @@
     <template v-slot:extension>
       <v-container class="px-15">
         <v-toolbar-title class="ml-14 mb-4" style="font-size: 1.5rem">{{ tender.cpv.summary }} ({{ tender.cpv.code }})</v-toolbar-title>
-        <v-tabs v-model="tab" height="30" class="mb-10 ml-12" color="cyan-accent-2">
-          <div v-if="this.$route.params.role === USER_ROLE.CONTRACTOR">
-            <v-tab value="offers" v-if="offers.length > 0">Offers</v-tab>
-            <v-tab value="tenderDescription">Tender Description</v-tab>
-          </div>
-          <div v-else-if="this.$route.params.role === USER_ROLE.BIDDER">
-            <div v-if="this.offer !== null">
-              <v-tab value="tenderDescription">Tender Description</v-tab>
-              <v-tab value="offerDescription">My Offer</v-tab>
+          <div style="margin-left: 3rem; margin-bottom: 3rem;">
+            <div v-if="this.$route.params.role === USER_ROLE.CONTRACTOR">
+              <div v-if="isTenderDecription">
+                <v-btn v-if="tender.offersCount > 0" @click="navigateToOffers" rounded="0">Offers</v-btn>
+                <v-btn @click="tab='tenderDescription'" rounded="0">Tender Description</v-btn>
+              </div>
             </div>
+          <div v-if="this.$route.params.role === USER_ROLE.BIDDER && this.$route.query.offerId > 0">
+            <v-btn @click="tab='tenderDescription'" rounded="0">Tender Description</v-btn>
+            <v-btn @click="navigateToOffer(this.$route.query.offerId)" rounded="0">My Offer</v-btn>
           </div>
-        </v-tabs>
+        </div>
       </v-container>
     </template>
   </v-toolbar>
 
-  <v-window v-model="tab" class="mt-n6 pb-10">
+  <v-window v-model="tab" class="mt-n8 pb-10">
     <v-window-item value="offers">
       <v-card elevation="8" width="1000" class="mx-auto">
        <TableHeader
@@ -40,14 +40,14 @@
         v-scroll:#scroll-target="onScroll">
       <TableBody
         :offers="offers"
-        @select-offer="(offer) => this.$router.push({name: 'offer-details', params: { offerId: offer.id } })"
+        @select-offer="(offer) => navigateToOffer(offer.id)"
       ></TableBody>
       </v-container>
       </v-card>
     </v-window-item>
 
     <v-window-item value="tenderDescription">
-      <v-card class="mx-auto" elevation="8" max-width="1000">
+      <v-card class="mx-auto" elevation="8" max-width="1000" >
         <v-toolbar color="white" height="240" class="text-left">
           <v-container class="pa-15">
             <v-toolbar-title class="mb-5">Contractor</v-toolbar-title>
@@ -205,21 +205,111 @@
           </div>
         </v-item-group>
       </v-container>
-      <div v-if="this.$route.params.role === USER_ROLE.BIDDER && this.offer === null">
-          <v-row class="d-flex justify-end mt-5 mb-10">
-            <v-col md="2" style="margin-right: 12rem;">
-             <v-btn type="submit" block variant="flat" color="blue"
-               :to="{ name: 'new-offer', query: { tenderId: this.$route.params.tenderId } }">
+        <v-row class="d-flex justify-end mt-5 mb-10">
+          <div v-if="this.$route.params.role === USER_ROLE.BIDDER && Number(this.$route.query.offerId) === 0">
+            <v-col md="6" style="margin-right: 20rem;">
+              <v-btn type="submit" block variant="flat" color="blue"
+                     :to="{ name: 'new-offer', query: { tenderId: this.$route.params.tenderId } }">
                 + Create Offer
               </v-btn>
             </v-col>
-          </v-row>
-        </div>
+         </div>
+        </v-row>
     </v-window-item>
     <v-window-item value="offerDescription">
       <v-card class="mx-auto" elevation="8" max-width="1000">
-        <!-- offer-details will be added -->
+      <v-toolbar color="white" height="240" class="text-left">
+        <v-container class="pa-15">
+          <v-toolbar-title class="mb-5">Bidder</v-toolbar-title>
+          <v-row class="text-center mx-10">
+            <v-col class="text-left">
+              <div class="ma-2 details-title">Oficial Name:</div>
+              <div class="ma-2 details-title">National Registration Number: </div>
+            </v-col>
+            <v-col class="text-left">
+              <div class="ma-2">{{ offer.companyProfile.officialName }}</div>
+              <div class="ma-2">{{ offer.companyProfile.registrationNumber }}</div>
+            </v-col>
+            <v-col class="text-left">
+              <div class="ma-2 details-title">Country:</div>
+              <div class="ma-2 details-title">City / Town:</div>
+            </v-col>
+            <v-col class="text-left">
+              <div class="ma-2">{{ offer.companyProfile.country.name }}</div>
+              <div class="ma-2">{{ offer.companyProfile.city }}</div>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-toolbar>
       </v-card>
+
+    <v-container class="d-flex align-center details-container">
+      <p class="chapter-label">Contact person</p>
+      <div class="horizontal-divider-details"></div>
+    </v-container>
+
+    <v-container class="details-container">
+      <v-row class="text-center mx-10">
+        <v-col class="text-left mx-2">
+          <div class="details-title">Name:</div>
+          <div class="mt-3 details-title">Surname:</div>
+        </v-col>
+        <v-col class="text-left mx-2">
+          <div>{{ offer.companyProfile.contactPerson.firstName }}</div>
+          <div class="mt-3">{{ offer.companyProfile.contactPerson.lastName }}</div>
+        </v-col>
+        <v-col class="text-left mx-2">
+          <div class="details-title">Phone number:</div>
+        </v-col>
+        <v-col class="text-left mx-2">
+          <div>{{ `${offer.companyProfile.country.phoneCode}${offer.companyProfile.contactPerson.phoneNumber}` }}</div>
+        </v-col>
+      </v-row>
+    </v-container>
+
+    <v-container class="d-flex align-center details-container">
+      <p class="chapter-label">Price</p>
+      <div class="horizontal-divider-details"></div>
+    </v-container>
+
+    <v-container class="details-container">
+      <v-row class="text-center mx-10">
+        <v-col class="text-left mx-2">
+          <div class="details-title">Bid Price:</div>
+        </v-col>
+        <v-col class="text-left mx-2">
+          <div>{{ offer.bidPrice }}</div>
+        </v-col>
+        <v-col class="text-left mx-2">
+          <div class="details-title">Currency:</div>
+        </v-col>
+        <v-col class="text-left mx-2">
+          <div>{{ `${offer.currency.code} | ${offer.currency.symbol}` }}</div>
+        </v-col>
+      </v-row>
+    </v-container>
+
+    <v-container class="details-container">
+      <v-item-group class="mx-8">
+        <v-row>
+          <FileVchip
+            :fileName="offer.proposition.name"
+            :fileKey="offer.proposition.awsS3fileKey"
+            @show-file="showFile"
+          ></FileVchip>
+          </v-row>
+      </v-item-group>
+    </v-container>
+    <v-container class="d-flex justify-end mt-2 mb-10">
+      <div v-if="this.$route.params.role === USER_ROLE.CONTRACTOR">
+        <v-btn class="mx-2" type="submit" variant="outlined" color="blue" @click="sendRejectDecision">
+          Send Reject Decision
+        </v-btn>
+        <v-btn class="mx-2" type="submit" variant="flat" color="blue" @click="sendAwardDecision">
+          Send Award Decision
+        </v-btn>
+      </div>
+    </v-container>
     </v-window-item>
 
     <FileViewerModal
@@ -286,15 +376,10 @@ export default {
     exceptionAlert,
     fetchFromEndpoint,
     downloadFile,
+    isTenderDecription: true
   }),
 
   methods: {
-    getOfferById(id){
-      this.$router.push({ name: "offer-details",
-                          params: { id: id, award: this.tender.awardDecisionFileName,
-                                    reject: this.tender.rejectDecisionFileName } });
-    },
-
     async getOffersList() {
       try {
         this.loading = true
@@ -344,17 +429,28 @@ export default {
           this.fileUrl = null;
         }
         this.isOpen = false;
-      }
+      },
+
+    navigateToOffers(){
+      this.getOffersList();
+      this.tab = "offers";
+    },
+
+    async navigateToOffer(offerId) {
+      const offerResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.OFFERS}/${offerId}`);
+      this.offer = offerResponse.data;
+      this.tab = "offerDescription"
+      if (this.$route.params.role === USER_ROLE.CONTRACTOR)
+        this.isTenderDecription = false;
+    }
     },
 
   async mounted() {
-    const tenderResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.TENDERS}/${this.$route.params.tenderId}`);
+    const tenderResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.TENDERS}/${this.$route.query.tenderId}`);
     this.tender = tenderResponse.data;
     if (this.$route.params.role === USER_ROLE.CONTRACTOR) {
-      this.getOffersList();
-    } else if (this.$route.params.role === USER_ROLE.BIDDER && this.$route.query.offerId > 0) {
-      const offerResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.OFFERS}/${this.$route.query.offerId}`);
-      this.offer = offerResponse.data;
+      const offerCountResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.OFFERS_COUNT}/${this.$route.query.tenderId}`);
+      this.tender.offersCount = offerCountResponse.data.count;
     }
   }
 }

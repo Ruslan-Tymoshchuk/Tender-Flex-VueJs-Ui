@@ -87,20 +87,20 @@ export const createDocumentRecord = (document, endpointKey) => {
 
 export const navigateToTenderFromTendersList = (tender, userRole) => {
   const navigationData = {};
-  navigationData.name = 'tender-details'
-  navigationData.params = { tenderId: tender.id };
+  navigationData.name = 'bid-details'
+  navigationData.query = { tenderId: tender.id };
   if (userRole === USER_ROLE.BIDDER) {
-    navigationData.query = { offerId: tender.offer.id };
+    navigationData.query = { tenderId: tender.id, offerId: tender.offer.id };
   }
   router.push(navigationData)
 }
 
 export const navigateToTenderFromOffersList = (offer, userRole) => {
   const navigationData = {};
-  navigationData.name = 'tender-details'
-  navigationData.params = { tenderId: offer.tender.id };
+  navigationData.name = 'bid-details'
+  navigationData.query = { tenderId: offer.tender.id };
   if (userRole === USER_ROLE.BIDDER) {
-    navigationData.query = { offerId: offer.id };
+    navigationData.query = { tenderId: offer.tender.id, offerId: offer.id };
   }
   router.push(navigationData)
 }
