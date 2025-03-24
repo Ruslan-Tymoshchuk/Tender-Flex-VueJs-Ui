@@ -48,8 +48,7 @@
         v-scroll:#scroll-target="onScroll">
       <TableBody
         :offers="offers"
-         @select-offer="(offer) =>
-         this.$router.push({name: 'tender-details', params: { tenderId: offer.tender.id } })"
+         @select-offer="(offer) => navigateToTenderFromOffersList(offer, this.$route.params.role)"
       ></TableBody>
       </v-container>
     </div>
@@ -66,6 +65,7 @@ import { OFFER_STATUS } from "@/components/constants"
 import axios from "axios";
 import TableHeader from "@/components/offer/childs/TableHeader.vue"
 import TableBody from "@/components/offer/childs/TableBody.vue"
+import { fetchFromEndpoint, navigateToTenderFromOffersList } from "@/components/actions"
 
 export default {
   components:{
@@ -86,6 +86,8 @@ export default {
     isNoOffers: false,
     noOffersMessage: '',
     OFFER_STATUS,
+    fetchFromEndpoint,
+    navigateToTenderFromOffersList
   }),
 
   methods: {
@@ -101,6 +103,13 @@ export default {
         });
         this.totalPages = offersPageResponse.totalPages;
         for (const offer of offersPageResponse.data.content) {
+          const tenderResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.TENDERS}/${offer.tender.id}`);
+          const tender = tenderResponse.data;
+          if (this.$route.params.role === USER_ROLE.CONTRACTOR) {
+            const offerCountResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.OFFERS_COUNT}/${offer.tender.id}`);
+            tender.offersCount = offerCountResponse.data.count;
+          }
+          offer.tender = tender;
           this.offers.push(offer);
         }
         if (this.offers.length == 0) {
