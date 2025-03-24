@@ -56,7 +56,7 @@
 
 <script>
 import { URL_REST_API } from "@/rest.api.endpoints.js"
-import { USER_ROLE } from "@/components/constants"
+import { USER_ROLE, OFFER_STATUS } from "@/components/constants"
 import { fetchFromEndpoint, totalStore, navigateToTenderFromTendersList } from "@/components/actions"
 import ToolBarTitle from "@/components/childs/ToolBarTitle.vue"
 import EmptyTableTitle from "@/components/childs/EmptyTableTitle.vue"
@@ -108,10 +108,15 @@ export default {
             tender.offersCount = offerCountResponse.data.count;
             } else if (this.$route.params.role === USER_ROLE.BIDDER) {
               const offerStatusResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.OFFERS_STATUS}/${this.$route.params.userId}/${tender.id}`);
-              tender.offer = {id: offerStatusResponse.data.offerId, status: offerStatusResponse.data.status};
+              const offerStatus = offerStatusResponse.data.status;
+              if (OFFER_STATUS[offerStatus] === OFFER_STATUS.OFFER_HAS_NOT_SENT) {
+                tender.offer = null;
+              } else {
+                tender.offer = {id: offerStatusResponse.data.offerId, status: offerStatusResponse.data.status};
+              }
             }
             this.tenders.push(tender);
-          };
+          }
         if (this.tenders.length == 0) {
           this.isNoTenders = true;
         }

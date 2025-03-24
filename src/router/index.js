@@ -18,7 +18,7 @@ const routes = [
       {
         path: 'bids', component: RouterView,
         children: [
-          { name: 'bid-details', path: 'details', component: BidDetails },
+          { name: 'bid-details', path: 'details/:tenderId', component: BidDetails },
           {
             path: 'tenders', component: RouterView,
             children: [

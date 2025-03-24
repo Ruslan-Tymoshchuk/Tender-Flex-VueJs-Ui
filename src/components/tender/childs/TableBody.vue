@@ -16,7 +16,8 @@
           {{ tender.offersCount }}
         </div>
         <div class="ml-6 text-left" v-else-if="this.$route.params.role === USER_ROLE.BIDDER">
-          {{ OFFER_STATUS[tender.offer.status] }}
+          <div v-if="tender.offer !== null">{{ OFFER_STATUS[tender.offer.status] }}</div>
+          <div v-else >{{ OFFER_STATUS.OFFER_HAS_NOT_SENT }} </div>
         </div>
       </td>
     </v-sheet>

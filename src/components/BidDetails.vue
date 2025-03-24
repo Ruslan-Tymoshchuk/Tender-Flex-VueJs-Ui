@@ -9,11 +9,11 @@
           <div style="margin-left: 3rem; margin-bottom: 3rem;">
             <div v-if="this.$route.params.role === USER_ROLE.CONTRACTOR">
               <div v-if="isTenderDecription">
-                <v-btn v-if="tender.offersCount > 0" @click="navigateToOffers" rounded="0">Offers</v-btn>
+                <v-btn v-if="Number(this.$route.query.offers) > 0" @click="navigateToOffers" rounded="0">Offers</v-btn>
                 <v-btn @click="tab='tenderDescription'" rounded="0">Tender Description</v-btn>
               </div>
             </div>
-          <div v-if="this.$route.params.role === USER_ROLE.BIDDER && this.$route.query.offerId > 0">
+          <div v-if="this.$route.params.role === USER_ROLE.BIDDER && Number(this.$route.query.offerId) > 0">
             <v-btn @click="tab='tenderDescription'" rounded="0">Tender Description</v-btn>
             <v-btn @click="navigateToOffer(this.$route.query.offerId)" rounded="0">My Offer</v-btn>
           </div>
@@ -446,12 +446,8 @@ export default {
     },
 
   async mounted() {
-    const tenderResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.TENDERS}/${this.$route.query.tenderId}`);
+    const tenderResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.TENDERS}/${this.$route.params.tenderId}`);
     this.tender = tenderResponse.data;
-    if (this.$route.params.role === USER_ROLE.CONTRACTOR) {
-      const offerCountResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.OFFERS_COUNT}/${this.$route.query.tenderId}`);
-      this.tender.offersCount = offerCountResponse.data.count;
-    }
   }
 }
 </script>
