@@ -44,7 +44,7 @@
           v-scroll:#scroll-target="onScroll">
           <TableBody
             :tenders="tenders"
-            @select-tender= "(tender) => navigateToTenderFromTendersList(tender, this.$route.params.role)"
+            @select-tender= "(tender) => navigateToTender(tender, this.$route.params.role)"
           ></TableBody>
         </v-container>
     </div>
@@ -57,7 +57,7 @@
 <script>
 import { URL_REST_API } from "@/rest.api.endpoints.js"
 import { USER_ROLE, OFFER_STATUS } from "@/components/constants"
-import { fetchFromEndpoint, totalStore, navigateToTenderFromTendersList } from "@/components/actions"
+import { fetchFromEndpoint, totalStore, navigateToTender } from "@/components/actions"
 import ToolBarTitle from "@/components/childs/ToolBarTitle.vue"
 import EmptyTableTitle from "@/components/childs/EmptyTableTitle.vue"
 import TableHeader from "@/components/tender/childs/TableHeader.vue"
@@ -87,7 +87,7 @@ export default {
     USER_ROLE,
     fetchFromEndpoint,
     totalStore,
-    navigateToTenderFromTendersList
+    navigateToTender
   }),
 
   methods: {

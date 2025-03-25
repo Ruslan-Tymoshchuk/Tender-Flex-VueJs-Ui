@@ -85,7 +85,7 @@ export const createDocumentRecord = (document, endpointKey) => {
   });
 }
 
-export const navigateToTenderFromTendersList = (tender, userRole) => {
+export const navigateToTender = (tender, userRole) => {
   const navigationData = {};
   navigationData.name = 'bid-details'
   navigationData.params = { tenderId: tender.id };
@@ -93,18 +93,6 @@ export const navigateToTenderFromTendersList = (tender, userRole) => {
     navigationData.query = { offers: tender.offersCount };
   } else if (userRole === USER_ROLE.BIDDER && tender.offer !== null) {
     navigationData.query = { offerId: tender.offer.id };
-  }
-  router.push(navigationData)
-}
-
-export const navigateToTenderFromOffersList = (offer, userRole) => {
-  const navigationData = {};
-  navigationData.name = 'bid-details'
-  navigationData.params = { tenderId: offer.tender.id };
-  if (userRole === USER_ROLE.CONTRACTOR) {
-    navigationData.query = { offers: offer.tender.offersCount };
-  } else if (userRole === USER_ROLE.BIDDER) {
-    navigationData.query = { offerId: offer.id };
   }
   router.push(navigationData)
 }
