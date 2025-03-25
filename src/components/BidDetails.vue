@@ -206,7 +206,7 @@
         </v-item-group>
       </v-container>
         <v-row class="d-flex justify-end mt-5 mb-10">
-          <div v-if="this.$route.params.role === USER_ROLE.BIDDER && Number(this.$route.query.offerId) === 0">
+          <div v-if="this.$route.params.role === USER_ROLE.BIDDER && isNaN(Number(this.$route.query.offerId))">
             <v-col md="6" style="margin-right: 20rem;">
               <v-btn type="submit" block variant="flat" color="blue"
                      :to="{ name: 'new-offer', query: { tenderId: this.$route.params.tenderId } }">

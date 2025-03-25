@@ -48,7 +48,7 @@
         v-scroll:#scroll-target="onScroll">
       <TableBody
         :offers="offers"
-         @select-offer="(offer) => navigateToTenderFromOffersList(offer, this.$route.params.role)"
+         @select-offer="(offer) => navigateToTender(offer.tender, this.$route.params.role)"
       ></TableBody>
       </v-container>
     </div>
@@ -65,7 +65,7 @@ import { OFFER_STATUS } from "@/components/constants"
 import axios from "axios";
 import TableHeader from "@/components/offer/childs/TableHeader.vue"
 import TableBody from "@/components/offer/childs/TableBody.vue"
-import { fetchFromEndpoint, navigateToTenderFromOffersList } from "@/components/actions"
+import { fetchFromEndpoint, navigateToTender } from "@/components/actions"
 
 export default {
   components:{
@@ -87,7 +87,7 @@ export default {
     noOffersMessage: '',
     OFFER_STATUS,
     fetchFromEndpoint,
-    navigateToTenderFromOffersList
+    navigateToTender
   }),
 
   methods: {
@@ -110,6 +110,7 @@ export default {
             tender.offersCount = offerCountResponse.data.count;
           }
           offer.tender = tender;
+          tender.offer = { id: offer.id };
           this.offers.push(offer);
         }
         if (this.offers.length == 0) {
