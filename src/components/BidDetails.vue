@@ -25,14 +25,13 @@
   <v-window v-model="tab" class="mt-n8 pb-10">
     <v-window-item value="offers">
       <v-card elevation="8" width="1000" class="mx-auto">
-       <TableHeader
+       <TableHeaderWithoutField
         companyName="Oficial Name"
-        field="Field"
         price="Price"
         country="Country"
         date="Received Date"
         status="Status"
-      ></TableHeader>
+      ></TableHeaderWithoutField>
       <v-container
         id="scroll-target"
         style="max-height: 25rem"
@@ -328,14 +327,14 @@ import { fetchFromEndpoint, downloadFile } from "@/components/actions";
 import FileVchip from "@/components/childs/FileVchip.vue"
 import FileViewerModal from "@/components/childs/FileViewerModal.vue"
 import axios from "axios";
-import TableHeader from "@/components/offer/childs/TableHeader.vue"
+import TableHeaderWithoutField from "@/components/offer/childs/TableHeaderWithoutField.vue"
 import TableBody from "@/components/offer/childs/TableBody.vue"
 
 export default {
   components: {
     FileVchip,
     FileViewerModal,
-    TableHeader,
+    TableHeaderWithoutField,
     TableBody
   },
 

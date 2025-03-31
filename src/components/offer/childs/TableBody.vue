@@ -3,7 +3,7 @@
     <v-sheet class="table-row">
       <strong class="cpv-code" @click="$emit('select-offer', offer)"
         >{{ offer.companyProfile.officialName }}</strong>
-      <td style="width: 20rem;">{{ offer.tender.cpv.summary }}</td>
+      <td v-if="offer.tender && offer.tender.cpv" style="width: 20rem;">{{ offer.tender.cpv.summary }}</td>
       <td style="width: 10rem;">{{ `${offer.currency.code}.${offer.bidPrice}` }}</td>
       <td style="width: 10rem;">{{ offer.companyProfile.country.name }}</td>
       <td style="width: 10rem;">{{ offer.publication }}</td>

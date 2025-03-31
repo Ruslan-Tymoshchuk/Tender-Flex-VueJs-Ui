@@ -12,12 +12,12 @@
 <script>
 export default {
   props: {
-    companyName: '',
-    field: '',
-    price: '',
-    country: '',
-    date: '',
-    status: ''
+    companyName: { type: String, default: '' },
+    field: { type: String, default: '' },
+    price: { type: String, default: '' },
+    country: { type: String, default: '' },
+    date: { type: String, default: '' },
+    status: { type: String, default: '' }
   }
 }
 </script>
