@@ -23,7 +23,7 @@
     </div>
 
     <div v-else>
-      <TableHeader
+      <TableHeaderWithField
         v-if="this.$route.params.role === USER_ROLE.BIDDER"
         companyName="Oficial Name"
         field="Field"
@@ -31,8 +31,8 @@
         country="Country"
         date="Sent Date"
         status="Status"
-      ></TableHeader>
-      <TableHeader
+      ></TableHeaderWithField>
+      <TableHeaderWithField
         v-else-if="this.$route.params.role === USER_ROLE.CONTRACTOR"
         companyName="Oficial Name"
         field="Field"
@@ -40,7 +40,7 @@
         country="Country"
         date="Received Date"
         status="Status"
-      ></TableHeader>
+      ></TableHeaderWithField>
       <v-container
         id="scroll-target"
         style="max-height: 25rem"
@@ -63,7 +63,7 @@ import EmptyTableTitle from "@/components/childs/EmptyTableTitle.vue"
 import { URL_REST_API } from "@/rest.api.endpoints"
 import { OFFER_STATUS } from "@/components/constants"
 import axios from "axios";
-import TableHeader from "@/components/offer/childs/TableHeader.vue"
+import TableHeaderWithField from "@/components/offer/childs/TableHeaderWithField.vue"
 import TableBody from "@/components/offer/childs/TableBody.vue"
 import { fetchFromEndpoint, navigateToTender } from "@/components/actions"
 
@@ -71,7 +71,7 @@ export default {
   components:{
     ToolBarTitle,
     EmptyTableTitle,
-    TableHeader,
+    TableHeaderWithField,
     TableBody
   },
 
@@ -102,15 +102,17 @@ export default {
           }
         });
         this.totalPages = offersPageResponse.totalPages;
-        for (const offer of offersPageResponse.data.content) {
-          const tenderResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.TENDERS}/${offer.tender.id}`);
+        for (const offerResponse of offersPageResponse.data.content) {
+          const {id, tenderId, companyProfile, status, bidPrice, currency, publication} = offerResponse;
+          const tenderResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.TENDERS}/${tenderId}`);
           const tender = tenderResponse.data;
+          const offer = {id: id, companyProfile: companyProfile, tender: tender, currency: currency, bidPrice: bidPrice, publication: publication, status: status}
           if (this.$route.params.role === USER_ROLE.CONTRACTOR) {
             const offerCountResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.OFFERS_COUNT}/${offer.tender.id}`);
             tender.offersCount = offerCountResponse.data.count;
+          } else if (this.$route.params.role === USER_ROLE.BIDDER) {
+            tender.offer = offer;
           }
-          offer.tender = tender;
-          tender.offer = { id: offer.id };
           this.offers.push(offer);
         }
         if (this.offers.length == 0) {
