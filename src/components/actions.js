@@ -29,27 +29,27 @@ export const fetchFromEndpoint = async (endpointKey) => {
 }
 
 export const confirmRedirect = async (email, password) => {
-    const userAuthenticationResponse = await authenticate({ email, password });
-    router.push({
-      name: "user-module",
-      params: {
-        userId: userAuthenticationResponse.data.userId,
-        role: USER_ROLE[userAuthenticationResponse.data.role]
-      }
-    });
+  const userAuthenticationResponse = await authenticate({ email, password });
+  router.push({
+    name: "user-module",
+    params: {
+      user_id: userAuthenticationResponse.data.userId,
+      role: USER_ROLE[userAuthenticationResponse.data.role]
+    }
+  });
 }
 
 const authenticate = (authenticationRequest) => {
   try {
-  return axios.post(`${URL_REST_API.HOST}/${URL_REST_API.LOGIN}`, authenticationRequest, {
-    withCredentials: true,
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-} catch (error) {
-  exceptionAlert.activateAlert(error.response.data.message)
-}
+    return axios.post(`${URL_REST_API.HOST}/${URL_REST_API.LOGIN}`, authenticationRequest, {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+  } catch (error) {
+    exceptionAlert.activateAlert(error.response.data.message)
+  }
 }
 
 export const uploadFile = (file) => {
@@ -86,13 +86,15 @@ export const createDocumentRecord = (document, endpointKey) => {
 }
 
 export const navigateToTender = (tender, userRole) => {
-  const navigationData = {};
-  navigationData.name = 'bid-details'
-  navigationData.params = { tenderId: tender.id };
+  const navigationData = {
+    name: 'bid-details',
+    query: { tender_id: tender.id, contract_id: tender.contractId },
+  };
   if (userRole === USER_ROLE.CONTRACTOR) {
-    navigationData.query = { offers: tender.offersCount };
+    navigationData.query.offers = tender.offersCount;
   } else if (userRole === USER_ROLE.BIDDER && tender.offer !== null) {
-    navigationData.query = { offerId: tender.offer.id };
+    navigationData.query.offer_id = tender.offer.id;
   }
-  router.push(navigationData)
-}
+  router.push(navigationData);
+};
+

@@ -107,7 +107,7 @@ export default {
             const offerCountResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.OFFERS_COUNT}/${tender.id}`);
             tender.offersCount = offerCountResponse.data.count;
             } else if (this.$route.params.role === USER_ROLE.BIDDER) {
-              const offerStatusResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.OFFERS_STATUS}/${this.$route.params.userId}/${tender.id}`);
+              const offerStatusResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.OFFERS_STATUS}/${this.$route.params.user_id}/${tender.id}`);
               const offerStatus = offerStatusResponse.data.status;
               if (OFFER_STATUS[offerStatus] === OFFER_STATUS.OFFER_HAS_NOT_SENT) {
                 tender.offer = null;

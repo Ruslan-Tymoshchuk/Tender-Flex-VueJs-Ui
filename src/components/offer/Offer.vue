@@ -171,7 +171,7 @@ export default {
 
   async mounted() {
     this.offer.bidderId = this.$route.params.userId
-    this.offer.tender.id = this.$route.query.tenderId;
+    this.offer.tender.id = this.$route.query.tender_id;
     this.offer.publication = format(new Date(), 'yyyy-MM-dd');
     const [countries, currencies] = await Promise.all([
         this.fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.COUNTRIES_ALL}`),

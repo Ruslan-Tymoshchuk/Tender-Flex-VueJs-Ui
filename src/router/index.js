@@ -13,12 +13,12 @@ const routes = [
   { name: 'login', path: '', component: LogIn },
 
   {
-    name: 'user-module', path: '/users/:userId/:role', component: ToolBar,
+    name: 'user-module', path: '/users/:user_id/:role', component: ToolBar,
     children: [
       {
         path: 'bids', component: RouterView,
         children: [
-          { name: 'bid-details', path: 'details/:tenderId', component: BidDetails },
+          { name: 'bid-details', path: 'details', component: BidDetails },
           {
             path: 'tenders', component: RouterView,
             children: [
