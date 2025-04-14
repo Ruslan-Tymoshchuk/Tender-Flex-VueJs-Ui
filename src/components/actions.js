@@ -85,6 +85,16 @@ export const createDocumentRecord = (document, endpointKey) => {
   });
 }
 
+export const partialUpdateDocumentRecord = (document, endpointKey) => {
+  return axios.patch(`${URL_REST_API.HOST}/${endpointKey}`, document, {
+    withCredentials: true,
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  });
+}
+
 export const navigateToTender = (tender, userRole) => {
   const navigationData = {
     name: 'bid-details',

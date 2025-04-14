@@ -4,6 +4,7 @@ export const URL_REST_API = {
   COUNTRIES_ALL: 'api/v1/countries/all',
   CPVS_ALL: 'api/v1/cpvs/all',
   CONTRACTS: 'api/v1/contracts',
+  CONTRACTS_WINNING_OFFER: 'api/v1/contracts/winning-offer',
   CONTRACT_TYPES_ALL: 'api/v1/contract-types/all',
   CURRENCIES_ALL: 'api/v1/currencies/all',
   TENDERS: 'api/v1/tenders',

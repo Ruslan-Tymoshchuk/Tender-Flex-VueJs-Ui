@@ -157,11 +157,12 @@ export default {
     async createOffer() {
       this.$router.push({ name: 'tenders' })
       try {
+        this.offer.bidderId = this.$route.params.user_id
         const propositionFileMetadata = await this.uploadFile(this.proposition);
         this.offer.proposition.id = propositionFileMetadata.data.id;
         await this.createDocumentRecord(this.offer, URL_REST_API.OFFERS);
         this.successAlert.activateAlert("Offer was successfully created");
-        this.totalStore.refreshTotalCounts(this.$route.params.userId);
+        this.totalStore.refreshTotalCounts(this.$route.params.user_id);
       } catch (error) {
         console.log(error)
         this.exceptionAlert.activateAlert(error);
@@ -170,7 +171,6 @@ export default {
   },
 
   async mounted() {
-    this.offer.bidderId = this.$route.params.userId
     this.offer.tender.id = this.$route.query.tender_id;
     this.offer.publication = format(new Date(), 'yyyy-MM-dd');
     const [countries, currencies] = await Promise.all([

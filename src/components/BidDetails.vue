@@ -13,9 +13,9 @@
                 <v-btn @click="tab='tenderDescription'" rounded="0">Tender Description</v-btn>
               </div>
             </div>
-          <div v-if="this.$route.params.role === USER_ROLE.BIDDER && Number(this.$route.query.offerId) > 0">
+          <div v-if="this.$route.params.role === USER_ROLE.BIDDER && Number(this.$route.query.offer_id) > 0">
             <v-btn @click="tab='tenderDescription'" rounded="0">Tender Description</v-btn>
-            <v-btn @click="navigateToOffer(this.$route.query.offerId)" rounded="0">My Offer</v-btn>
+            <v-btn @click="navigateToOffer(this.$route.query.offer_id)" rounded="0">My Offer</v-btn>
           </div>
         </div>
       </v-container>
@@ -304,8 +304,11 @@
         <v-btn class="mx-2" type="submit" variant="outlined" color="blue" @click="sendRejectDecision">
           Send Reject Decision
         </v-btn>
-        <v-btn class="mx-2" type="submit" variant="flat" color="blue" @click="sendAwardDecision">
-          Send Award Decision
+        <v-btn class="mx-2" type="submit" variant="flat" color="blue"
+          @click="selectWinningOffer({ contractId: this.contract.id,
+                                       offerId: this.offer.id,
+                                       awardId: this.tender.awardDecision.id})"
+          >Send Award Decision
         </v-btn>
       </div>
     </v-container>
@@ -323,7 +326,7 @@
 import { URL_REST_API } from "@/rest.api.endpoints"
 import { exceptionAlert } from "@/components/alerts";
 import { USER_ROLE, PROCEDURE, LANGUAGE, CONTRACT_TYPE } from "@/components/constants"
-import { fetchFromEndpoint, downloadFile } from "@/components/actions";
+import { fetchFromEndpoint, downloadFile, partialUpdateDocumentRecord } from "@/components/actions";
 import FileVchip from "@/components/childs/FileVchip.vue"
 import FileViewerModal from "@/components/childs/FileViewerModal.vue"
 import axios from "axios";
@@ -375,6 +378,7 @@ export default {
     exceptionAlert,
     fetchFromEndpoint,
     downloadFile,
+    partialUpdateDocumentRecord,
     isTenderDecription: true
   }),
 
@@ -441,8 +445,13 @@ export default {
       this.tab = "offerDescription"
       if (this.$route.params.role === USER_ROLE.CONTRACTOR)
         this.isTenderDecription = false;
-    }
     },
+
+    async selectWinningOffer(selectedOfferRequest) {
+      const updatedContractResponse = await partialUpdateDocumentRecord(selectedOfferRequest, URL_REST_API.CONTRACTS_WINNING_OFFER);
+      this.contract = updatedContractResponse.data;
+    }
+  },
 
   async mounted() {
     const [tenderResponse, contractResponse] = await Promise.all([
