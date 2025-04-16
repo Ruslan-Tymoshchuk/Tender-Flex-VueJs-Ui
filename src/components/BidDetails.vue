@@ -14,6 +14,8 @@
               </div>
             </div>
           <div v-if="this.$route.params.role === USER_ROLE.BIDDER && Number(this.$route.query.offer_id) > 0">
+            <v-btn v-if="this.offer.hasAwardDecision" @click="tab='awardDecision'" rounded="0">Award Decision</v-btn>
+            <v-btn v-if="this.offer.hasRejectDecision" @click="tab='rejectDecision'" rounded="0">Reject Decision</v-btn>
             <v-btn @click="tab='tenderDescription'" rounded="0">Tender Description</v-btn>
             <v-btn @click="navigateToOffer(this.$route.query.offer_id)" rounded="0">My Offer</v-btn>
           </div>
@@ -300,7 +302,7 @@
       </v-item-group>
     </v-container>
     <v-container class="d-flex justify-end mt-2 mb-10">
-      <div v-if="this.$route.params.role === USER_ROLE.CONTRACTOR">
+      <div v-if="this.$route.params.role === USER_ROLE.CONTRACTOR && !this.contract.hasOffer">
         <v-btn class="mx-2" type="submit" variant="outlined" color="blue" @click="sendRejectDecision">
           Send Reject Decision
         </v-btn>
@@ -365,7 +367,10 @@ export default {
         contractType: {},
         fileMetadata: {}
       },
-    offer: null,
+    offer: {
+      hasAwardDecision: false,
+      hasRejectDecision: false
+    },
     offers: [],
     tab: "tenderDescription",
     isOpen: false,
@@ -447,8 +452,8 @@ export default {
         this.isTenderDecription = false;
     },
 
-    async selectWinningOffer(selectedOfferRequest) {
-      const updatedContractResponse = await partialUpdateDocumentRecord(selectedOfferRequest, URL_REST_API.CONTRACTS_WINNING_OFFER);
+    async selectWinningOffer(contractSigningRequest) {
+      const updatedContractResponse = await partialUpdateDocumentRecord(contractSigningRequest, URL_REST_API.CONTRACTS_WINNING_OFFER);
       this.contract = updatedContractResponse.data;
     }
   },
