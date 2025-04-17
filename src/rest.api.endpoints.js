@@ -15,4 +15,5 @@ export const URL_REST_API = {
   OFFERS_PAGE: 'api/v1/offers/page',
   OFFERS_COUNT: 'api/v1/offers/count',
   OFFERS_STATUS: 'api/v1/offers/status',
+  OFFERS_REJECT: 'api/v1/offers/reject'
 }

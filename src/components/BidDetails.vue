@@ -47,6 +47,60 @@
       </v-card>
     </v-window-item>
 
+    <v-window-item value="awardDecision">
+      <v-card class="mx-auto" elevation="8" max-width="1000">
+        <v-toolbar color="white" height="280" class="text-left">
+          <v-toolbar-title class="text-center" style="font-size: 1.5rem">
+            “Congratulation! Your Offer was selected by Contractor”
+          </v-toolbar-title>
+        </v-toolbar>
+          <v-item-group>
+        <v-row justify="center mb-10">
+          <v-col md = 4 class="text-center">
+          <FileVchip
+             :fileName="tender.awardDecision.fileMetadata.name"
+             :fileKey="tender.awardDecision.fileMetadata.awsS3fileKey"
+            @show-file="showFile"
+          ></FileVchip>
+        </v-col>
+          </v-row>
+      </v-item-group>
+        <v-row class="d-flex justify-center mt-2 mb-10">
+      <v-col md="3">
+        <v-btn type="submit" block variant="outlined" color="blue" @click="saveDecision('decline')">
+            Decline
+        </v-btn>
+         </v-col>
+          <v-col md="3">
+           <v-btn type="submit" block variant="flat" color="blue" @click="saveDecision('approve')">
+             Approve
+           </v-btn>
+         </v-col>
+       </v-row>
+      </v-card>
+    </v-window-item>
+
+    <v-window-item value="rejectDecision">
+      <v-card class="mx-auto" elevation="8" max-width="1000">
+        <v-toolbar color="white" height="280" class="text-left">
+          <v-toolbar-title class="text-center" style="font-size: 1.5rem">
+            “Offer is rejected by contractor”
+          </v-toolbar-title>
+        </v-toolbar>
+        <v-item-group>
+        <v-row justify="center mb-10">
+          <v-col md = 4 class="text-center">
+          <FileVchip
+             :fileName="tender.rejectDecision.fileMetadata.name"
+             :fileKey="tender.rejectDecision.fileMetadata.awsS3fileKey"
+            @show-file="showFile"
+          ></FileVchip>
+        </v-col>
+          </v-row>
+      </v-item-group>
+      </v-card>
+    </v-window-item>
+
     <v-window-item value="tenderDescription">
       <v-card class="mx-auto" elevation="8" max-width="1000" >
         <v-toolbar color="white" height="240" class="text-left">
@@ -191,7 +245,7 @@
           <div v-if="this.$route.params.role === USER_ROLE.CONTRACTOR" class="mt-4">
           <v-row>
             <FileVchip
-              :fileName=" tender.awardDecision.fileMetadata.name"
+              :fileName="tender.awardDecision.fileMetadata.name"
               :fileKey="tender.awardDecision.fileMetadata.awsS3fileKey"
               @show-file="showFile"
           ></FileVchip>
@@ -303,7 +357,9 @@
     </v-container>
     <v-container class="d-flex justify-end mt-2 mb-10">
       <div v-if="this.$route.params.role === USER_ROLE.CONTRACTOR && !this.contract.hasOffer">
-        <v-btn class="mx-2" type="submit" variant="outlined" color="blue" @click="sendRejectDecision">
+        <v-btn class="mx-2" type="submit" variant="outlined" color="blue"
+          @click="rejectUnsuitableOffer({ offerId: this.offer.id,
+                                          rejectId: this.tender.rejectDecision.id})">
           Send Reject Decision
         </v-btn>
         <v-btn class="mx-2" type="submit" variant="flat" color="blue"
@@ -455,6 +511,11 @@ export default {
     async selectWinningOffer(contractSigningRequest) {
       const updatedContractResponse = await partialUpdateDocumentRecord(contractSigningRequest, URL_REST_API.CONTRACTS_WINNING_OFFER);
       this.contract = updatedContractResponse.data;
+    },
+
+    async rejectUnsuitableOffer(offerRejectionRequest) {
+      const rejectedOfferResponse = await partialUpdateDocumentRecord(offerRejectionRequest, URL_REST_API.OFFERS_REJECT);
+      this.offer = rejectedOfferResponse.data;
     }
   },
 
