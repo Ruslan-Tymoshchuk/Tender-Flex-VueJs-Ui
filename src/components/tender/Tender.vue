@@ -253,7 +253,7 @@ export default {
           this.uploadFile(awardDecision),
           this.uploadFile(rejectDecision),
         ]);
-        this.tender.contractorId = this.$route.params.userId;
+        this.tender.contractorId = this.$route.params.user_id;
         this.tender.publication = this.initialDate;
         this.tender.contract.fileMetadata.id = contactFileMetadata.data.id;
         this.awardDecision.fileMetadata.id = awardFileMetadata.data.id;
