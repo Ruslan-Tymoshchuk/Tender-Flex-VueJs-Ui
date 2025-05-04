@@ -7,6 +7,7 @@ export const URL_REST_API = {
   CONTRACTS_WINNING_OFFER: 'api/v1/contracts/winning-offer',
   CONTRACT_TYPES_ALL: 'api/v1/contract-types/all',
   CURRENCIES_ALL: 'api/v1/currencies/all',
+  PROCUREMENTS: 'api/v1/procurements',
   TENDERS: 'api/v1/tenders',
   TENDERS_PAGE: 'api/v1/tenders/page',
   TENDERS_COUNT: 'api/v1/tenders/count',
