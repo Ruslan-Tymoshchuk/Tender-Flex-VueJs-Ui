@@ -155,15 +155,16 @@ export default {
 
   methods: {
     async createOffer() {
+      const offerSubmissionRequest = {
+        tenderId: this.$route.query.tender_id,
+        offer: this.offer
+      };
       this.$router.push({ name: 'tenders' })
       try {
         this.offer.bidderId = this.$route.params.user_id
         const propositionFileMetadata = await this.uploadFile(this.proposition);
         this.offer.proposition.id = propositionFileMetadata.data.id;
-        await this.createDocumentRecord({
-          tenderId: this.$route.query.tender_id,
-          offer: this.offer
-        },
+        await this.createDocumentRecord(offerSubmissionRequest,
           URL_REST_API.URI_PROCUREMENTS_SEND_OFFER);
         this.successAlert.activateAlert("Offer was successfully created");
         this.totalStore.refreshTotalCounts(this.$route.params.user_id);
@@ -175,6 +176,7 @@ export default {
   },
 
   async mounted() {
+
     this.offer.publication = format(new Date(), 'yyyy-MM-dd');
     const [countries, currencies] = await Promise.all([
         this.fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.COUNTRIES_ALL}`),
