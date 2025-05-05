@@ -165,7 +165,7 @@ export default {
         const propositionFileMetadata = await this.uploadFile(this.proposition);
         this.offer.proposition.id = propositionFileMetadata.data.id;
         await this.createDocumentRecord(offerSubmissionRequest,
-          URL_REST_API.URI_PROCUREMENTS_SEND_OFFER);
+          URL_REST_API.PROCUREMENTS_SEND_OFFER);
         this.successAlert.activateAlert("Offer was successfully created");
         this.totalStore.refreshTotalCounts(this.$route.params.user_id);
       } catch (error) {

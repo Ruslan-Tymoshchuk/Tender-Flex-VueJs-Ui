@@ -67,12 +67,15 @@
       </v-item-group>
         <v-row class="d-flex justify-center mt-2 mb-10">
       <v-col md="3">
-        <v-btn type="submit" block variant="outlined" color="blue" @click="saveDecision('decline')">
+        <v-btn block variant="outlined" color="blue" @click="saveDecision('decline')">
             Decline
         </v-btn>
          </v-col>
           <v-col md="3">
-           <v-btn type="submit" block variant="flat" color="blue" @click="saveDecision('approve')">
+           <v-btn block variant="flat" color="blue"
+             @click="signTheContract({ contractId: this.contract.id,
+                                       offerId: this.offer.id,
+                                       rejectId: this.tender.rejectDecision.id })">
              Approve
            </v-btn>
          </v-col>
@@ -363,7 +366,7 @@
           Send Reject Decision
         </v-btn>
         <v-btn class="mx-2" type="submit" variant="flat" color="blue"
-          @click="selectWinningOffer({ contractId: this.contract.id,
+          @click="makeAnAwardDecision({ contractId: this.contract.id,
                                        offerId: this.offer.id,
                                        awardId: this.tender.awardDecision.id})"
           >Send Award Decision
@@ -508,9 +511,13 @@ export default {
         this.isTenderDecription = false;
     },
 
-    async selectWinningOffer(contractSigningRequest) {
-      const updatedContractResponse = await partialUpdateDocumentRecord(contractSigningRequest, URL_REST_API.CONTRACTS_WINNING_OFFER);
-      this.contract = updatedContractResponse.data;
+    async makeAnAwardDecision(awardOfferRequest) {
+      await partialUpdateDocumentRecord(awardOfferRequest, URL_REST_API.PROCUREMENTS_AWARD_OFFER);
+    },
+
+    async signTheContract(contractSigningRequest) {
+      const updatedContractResponse = await partialUpdateDocumentRecord(contractSigningRequest, URL_REST_API.PROCUREMENTS_CONTRACT_SIGN);
+      this.contract.hasSigned = updatedContractResponse.data.hasSigned;
     },
 
     async rejectUnsuitableOffer(offerRejectionRequest) {
