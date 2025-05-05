@@ -7,7 +7,7 @@ export const OFFER_STATUS = {
   OFFER_REJECTED_BY_BIDDER: "Offer rejected by bidder",
   OFFER_SELECTED_BY_CONTRACTOR: "Offer selected by contracror",
   CONTRACT_DECLINED_BY_BIDDER: "Offer declined by bidder",
-  CONTRACT_APPROVED_BY_BIDDER: "Offer approved by bidder"
+  CONTRACT_APPROVED_BY_BIDDER: "Contract approved by bidder"
 }
 
 export const TENDER_STATUS = {

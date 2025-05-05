@@ -14,6 +14,7 @@ export const URL_REST_API = {
   TENDERS_PAGE: 'api/v1/tenders/page',
   TENDERS_COUNT: 'api/v1/tenders/count',
   FILES: 'api/v1/files',
+  OFFERS: 'api/v1/offers',
   OFFERS_PAGE: 'api/v1/offers/page',
   OFFERS_COUNT: 'api/v1/offers/count',
   OFFERS_STATUS: 'api/v1/offers/status',
