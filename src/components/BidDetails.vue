@@ -67,15 +67,15 @@
       </v-item-group>
         <v-row class="d-flex justify-center mt-2 mb-10">
       <v-col md="3">
-        <v-btn block variant="outlined" color="blue" @click="saveDecision('decline')">
+        <v-btn block variant="outlined" color="blue" @click="declineContract({ contractId: contract.id })">
             Decline
         </v-btn>
          </v-col>
           <v-col md="3">
            <v-btn block variant="flat" color="blue"
-             @click="signTheContract({ contractId: this.contract.id,
-                                       offerId: this.offer.id,
-                                       rejectId: this.tender.rejectDecision.id })">
+             @click="signContract({ contractId: this.contract.id,
+                                    offerId: this.offer.id,
+                                    rejectId: this.tender.rejectDecision.id })">
              Approve
            </v-btn>
          </v-col>
@@ -367,8 +367,8 @@
         </v-btn>
         <v-btn class="mx-2" type="submit" variant="flat" color="blue"
           @click="makeAnAwardDecision({ contractId: this.contract.id,
-                                       offerId: this.offer.id,
-                                       awardId: this.tender.awardDecision.id})"
+                                        offerId: this.offer.id,
+                                        awardId: this.tender.awardDecision.id})"
           >Send Award Decision
         </v-btn>
       </div>
@@ -515,14 +515,18 @@ export default {
       await partialUpdateDocumentRecord(awardOfferRequest, URL_REST_API.PROCUREMENTS_AWARD_OFFER);
     },
 
-    async signTheContract(contractSigningRequest) {
-      const updatedContractResponse = await partialUpdateDocumentRecord(contractSigningRequest, URL_REST_API.PROCUREMENTS_CONTRACT_SIGN);
+    async signContract(completeProcurementRequest) {
+      const updatedContractResponse = await partialUpdateDocumentRecord(completeProcurementRequest, URL_REST_API.PROCUREMENTS_CONTRACT_SIGN);
       this.contract.hasSigned = updatedContractResponse.data.hasSigned;
     },
 
+    async declineContract(procurementRejectionRequest) {
+      const procurementRejectionResponse = await partialUpdateDocumentRecord(procurementRejectionRequest, URL_REST_API.PROCUREMENTS_CONTRACT_REJECT);
+    },
+
     async rejectUnsuitableOffer(offerRejectionRequest) {
-      const rejectedOfferResponse = await partialUpdateDocumentRecord(offerRejectionRequest, URL_REST_API.OFFERS_REJECT);
-      this.offer = rejectedOfferResponse.data;
+      const offerRejectionResponse = await partialUpdateDocumentRecord(offerRejectionRequest, URL_REST_API.PROCUREMENTS_OFFER_REJECT);
+      this.offer.status = offerRejectionResponse.data.offerStatus;
     }
   },
 

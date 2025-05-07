@@ -11,6 +11,8 @@ export const URL_REST_API = {
   PROCUREMENTS_SEND_OFFER: 'api/v1/procurements/send-offer',
   PROCUREMENTS_AWARD_OFFER: 'api/v1/procurements/award-offer',
   PROCUREMENTS_CONTRACT_SIGN: 'api/v1/procurements/contract-sign',
+  PROCUREMENTS_CONTRACT_REJECT: 'api/v1/procurements/contract-reject',
+  PROCUREMENTS_OFFER_REJECT: 'api/v1/procurements/offer-reject',
   TENDERS: 'api/v1/tenders',
   TENDERS_PAGE: 'api/v1/tenders/page',
   TENDERS_COUNT: 'api/v1/tenders/count',
@@ -18,6 +20,5 @@ export const URL_REST_API = {
   OFFERS: 'api/v1/offers',
   OFFERS_PAGE: 'api/v1/offers/page',
   OFFERS_COUNT: 'api/v1/offers/count',
-  OFFERS_STATUS: 'api/v1/offers/status',
-  OFFERS_REJECT: 'api/v1/offers/reject'
+  OFFERS_STATUS: 'api/v1/offers/status'
 }
