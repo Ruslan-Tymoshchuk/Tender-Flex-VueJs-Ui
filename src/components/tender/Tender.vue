@@ -5,7 +5,7 @@
 
   <v-card class="mt-n7 mx-auto" elevation="8" max-width="1000">
     <v-container class="pa-10">
-      <v-form v-model="valid" fast-fail @submit.prevent="createTender">
+      <v-form v-model="valid" fast-fail @submit.prevent="save">
 
         <CompanyProfile
           companyRole="Contractor"
@@ -48,7 +48,7 @@
                 hint="Choose the type of contract"
                 label="Type"
                 itemTitle="title"
-                @update-value="(value) => tender.contract.contractType.id = value"
+                @update-value="(value) => contract.contractType.id = value"
                 :items="contractTypes">
               </SelectOptionInput>
             </v-col>
@@ -65,7 +65,7 @@
               <NumericInput
                 title="Maximum Tender Value"
                 hint="Enter maximum price of the Tender contract"
-                @update-value="(value) => tender.contract.maxPrice = value"
+                @update-value="(value) => contract.maxPrice = value"
                 :counter="8"
                 label="Maximum tender value"
               ></NumericInput>
@@ -74,7 +74,7 @@
               <NumericInput
                 title="Minimum Tender Value"
                 hint="Enter minimum price of the Tender contract"
-                @update-value="value => tender.contract.minPrice = value"
+                @update-value="value => contract.minPrice = value"
                 :counter="8"
                 label="Minimum tender value"
               ></NumericInput>
@@ -85,7 +85,7 @@
                 hint="Choose the currency"
                 label="Currency"
                 itemTitle="code"
-                @update-value="(value) => tender.contract.currency.id = value"
+                @update-value="(value) => contract.currency.id = value"
                 :items="currencies">
               </SelectOptionInput>
             </v-col>
@@ -118,7 +118,7 @@
               title="Deadline for Signing"
               hint="Choose the deadline date for signed contract submission"
               :earliestDate="earliestDeadline"
-               @update-value="(value) => tender.contract.signedDeadline = value"
+               @update-value="(value) => contract.signedDeadline = value"
             ></DateInput>
           </v-col>
           </v-row>
@@ -166,7 +166,7 @@
       firstLineExplanation="Do you really want to cancel the new Tender creation?"
       secondLineExplanaton="All you entered data will be lost"
       redirectUrl="/module/contractor/tenders"
-      @save-document="createTender"
+      @save-document="save"
   ></ConfirmationMenu>
 </template>
 
@@ -217,12 +217,12 @@ export default {
         contactPerson: {}
       },
       cpv: {},
-      contract: {
+    },
+    contract: {
         contractType: {},
         currency: {},
         fileMetadata: {}
       },
-    },
     awardDecision: {
       fileMetadata: {}
     },
@@ -244,7 +244,7 @@ export default {
       this.isOpenInParent = isOpen;
     },
 
-    async createTender() {
+    async save() {
       try {
         await this.$router.push({ name: 'tenders' });
         const { contract, awardDecision, rejectDecision } = this.attachment;
@@ -255,12 +255,13 @@ export default {
         ]);
         this.tender.contractorId = this.$route.params.user_id;
         this.tender.publication = this.initialDate;
-        this.tender.contract.fileMetadata.id = contactFileMetadata.data.id;
+        this.contract.fileMetadata.id = contactFileMetadata.data.id;
         this.awardDecision.fileMetadata.id = awardFileMetadata.data.id;
-        this.tender.awardDecision = this.awardDecision;
         this.rejectDecision.fileMetadata.id = rejectFileMetadata.data.id;
-        this.tender.rejectDecision = this.rejectDecision;
-        await this.createDocumentRecord(this.tender, URL_REST_API.TENDERS);
+        await this.createDocumentRecord({ tender: this.tender,
+                                          contract: this.contract,
+                                          awardDecision: this.awardDecision,
+                                          rejectDecision: this.rejectDecision }, URL_REST_API.PROCUREMENTS);
         this.successAlert.activateAlert("Tender was successfully created");
         this.totalStore.refreshTotalCounts(this.$route.params.userId);
       } catch (error) {
