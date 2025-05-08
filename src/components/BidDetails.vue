@@ -50,8 +50,11 @@
     <v-window-item value="awardDecision">
       <v-card class="mx-auto" elevation="8" max-width="1000">
         <v-toolbar color="white" height="280" class="text-left">
-          <v-toolbar-title class="text-center" style="font-size: 1.5rem">
+          <v-toolbar-title v-if="OFFER_STATUS[offer.status] === OFFER_STATUS.OFFER_SELECTED_BY_CONTRACTOR" class="text-center" style="font-size: 1.5rem">
             “Congratulation! Your Offer was selected by Contractor”
+          </v-toolbar-title>
+          <v-toolbar-title v-else-if="OFFER_STATUS[offer.status] === OFFER_STATUS.CONTRACT_APPROVED_BY_BIDDER" class="text-center" style="font-size: 1.5rem">
+            “Contract is approved by Bidder”
           </v-toolbar-title>
         </v-toolbar>
           <v-item-group>
@@ -65,7 +68,7 @@
         </v-col>
           </v-row>
       </v-item-group>
-        <v-row class="d-flex justify-center mt-2 mb-10">
+        <v-row v-if="OFFER_STATUS[offer.status] === OFFER_STATUS.OFFER_SELECTED_BY_CONTRACTOR" class="d-flex justify-center mt-2 mb-10">
       <v-col md="3">
         <v-btn block variant="outlined" color="blue" @click="declineContract({ contractId: contract.id })">
             Decline
@@ -386,7 +389,7 @@
 <script>
 import { URL_REST_API } from "@/rest.api.endpoints"
 import { exceptionAlert } from "@/components/alerts";
-import { USER_ROLE, PROCEDURE, LANGUAGE, CONTRACT_TYPE } from "@/components/constants"
+import { USER_ROLE, PROCEDURE, LANGUAGE, CONTRACT_TYPE, OFFER_STATUS } from "@/components/constants"
 import { fetchFromEndpoint, downloadFile, partialUpdateDocumentRecord } from "@/components/actions";
 import FileVchip from "@/components/childs/FileVchip.vue"
 import FileViewerModal from "@/components/childs/FileViewerModal.vue"
@@ -407,6 +410,7 @@ export default {
     PROCEDURE,
     LANGUAGE,
     CONTRACT_TYPE,
+    OFFER_STATUS,
     tender: {
       companyProfile: {
         country: {},
@@ -515,9 +519,10 @@ export default {
       await partialUpdateDocumentRecord(awardOfferRequest, URL_REST_API.PROCUREMENTS_AWARD_OFFER);
     },
 
-    async signContract(completeProcurementRequest) {
-      const updatedContractResponse = await partialUpdateDocumentRecord(completeProcurementRequest, URL_REST_API.PROCUREMENTS_CONTRACT_SIGN);
-      this.contract.hasSigned = updatedContractResponse.data.hasSigned;
+    async signContract(procurementCompletionRequest) {
+      const procurementCompletionResponse = await partialUpdateDocumentRecord(procurementCompletionRequest, URL_REST_API.PROCUREMENTS_CONTRACT_SIGN);
+      this.contract.hasSigned = procurementCompletionResponse.data.hasSigned;
+      this.offer.status = procurementCompletionResponse.data.offerStatus;
     },
 
     async declineContract(procurementRejectionRequest) {
