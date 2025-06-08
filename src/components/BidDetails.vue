@@ -365,7 +365,9 @@
       </v-item-group>
     </v-container>
     <v-container class="d-flex justify-end mt-2 mb-10">
-      <div v-if="$route.params.role === USER_ROLE.CONTRACTOR && contract.status === CONTRACT_STATUS.DRAFT">
+      <div v-if="$route.params.role === USER_ROLE.CONTRACTOR &&
+                 contract.status === CONTRACT_STATUS.DRAFT &&
+                 OFFER_STATUS[offer.status] === OFFER_STATUS.OFFER_RECEIVED">
         <v-btn class="mx-2" type="submit" variant="outlined" color="blue"
           @click="rejectUnsuitableOffer({ offerId: offer.id,
                                           rejectId: tender.rejectDecision.id})">
@@ -515,6 +517,7 @@ export default {
       const offerResponse = await fetchFromEndpoint(`${URL_REST_API.HOST}/${URL_REST_API.OFFERS}/${offerId}`);
       this.offer = offerResponse.data;
       this.tab = "offerDescription"
+      console.log(this.offer)
       if (this.$route.params.role === USER_ROLE.CONTRACTOR)
         this.isTenderDecription = false;
     },
