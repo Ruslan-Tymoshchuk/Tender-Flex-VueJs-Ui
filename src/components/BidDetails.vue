@@ -7,17 +7,17 @@
       <v-container class="px-15">
         <v-toolbar-title class="ml-14 mb-4" style="font-size: 1.5rem">{{ tender.cpv.summary }} ({{ tender.cpv.code }})</v-toolbar-title>
           <div style="margin-left: 3rem; margin-bottom: 3rem;">
-            <div v-if="this.$route.params.role === USER_ROLE.CONTRACTOR">
+            <div v-if="$route.params.role === USER_ROLE.CONTRACTOR">
               <div v-if="isTenderDecription">
-                <v-btn v-if="Number(this.$route.query.offers) > 0" @click="navigateToOffers" rounded="0">Offers</v-btn>
+                <v-btn v-if="Number($route.query.offers) > 0" @click="navigateToOffers" rounded="0">Offers</v-btn>
                 <v-btn @click="tab='tenderDescription'" rounded="0">Tender Description</v-btn>
               </div>
             </div>
-          <div v-if="this.$route.params.role === USER_ROLE.BIDDER && Number(this.$route.query.offer_id) > 0">
-            <v-btn v-if="this.offer.hasAwardDecision" @click="tab='awardDecision'" rounded="0">Award Decision</v-btn>
-            <v-btn v-if="this.offer.hasRejectDecision" @click="tab='rejectDecision'" rounded="0">Reject Decision</v-btn>
+          <div v-if="$route.params.role === USER_ROLE.BIDDER && Number($route.query.offer_id) > 0">
+            <v-btn v-if="offer.hasAwardDecision" @click="tab='awardDecision'" rounded="0">Award Decision</v-btn>
+            <v-btn v-if="offer.hasRejectDecision" @click="tab='rejectDecision'" rounded="0">Reject Decision</v-btn>
             <v-btn @click="tab='tenderDescription'" rounded="0">Tender Description</v-btn>
-            <v-btn @click="navigateToOffer(this.$route.query.offer_id)" rounded="0">My Offer</v-btn>
+            <v-btn @click="navigateToOffer($route.query.offer_id)" rounded="0">My Offer</v-btn>
           </div>
         </div>
       </v-container>
@@ -56,6 +56,9 @@
           <v-toolbar-title v-else-if="OFFER_STATUS[offer.status] === OFFER_STATUS.CONTRACT_APPROVED_BY_BIDDER" class="text-center" style="font-size: 1.5rem">
             “Contract is approved by Bidder”
           </v-toolbar-title>
+            <v-toolbar-title v-if="OFFER_STATUS[offer.status] === OFFER_STATUS.CONTRACT_DECLINED_BY_BIDDER" class="text-center" style="font-size: 1.5rem">
+            “Contract is declined by Bidder”
+          </v-toolbar-title>
         </v-toolbar>
           <v-item-group>
         <v-row justify="center mb-10">
@@ -76,9 +79,9 @@
          </v-col>
           <v-col md="3">
            <v-btn block variant="flat" color="blue"
-             @click="signContract({ contractId: this.contract.id,
-                                    offerId: this.offer.id,
-                                    rejectId: this.tender.rejectDecision.id })">
+             @click="signContract({ contractId: contract.id,
+                                    offerId: offer.id,
+                                    rejectId: tender.rejectDecision.id })">
              Approve
            </v-btn>
          </v-col>
@@ -248,7 +251,7 @@
               @show-file="showFile"
           ></FileVchip>
           </v-row>
-          <div v-if="this.$route.params.role === USER_ROLE.CONTRACTOR" class="mt-4">
+          <div v-if="$route.params.role === USER_ROLE.CONTRACTOR" class="mt-4">
           <v-row>
             <FileVchip
               :fileName="tender.awardDecision.fileMetadata.name"
@@ -267,10 +270,10 @@
         </v-item-group>
       </v-container>
         <v-row class="d-flex justify-end mt-5 mb-10">
-          <div v-if="this.$route.params.role === USER_ROLE.BIDDER && isNaN(Number(this.$route.query.offer_id))">
+          <div v-if="$route.params.role === USER_ROLE.BIDDER && isNaN(Number($route.query.offer_id))">
             <v-col md="6" style="margin-right: 20rem;">
               <v-btn type="submit" block variant="flat" color="blue"
-                     :to="{ name: 'new-offer', query: { tender_id: this.$route.query.tender_id } }">
+                     :to="{ name: 'new-offer', query: { tender_id: $route.query.tender_id } }">
                 + Create Offer
               </v-btn>
             </v-col>
@@ -362,16 +365,16 @@
       </v-item-group>
     </v-container>
     <v-container class="d-flex justify-end mt-2 mb-10">
-      <div v-if="this.$route.params.role === USER_ROLE.CONTRACTOR && !this.contract.hasOffer">
+      <div v-if="$route.params.role === USER_ROLE.CONTRACTOR && contract.status === CONTRACT_STATUS.DRAFT">
         <v-btn class="mx-2" type="submit" variant="outlined" color="blue"
-          @click="rejectUnsuitableOffer({ offerId: this.offer.id,
-                                          rejectId: this.tender.rejectDecision.id})">
+          @click="rejectUnsuitableOffer({ offerId: offer.id,
+                                          rejectId: tender.rejectDecision.id})">
           Send Reject Decision
         </v-btn>
         <v-btn class="mx-2" type="submit" variant="flat" color="blue"
-          @click="makeAnAwardDecision({ contractId: this.contract.id,
-                                        offerId: this.offer.id,
-                                        awardId: this.tender.awardDecision.id})"
+          @click="makeAnAwardDecision({ contractId: contract.id,
+                                        offerId: offer.id,
+                                        awardId: tender.awardDecision.id})"
           >Send Award Decision
         </v-btn>
       </div>
@@ -389,7 +392,7 @@
 <script>
 import { URL_REST_API } from "@/rest.api.endpoints"
 import { exceptionAlert } from "@/components/alerts";
-import { USER_ROLE, PROCEDURE, LANGUAGE, CONTRACT_TYPE, OFFER_STATUS } from "@/components/constants"
+import { USER_ROLE, PROCEDURE, LANGUAGE, CONTRACT_TYPE, OFFER_STATUS, CONTRACT_STATUS } from "@/components/constants"
 import { fetchFromEndpoint, downloadFile, partialUpdateDocumentRecord } from "@/components/actions";
 import FileVchip from "@/components/childs/FileVchip.vue"
 import FileViewerModal from "@/components/childs/FileViewerModal.vue"
@@ -411,6 +414,7 @@ export default {
     LANGUAGE,
     CONTRACT_TYPE,
     OFFER_STATUS,
+    CONTRACT_STATUS,
     tender: {
       companyProfile: {
         country: {},
