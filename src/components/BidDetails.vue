@@ -365,7 +365,7 @@
       </v-item-group>
     </v-container>
     <v-container class="d-flex justify-end mt-2 mb-10">
-      <div v-if="$route.params.role === USER_ROLE.CONTRACTOR && !contract.hasOffer && !offer.hasRejectDecision && !offer.hasAwardDecision">
+      <div v-if="$route.params.role === USER_ROLE.CONTRACTOR && contract.status === CONTRACT_STATUS.DRAFT">
         <v-btn class="mx-2" type="submit" variant="outlined" color="blue"
           @click="rejectUnsuitableOffer({ offerId: offer.id,
                                           rejectId: tender.rejectDecision.id})">
@@ -392,7 +392,7 @@
 <script>
 import { URL_REST_API } from "@/rest.api.endpoints"
 import { exceptionAlert } from "@/components/alerts";
-import { USER_ROLE, PROCEDURE, LANGUAGE, CONTRACT_TYPE, OFFER_STATUS } from "@/components/constants"
+import { USER_ROLE, PROCEDURE, LANGUAGE, CONTRACT_TYPE, OFFER_STATUS, CONTRACT_STATUS } from "@/components/constants"
 import { fetchFromEndpoint, downloadFile, partialUpdateDocumentRecord } from "@/components/actions";
 import FileVchip from "@/components/childs/FileVchip.vue"
 import FileViewerModal from "@/components/childs/FileViewerModal.vue"
@@ -414,6 +414,7 @@ export default {
     LANGUAGE,
     CONTRACT_TYPE,
     OFFER_STATUS,
+    CONTRACT_STATUS,
     tender: {
       companyProfile: {
         country: {},

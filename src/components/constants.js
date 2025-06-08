@@ -15,6 +15,10 @@ export const TENDER_STATUS = {
   TENDER_CLOSED: "Tender closed"
 }
 
+export const CONTRACT_STATUS = {
+  DRAFT: 'DRAFT'
+}
+
 export const PROCEDURE = {
   OPEN_PROCEDURE: "Open procedure"
 }
